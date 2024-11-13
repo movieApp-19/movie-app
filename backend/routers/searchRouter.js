@@ -3,6 +3,6 @@ import { searchResults } from "../controllers/searchController.js";
 
 const router = Router();
 
-router.get("/", searchResults);
+router.post("/", searchResults);
 
 export { router };

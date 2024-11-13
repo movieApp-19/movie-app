@@ -8,7 +8,8 @@ const searchResults = async (req, res, next) => {
 	// this is the query value that we will get from the frontend
 	// tmdbQuery has been hardcoded as 'monkey' FOR TESTING PURPOSES
 	// after testing tmdbQuery would be for example const tmdbQuery = req.body.tmdbQuery
-	const tmdbQuery = "monkey";
+	//const tmdbQuery = "monkey";
+	const tmdbQuery = req.body.tmdbQuery;
 	// other values would be OPTIONAL: year, include_adult, language
 	// req.body.include_adult
 	const include_adult = ""; // Defaults to false
