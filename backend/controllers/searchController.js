@@ -11,11 +11,11 @@ const searchResults = async (req, res, next) => {
 	const page = req.body.page;
 	// other values are OPTIONAL: language, year, popularity (ascending or descending)
 	// req.body.language
-	const language = ""; // tmdb: with_original_language -> the language the movie was originally released as
+	const language = req.body.language; // tmdb: with_original_language -> the language the movie was originally released as
 	// req.body.year
-	const year = ""; // example "1999";
+	const year = req.body.year; // example "1999";
 	// req.body.popularity
-	const popularityAorD = "desc"; // Defaults to popularity.desc
+	const popularityAorD = req.body.popularity; // Defaults to String popularity.desc
 
 	const options = {
 		method: "GET",

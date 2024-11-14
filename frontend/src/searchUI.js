@@ -1,75 +1,150 @@
-import React, { useState } from 'react';
-import './search.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import MovieRow from "./components/MovieRow.js";
+import ReactPaginate from "react-paginate";
+import "./search.css";
 
-function SearchUI(){
+function SearchUI() {
+	const [searchValue, setSearchValue] = useState("Finland");
+	const [movies, setMovies] = useState([]);
+	const [page, setPage] = useState(1);
+	const [pageCount, setPagecount] = useState(0);
+	const [sortPopularity, setSortPopularity] = useState("desc");
+	const [language, setLanguage] = useState("");
+	const [selectYear, setSelectYear] = useState("");
+	const [customYear, setCustomYear] = useState("");
 
+	useEffect(() => {
+		searchSpecificMovie();
+	}, [page]);
 
-    const [selectYear, setSelectYear] = useState("");
-    const [customYear, setCustomYear] = useState("");
+	const searchSpecificMovie = () => {
+		axios
+			.post("http://localhost:8001/search", {
+				tmdbQuery: searchValue,
+				page: page,
+				year: customYear,
+				popularity: sortPopularity,
+				language: language,
+			})
+			.then((response) => {
+				console.log(response.data);
+				//console.log(response.data.total_pages);
+				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
+				const moviesData = response.data.results.map((element) => {
+					return { id: element.id, title: element.title };
+				});
 
-    // Updating the selected year
+				//console.log(moviesData);
+				setMovies(moviesData);
+				setPagecount(response.data.total_pages);
+			})
+			.catch((error) => console.log(error));
+	};
 
-    const handleYear = (e) => {
-        setSelectYear(e.target.value);
-        setCustomYear("");  // Reset custom year
-    }
+	// Updating the selected year
 
-    const handleCustomYear = (e) => {
-        setCustomYear(e.target.value);
-    }
+	const handleYear = (e) => {
+		setSelectYear(e.target.value);
+		setCustomYear(""); // Reset custom year
+	};
 
-    return(
-        <div>
-        <form>
-                <label htmlFor= "year">
-                    Release year
-                <select id="year" name="year" value={selectYear} onChange={handleYear}>
-                    <option value="blank"></option>
-              <option value="1990s">1990s</option>
-              <option value="2000">2000s</option>
-              <option value="2010s">2010s</option>
-              <option value="custom">Type exact year</option>
-            </select>
-            </label>
+	const handleCustomYear = (e) => {
+		setCustomYear(e.target.value);
+	};
 
-            {selectYear === 'custom' && (
-        <input
-          type="number"
-          name="customYear"
-          id="customYear"
-          placeholder="Enter year"
-          value={customYear}
-          onChange={handleCustomYear}
-        />
-      )}
+	return (
+		<div>
+			<form>
+				<input
+					type="text"
+					value={searchValue}
+					// e means event
+					onChange={(e) => setSearchValue(e.target.value)}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") {
+							e.preventDefault();
+							if (searchValue.length !== 0) {
+								searchSpecificMovie();
+							}
+						}
+					}}
+				></input>
+				<label htmlFor="year">
+					Release year
+					<select
+						id="year"
+						name="year"
+						value={selectYear}
+						onChange={handleYear}
+					>
+						<option value="blank"></option>
+						<option value="1990s">1990s</option>
+						<option value="2000">2000s</option>
+						<option value="2010s">2010s</option>
+						<option value="custom">Type exact year</option>
+					</select>
+				</label>
 
-                <label htmlFor= "language">
-                    Language
-                <select id="country" name="country">
-                <option value="blank"></option>
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
-              <option value="German">German</option>
-              <option value="Finnish">Finnish</option>
-              <option value="Chinese">Chinese</option>
-              <option value="Japanese">Japanese</option>
-              <option value="French">French</option>
-            </select>
-                </label>
-               
-                <label htmlFor= "Sort by">
-                    Sort by
-                <select id="sortBy" name="sortBy">
-                    <option value="blank"></option>
-              <option value="most popular">Popularity descending</option>
-              <option value="least popular">Popularity descending</option>
-              
-            </select>
-            </label>
-               
-        </form>
-        </div>
-    )
+				{selectYear === "custom" && (
+					<input
+						type="number"
+						name="customYear"
+						id="customYear"
+						placeholder="Enter year"
+						value={customYear}
+						onChange={handleCustomYear}
+					/>
+				)}
+
+				<label htmlFor="language">
+					Language
+					<select
+						id="country"
+						name="country"
+						onChange={(e) => setLanguage(e.target.value)}
+					>
+						<option value=""></option>
+						<option value="en">English</option>
+						<option value="es">Spanish</option>
+						<option value="de">German</option>
+						<option value="ty">French</option>
+						<option value="fi">Finnish</option>
+						<option value="zh">Chinese</option>
+						<option value="ja">Japanese</option>
+					</select>
+				</label>
+
+				<label htmlFor="Sort by">
+					Sort by
+					<select
+						id="sortBy"
+						name="sortBy"
+						onChange={(e) => setSortPopularity(e.target.value)}
+					>
+						<option value="blank"></option>
+						<option value="desc">Popularity descending</option>
+						<option value="asc">Popularity ascending</option>
+					</select>
+				</label>
+			</form>
+			<ul>
+				{movies.map((item) => {
+					return <MovieRow key={item.id} item={item} />;
+				})}
+			</ul>
+			<ReactPaginate
+				containerClassName="page"
+				breakLabel="..."
+				nextLabel=">"
+				onPageChange={(e) => setPage(e.selected + 1)}
+				pageRangeDisplayed={3}
+				pageCount={pageCount}
+				previousLabel="<"
+				renderOnZeroPageCount={null}
+			/>
+		</div>
+	);
 }
 
-export default SearchUI
+export default SearchUI;
