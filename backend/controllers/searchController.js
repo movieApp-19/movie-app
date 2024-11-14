@@ -10,11 +10,8 @@ const searchResults = async (req, res, next) => {
 	// page value
 	const page = req.body.page;
 	// other values are OPTIONAL: language, year, popularity (ascending or descending)
-	// req.body.language
 	const language = req.body.language; // tmdb: with_original_language -> the language the movie was originally released as
-	// req.body.year
 	const year = req.body.year; // example "1999";
-	// req.body.popularity
 	const popularityAorD = req.body.popularity; // Defaults to String popularity.desc
 
 	const options = {
@@ -26,15 +23,6 @@ const searchResults = async (req, res, next) => {
 		},
 	};
 
-	//const options = {
-	//	method: "GET",
-	//	url: `https://api.themoviedb.org/3/search/movie?query=${tmdbQuery}&include_adult=${include_adult}&language=${language}&page=1&year=${year}`,
-	//	headers: {
-	//		accept: "application/json",
-	//		Authorization: `Bearer ${authorizationKey}`,
-	//	},
-	//};
-	//
 	try {
 		// query can't be empty!
 		if (!tmdbQuery) {

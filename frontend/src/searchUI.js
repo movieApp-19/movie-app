@@ -4,11 +4,14 @@ import MovieRow from "./components/MovieRow.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
 
+const url = "http://localhost:8000";
+
 function SearchUI() {
-	const [searchValue, setSearchValue] = useState("Finland");
 	const [movies, setMovies] = useState([]);
 	const [page, setPage] = useState(1);
 	const [pageCount, setPagecount] = useState(0);
+	// search and filters
+	const [searchValue, setSearchValue] = useState("Finland");
 	const [sortPopularity, setSortPopularity] = useState("desc");
 	const [language, setLanguage] = useState("");
 	const [selectYear, setSelectYear] = useState("");
@@ -20,7 +23,7 @@ function SearchUI() {
 
 	const searchSpecificMovie = () => {
 		axios
-			.post("http://localhost:8001/search", {
+			.post(url + "/search", {
 				tmdbQuery: searchValue,
 				page: page,
 				year: customYear,
@@ -65,6 +68,7 @@ function SearchUI() {
 						if (e.key === "Enter") {
 							e.preventDefault();
 							if (searchValue.length !== 0) {
+								setPage(1);
 								searchSpecificMovie();
 							}
 						}
@@ -98,7 +102,7 @@ function SearchUI() {
 				)}
 
 				<label htmlFor="language">
-					Language
+					Original language
 					<select
 						id="country"
 						name="country"
@@ -122,7 +126,8 @@ function SearchUI() {
 						name="sortBy"
 						onChange={(e) => setSortPopularity(e.target.value)}
 					>
-						<option value="blank"></option>
+						{/*NOTE: default value is always descending. Maybe add more filters? */}
+						<option value=""></option>
 						<option value="desc">Popularity descending</option>
 						<option value="asc">Popularity ascending</option>
 					</select>
@@ -142,6 +147,7 @@ function SearchUI() {
 				pageCount={pageCount}
 				previousLabel="<"
 				renderOnZeroPageCount={null}
+				forcePage={page - 1}
 			/>
 		</div>
 	);
