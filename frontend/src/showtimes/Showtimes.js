@@ -44,6 +44,19 @@ export default class Showtimes extends Component {
       });
   }
 
+  handleSearch = async () => {
+    const area = document.querySelector("#area").value;
+    const date = document.querySelector("#date").value;
+    if (area && date) {
+      try {
+        const showtimes = await getShowtimes(area, new Date(date));
+        this.setState({ showtimes });
+      } catch (error) {
+        console.error("Error fetching showtimes:", error);
+      }
+    }
+  };
+
   render() {
     return (
       <>
@@ -68,16 +81,29 @@ export default class Showtimes extends Component {
             ))}
           </select>
 
-          <button type="button" className="btn btn-outline-warning" onClick={async () => {
-            const area = document.querySelector("#area").value;
-            const date = document.querySelector("#date").value;
-            if (area && date)
-              this.showtimes = await getShowtimes(area, new Date(date));
-            console.dir(this.showtimes);
-          }}>
+          <button type="button" className="btn btn-outline-warning" onClick={this.handleSearch}>
             Search {'>>'}
           </button>
         </div>
+
+        <div className="showtimes-list">
+            {this.state.showtimes.length > 0 ? (
+              this.state.showtimes.map(show => (
+                <div key={show.eventID} className="showtime-item">
+                  <h4>{show.title}</h4>
+                  <p><strong>Rating:</strong> {show.rating}</p>
+                  <p><strong>Genres:</strong> {show.genres.join(', ')}</p>
+                  <p><strong>Auditorium:</strong> {show.auditorium}</p>
+                  <p><strong>Language:</strong> {show.language}</p>
+                  <a href={show.eventURL} target="_blank" rel="noopener noreferrer">More Info</a>
+                  <br />
+                  <img src={show.portraitURL} alt={show.title} width="200" />
+                </div>
+              ))
+            ) : (
+              <p>No showtimes available.</p>
+            )}
+          </div>
       </>
     );
   }
