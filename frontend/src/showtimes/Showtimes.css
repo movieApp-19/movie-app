@@ -1,0 +1,100 @@
+#Showtimes {
+    font-size: 1.5em;
+    text-align: center;
+    background-size: contain;
+    background-image: url('./img/ai-generated-8848753.jpg');
+    background-position: center center;
+    padding: 30px;
+    margin: 10px auto;
+    border-radius: 30px;
+    color: #333;
+    font-family: 'Roboto', sans-serif, Arial, Helvetica;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#Showtimes h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #f5c240;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#Showtimes select,
+#Showtimes input[type="date"] {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 15px 0;
+    font-size: 1.1em;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 80%;
+    max-width: 500px;
+}
+
+#Showtimes button {
+    font-size: 1em;
+    color: #333;
+    font-weight: 700;
+    background-color: #f5c240;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#Showtimes button:hover {
+    background-color: #e4b238;
+}
+
+#Showtimes button:focus {
+    outline: 2px solid #f5c240;
+}
+
+#Showtimes select:hover,
+#Showtimes input[type="date"]:hover {
+    border-color: #f5c240;
+    box-shadow: 0 4px 10px rgba(245, 194, 64, 0.4);
+}
+
+#Showtimes select:focus,
+#Showtimes input[type="date"]:focus,
+#Showtimes button:focus {
+    border-color: #f5c240;
+    outline: none;
+    box-shadow: 0 0 8px rgba(245, 194, 64, 0.6);
+}
+
+@media (max-width: 768px) {
+    #Showtimes {
+        font-size: 1.2em;
+        padding: 20px;
+    }
+
+    #Showtimes select,
+    #Showtimes input[type="date"] {
+        width: 90%;
+    }
+
+    #Showtimes h1 {
+        font-size: 2em;
+    }
+}
+
+.test {
+    text-align: center;
+    font-size: 2em;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    margin: 20px auto;
+}
