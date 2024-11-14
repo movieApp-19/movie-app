@@ -5,14 +5,13 @@ dotenv.config();
 const authorizationKey = process.env.TMDB_KEY;
 
 const searchResults = async (req, res, next) => {
-	// this is the query value that we will get from the frontend
-	// tmdbQuery has been hardcoded as 'monkey' FOR TESTING PURPOSES
-	// after testing tmdbQuery would be for example const tmdbQuery = req.body.tmdbQuery
-	//const tmdbQuery = "monkey";
+	// this is the value that we will get from the frontend
 	const tmdbQuery = req.body.tmdbQuery;
-	// other values would be OPTIONAL: year, include_adult, language
+	// page value
+	const page = req.body.page;
+	// other values are OPTIONAL: language, year, popularity (ascending or descending)
 	// req.body.language
-	const language = ""; // empty by default
+	const language = ""; // tmdb: with_original_language -> the language the movie was originally released as
 	// req.body.year
 	const year = ""; // example "1999";
 	// req.body.popularity
@@ -20,7 +19,7 @@ const searchResults = async (req, res, next) => {
 
 	const options = {
 		method: "GET",
-		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=1&sort_by=popularity.${popularityAorD}`,
+		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=${page}&sort_by=popularity.${popularityAorD}`,
 		headers: {
 			accept: "application/json",
 			Authorization: `Bearer ${authorizationKey}`,

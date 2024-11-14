@@ -1,16 +1,27 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieRow from "./components/MovieRow.js";
+import ReactPaginate from "react-paginate";
 
 function MovieSearch() {
-	const [searchValue, setSearchValue] = useState("");
+	const [searchValue, setSearchValue] = useState("Finland");
 	const [movies, setMovies] = useState([]);
+	const [page, setPage] = useState(1);
+	const [pageCount, setPagecount] = useState(0);
+
+	useEffect(() => {
+		searchSpecificMovie();
+	}, [page]);
 
 	const searchSpecificMovie = () => {
 		axios
-			.post("http://localhost:8001/search", { tmdbQuery: searchValue })
+			.post("http://localhost:8001/search", {
+				tmdbQuery: searchValue,
+				page: page,
+			})
 			.then((response) => {
 				console.log(response.data);
+				//console.log(response.data.total_pages);
 				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
 				const moviesData = response.data.results.map((element) => {
 					return { id: element.id, title: element.title };
@@ -18,6 +29,7 @@ function MovieSearch() {
 
 				//console.log(moviesData);
 				setMovies(moviesData);
+				setPagecount(response.data.total_pages);
 			})
 			.catch((error) => console.log(error));
 	};
@@ -35,7 +47,9 @@ function MovieSearch() {
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							e.preventDefault();
-							searchSpecificMovie();
+							if (searchValue.length !== 0) {
+								searchSpecificMovie();
+							}
 						}
 					}}
 				></input>
@@ -45,6 +59,16 @@ function MovieSearch() {
 					return <MovieRow key={item.id} item={item} />;
 				})}
 			</ul>
+			<ReactPaginate
+				containerClassName="page"
+				breakLabel="..."
+				nextLabel=">"
+				onPageChange={(e) => setPage(e.selected + 1)}
+				pageRangeDisplayed={3}
+				pageCount={pageCount}
+				previousLabel="<"
+				renderOnZeroPageCount={null}
+			/>
 		</div>
 	);
 }
