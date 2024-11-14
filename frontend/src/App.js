@@ -1,13 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import SearchUI from './searchUI.js';
+import logo from "./logo.svg";
+import "./App.css";
+import SearchUI from "./searchUI.js";
 
 function App() {
-  return (
-    
-      <SearchUI></SearchUI>
-    
-  );
+	return <SearchUI></SearchUI>;
 }
 
 export default App;
