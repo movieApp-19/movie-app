@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MovieRow from "./components/MovieRow.js";
+import MovieList from "./components/MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
 
@@ -11,14 +11,16 @@ function SearchUI() {
 	const [page, setPage] = useState(1);
 	const [pageCount, setPagecount] = useState(0);
 	// search and filters
-	const [searchValue, setSearchValue] = useState("Finland");
-	const [sortPopularity, setSortPopularity] = useState("desc");
+	const [searchValue, setSearchValue] = useState("");
+	const [sortFilter, setSortFilter] = useState("popularity.desc");
 	const [language, setLanguage] = useState("");
 	const [selectYear, setSelectYear] = useState("");
 	const [customYear, setCustomYear] = useState("");
 
 	useEffect(() => {
-		searchSpecificMovie();
+		if (searchValue.length !== 0 ){
+			searchSpecificMovie();
+		}
 	}, [page]);
 
 	const searchSpecificMovie = () => {
@@ -27,26 +29,25 @@ function SearchUI() {
 				tmdbQuery: searchValue,
 				page: page,
 				year: customYear,
-				popularity: sortPopularity,
+				orderBy: sortFilter,
 				language: language,
 			})
 			.then((response) => {
 				console.log(response.data);
 				//console.log(response.data.total_pages);
 				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
-				const moviesData = response.data.results.map((element) => {
+				const moviesDataShort = response.data.results.map((element) => {
 					return { id: element.id, title: element.title };
 				});
 
 				//console.log(moviesData);
-				setMovies(moviesData);
+				setMovies(moviesDataShort);
 				setPagecount(response.data.total_pages);
 			})
 			.catch((error) => console.log(error));
 	};
 
 	// Updating the selected year
-
 	const handleYear = (e) => {
 		setSelectYear(e.target.value);
 		setCustomYear(""); // Reset custom year
@@ -124,20 +125,17 @@ function SearchUI() {
 					<select
 						id="sortBy"
 						name="sortBy"
-						onChange={(e) => setSortPopularity(e.target.value)}
+						onChange={(e) => setSortFilter(e.target.value)}
 					>
-						{/*NOTE: default value is always descending. Maybe add more filters? */}
-						<option value=""></option>
-						<option value="desc">Popularity descending</option>
-						<option value="asc">Popularity ascending</option>
+						{/*NOTE: default value is always descending*/}
+						<option value="popularity.desc">Popularity descending</option>
+						<option value="popularity.asc">Popularity ascending</option>
+						<option value="vote_average.desc">Rating descending</option>
+						<option value="vote_average.asc">Rating ascending</option>
 					</select>
 				</label>
 			</form>
-			<ul>
-				{movies.map((item) => {
-					return <MovieRow key={item.id} item={item} />;
-				})}
-			</ul>
+			<MovieList movies={movies}/>
 			<ReactPaginate
 				containerClassName="page"
 				breakLabel="..."

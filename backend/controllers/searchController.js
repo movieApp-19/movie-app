@@ -12,11 +12,11 @@ const searchResults = async (req, res, next) => {
 	// other values are OPTIONAL: language, year, popularity (ascending or descending)
 	const language = req.body.language; // tmdb: with_original_language -> the language the movie was originally released as
 	const year = req.body.year; // example "1999";
-	const popularityAorD = req.body.popularity; // Defaults to String popularity.desc
+	const orderBy = req.body.orderBy; // Defaults to String popularity.desc
 
 	const options = {
 		method: "GET",
-		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=${page}&sort_by=popularity.${popularityAorD}`,
+		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=${page}&sort_by=${orderBy}`,
 		headers: {
 			accept: "application/json",
 			Authorization: `Bearer ${authorizationKey}`,
