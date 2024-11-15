@@ -2,5 +2,5 @@
 
 ## backend .env example
 
-PORT = 8000
-TMDB_KEY = {your tmdb key}
+- PORT = 8000
+- TMDB_KEY = {your tmdb key}

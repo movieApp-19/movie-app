@@ -5,11 +5,11 @@ dotenv.config();
 const authorizationKey = process.env.TMDB_KEY;
 
 const searchResults = async (req, res, next) => {
-	// this is the value that we will get from the frontend
+	// this is the search value that we will get from the frontend
 	const tmdbQuery = req.body.tmdbQuery;
-	// page value
+	// page number
 	const page = req.body.page;
-	// other values are OPTIONAL: language, year, popularity (ascending or descending)
+	// other values are OPTIONAL: language, year, orderby (ascending or descending)
 	const language = req.body.language; // tmdb: with_original_language -> the language the movie was originally released as
 	const year = req.body.year; // example "1999";
 	const orderBy = req.body.orderBy; // Defaults to String popularity.desc

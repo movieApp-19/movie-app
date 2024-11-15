@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import MovieList from "./components/MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
+import "./components/backdrop.css"
+import "./page.css"
 
 const url = "http://localhost:8000";
 
@@ -12,7 +14,7 @@ function SearchUI() {
 	const [pageCount, setPagecount] = useState(0);
 	// search and filters
 	const [searchValue, setSearchValue] = useState("");
-	const [sortFilter, setSortFilter] = useState("popularity.desc");
+	const [sortFilter, setSortFilter] = useState("");
 	const [language, setLanguage] = useState("");
 	const [selectYear, setSelectYear] = useState("");
 	const [customYear, setCustomYear] = useState("");
@@ -21,7 +23,7 @@ function SearchUI() {
 		if (searchValue.length !== 0 ){
 			searchSpecificMovie();
 		}
-	}, [page]);
+	}, [page, sortFilter, language, customYear]);
 
 	const searchSpecificMovie = () => {
 		axios
@@ -42,7 +44,11 @@ function SearchUI() {
 
 				//console.log(moviesData);
 				setMovies(moviesDataShort);
-				setPagecount(response.data.total_pages);
+				// 500 is the maximum amount of pages allowed by the tmdb API
+				if (response.data.total_pages > 500){
+					setPagecount(500)
+				} 
+				else setPagecount(response.data.total_pages);
 			})
 			.catch((error) => console.log(error));
 	};
@@ -128,10 +134,10 @@ function SearchUI() {
 						onChange={(e) => setSortFilter(e.target.value)}
 					>
 						{/*NOTE: default value is always descending*/}
-						<option value="popularity.desc">Popularity descending</option>
-						<option value="popularity.asc">Popularity ascending</option>
-						<option value="vote_average.desc">Rating descending</option>
-						<option value="vote_average.asc">Rating ascending</option>
+						<option value="popularity.desc">Popularity High</option>
+						<option value="popularity.asc">Popularity Low</option>
+						<option value="vote_average.desc">Rating High</option>
+						<option value="vote_average.asc">Rating Low</option>
 					</select>
 				</label>
 			</form>

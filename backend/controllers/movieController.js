@@ -23,6 +23,12 @@ const movieResult = async (req, res, next) => {
 			error.statusCode = 400;
 			return next(error);
 		}
+		// id has to be a number
+		if (isNaN(id)){
+			const error = new Error("id not a number")
+			error.statusCode = 400
+			return next(error)
+		}
 		const response = await axios.request(options);
 		res.json(response.data);
 	} catch (error) {

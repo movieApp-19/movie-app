@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MovieDetails from "./MovieDetails";
 import MovieRow from "./MovieRow";
+import Backdrop from "./Backdrop";
 
 function MovieList({movies}) {
   const [detailsIsOpen, setDetailsIsOpen] = useState(false)
@@ -11,6 +12,10 @@ function MovieList({movies}) {
     setDetailsIsOpen(true)
   }
 
+  function closeInfo(){
+    setDetailsIsOpen(false)
+  }
+
   return (
     <div>
       <ul>
@@ -18,7 +23,8 @@ function MovieList({movies}) {
 					return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
 				})}
       </ul>
-      { detailsIsOpen ? <MovieDetails movieid={movieid}/> : null}
+      { detailsIsOpen ? <MovieDetails movieid={movieid} closeInfo={closeInfo}/> : null}
+      { detailsIsOpen ? <Backdrop closeInfo={closeInfo}/> : null}
     </div>
   )
 }
