@@ -1,6 +1,5 @@
 import logo from "./logo.svg";
-//import "./App.css";
-import SearchUI from "./searchUI.js";
+import SearchUI from "./screens/searchUI.js";
 
 function App() {
 	return <SearchUI></SearchUI>;

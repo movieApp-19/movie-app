@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MovieList from "./components/MovieList.js";
+import MovieList from "../components/MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
-import "./components/backdrop.css"
+import "../components/movieDetails.css"
+import "../components/backdrop.css"
 import "./page.css"
 
 const url = "http://localhost:8000";
