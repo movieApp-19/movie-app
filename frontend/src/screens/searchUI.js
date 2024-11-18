@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MovieRow from "./components/MovieRow.js";
+import MovieList from "../components/MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
+import "../components/movieDetails.css"
+import "../components/backdrop.css"
+import "./page.css"
 
 const url = "http://localhost:8000";
 
@@ -12,14 +15,16 @@ function SearchUI() {
 	const [pageCount, setPagecount] = useState(0);
 	// search and filters
 	const [searchValue, setSearchValue] = useState("");
-	const [sortPopularity, setSortPopularity] = useState("desc");
+	const [sortFilter, setSortFilter] = useState("");
 	const [language, setLanguage] = useState("");
 	const [selectYear, setSelectYear] = useState("");
 	const [customYear, setCustomYear] = useState("");
 
 	useEffect(() => {
-		searchSpecificMovie();
-	}, [page]);
+		if (searchValue.length !== 0 ){
+			searchSpecificMovie();
+		}
+	}, [page, sortFilter, language, customYear]);
 
 	const searchSpecificMovie = () => {
 		axios
@@ -27,26 +32,29 @@ function SearchUI() {
 				tmdbQuery: searchValue,
 				page: page,
 				year: customYear,
-				popularity: sortPopularity,
+				orderBy: sortFilter,
 				language: language,
 			})
 			.then((response) => {
 				console.log(response.data);
 				//console.log(response.data.total_pages);
 				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
-				const moviesData = response.data.results.map((element) => {
+				const moviesDataShort = response.data.results.map((element) => {
 					return { id: element.id, title: element.title };
 				});
 
 				//console.log(moviesData);
-				setMovies(moviesData);
-				setPagecount(response.data.total_pages);
+				setMovies(moviesDataShort);
+				// 500 is the maximum amount of pages allowed by the tmdb API
+				if (response.data.total_pages > 500){
+					setPagecount(500)
+				} 
+				else setPagecount(response.data.total_pages);
 			})
 			.catch((error) => console.log(error));
 	};
 
 	// Updating the selected year
-
 	const handleYear = (e) => {
 		setSelectYear(e.target.value);
 		setCustomYear(""); // Reset custom year
@@ -62,7 +70,6 @@ function SearchUI() {
 				<input
 					type="text"
 					value={searchValue}
-                    placeholder="Movie name..."
 					// e means event
 					onChange={(e) => setSearchValue(e.target.value)}
 					onKeyDown={(e) => {
@@ -96,7 +103,7 @@ function SearchUI() {
 						type="number"
 						name="customYear"
 						id="customYear"
-						placeholder="Enter exact year here"
+						placeholder="Enter year"
 						value={customYear}
 						onChange={handleCustomYear}
 					/>
@@ -125,20 +132,17 @@ function SearchUI() {
 					<select
 						id="sortBy"
 						name="sortBy"
-						onChange={(e) => setSortPopularity(e.target.value)}
+						onChange={(e) => setSortFilter(e.target.value)}
 					>
-						{/*NOTE: default value is always descending. Maybe add more filters? */}
-						<option value=""></option>
-						<option value="desc">Popularity descending</option>
-						<option value="asc">Popularity ascending</option>
+						{/*NOTE: default value is always descending*/}
+						<option value="popularity.desc">Popularity High</option>
+						<option value="popularity.asc">Popularity Low</option>
+						<option value="vote_average.desc">Rating High</option>
+						<option value="vote_average.asc">Rating Low</option>
 					</select>
 				</label>
 			</form>
-			<ul>
-				{movies.map((item) => {
-					return <MovieRow key={item.id} item={item} />;
-				})}
-			</ul>
+			<MovieList movies={movies}/>
 			<ReactPaginate
 				containerClassName="page"
 				breakLabel="..."
