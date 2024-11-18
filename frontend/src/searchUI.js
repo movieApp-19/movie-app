@@ -11,7 +11,7 @@ function SearchUI() {
 	const [page, setPage] = useState(1);
 	const [pageCount, setPagecount] = useState(0);
 	// search and filters
-	const [searchValue, setSearchValue] = useState("Finland");
+	const [searchValue, setSearchValue] = useState("");
 	const [sortPopularity, setSortPopularity] = useState("desc");
 	const [language, setLanguage] = useState("");
 	const [selectYear, setSelectYear] = useState("");
@@ -62,6 +62,7 @@ function SearchUI() {
 				<input
 					type="text"
 					value={searchValue}
+                    placeholder="Movie name..."
 					// e means event
 					onChange={(e) => setSearchValue(e.target.value)}
 					onKeyDown={(e) => {
@@ -95,7 +96,7 @@ function SearchUI() {
 						type="number"
 						name="customYear"
 						id="customYear"
-						placeholder="Enter year"
+						placeholder="Enter exact year here"
 						value={customYear}
 						onChange={handleCustomYear}
 					/>

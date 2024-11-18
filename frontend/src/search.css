@@ -1,3 +1,5 @@
+/*
+
 select{
     margin: 10px;
     border-radius: 10px;
@@ -8,3 +10,92 @@ div{
     text-align: center;
     padding: 20px;
 }
+    
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  label {
+    display: block;
+    margin-top: 15px;
+  }
+  
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 15px 0;
+    margin-top: 20px;
+  }
+  
+  .page a {
+    color: #007bff;
+    padding: 5px 10px;
+    margin: 0 3px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .page a:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .page .selected {
+    background-color: #007bff;
+    color: white;
+    pointer-events: none;
+  }
+  
+  .page .break-me {
+    cursor: default;
+    padding: 5px 10px;
+  }
+  
+  .page a.previous,
+  .page a.next {
+    font-weight: bold;
+  }
+
+  */
+  
+
