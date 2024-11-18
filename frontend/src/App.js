@@ -8,7 +8,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" exact element={<Showtimes/>}/>
-      <Route path="/" element = {<SearchUI/>}/>
+      <Route path="/search" element = {<SearchUI/>}/>
     </Routes>
     </>
   );
