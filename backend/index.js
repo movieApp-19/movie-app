@@ -2,6 +2,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { router as searchRouter } from "./routers/searchRouter.js";
+import { router as movieRouter } from "./routers/movieRouter.js";
+
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -11,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/search", searchRouter);
+app.use("/movie", movieRouter);
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
