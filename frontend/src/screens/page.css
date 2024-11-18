@@ -1,0 +1,13 @@
+.page {
+	display: flex;
+	flex-direction: row;
+	list-style-type: none;
+}
+
+.page li {
+	width: 2em;
+}
+
+.page li.selected {
+	color: red;
+}
