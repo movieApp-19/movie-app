@@ -1,0 +1,36 @@
+/* Style the navigation bar */
+.nav {
+    background-color: #333; /* Dark background color for the nav */
+    padding: 10px;          /* Add some padding to the nav */
+  }
+  
+  /* Style the individual nav items */
+  .nav-item {
+    display: inline-block; /* Make the items inline */
+    margin-right: 15px;    /* Add space between nav items */
+  }
+  
+  /* Style the links inside the nav items */
+  .nav-link {
+    color: white;          /* White text color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;     /* Make the text bold */
+    font-size: 16px;       /* Set a custom font size */
+  }
+  
+  /* Active link styling */
+  .nav-link.active {
+    color: #ff5733;        /* Change color of the active link (orange-red) */
+    font-weight: bold;     /* Make the active link bold */
+  }
+  
+  /* Hover effect for the links */
+  .nav-link:hover {
+    color: #ffcc00;        /* Change color when hovered (yellow) */
+  }
+  
+  /* Optional: Add a border or shadow to the navigation bar */
+  .nav {
+    border-bottom: 2px solid #444; /* Add a border at the bottom of the nav */
+  }
+  
