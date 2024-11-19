@@ -1,8 +1,17 @@
-import logo from "./logo.svg";
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
+import Showtimes from './showtimes/Showtimes.js';
 import SearchUI from "./screens/searchUI.js";
 
 function App() {
-	return <SearchUI></SearchUI>;
+  return (
+    <>
+    <Routes>
+      <Route path="/" exact element={<Showtimes/>}/>
+      <Route path="/search" element = {<SearchUI/>}/>
+    </Routes>
+    </>
+  );
 }
 
 export default App;

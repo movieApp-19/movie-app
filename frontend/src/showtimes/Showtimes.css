@@ -1,0 +1,152 @@
+body {
+    background-image: url('./img/space-1164579.png');
+    color: white;
+    margin: 0;
+    background-size: contain;
+    background-position: center center;
+    padding: 0;
+}
+
+#Showtimes {
+    font-size: 1.5em;
+    text-align: center;
+    background-size: contain;
+    background-image: url('./img/ai-generated-8848753.jpg');
+    background-position: center center;
+    padding: 90px;
+    margin: 10px auto;
+    border-radius: 30px;
+    color: #333;
+    font-family: 'Roboto', sans-serif, Arial, Helvetica;
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(255, 217, 0, 0.4), 0 6px 20px rgba(255, 183, 0, 0.3);
+}
+
+#Showtimes h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #f5c240;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#Showtimes select,
+#Showtimes input[type="date"] {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 15px 0;
+    font-size: 1.1em;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 80%;
+    max-width: 500px;
+}
+
+#Showtimes button {
+    font-size: 1em;
+    color: #333;
+    font-weight: 700;
+    background-color: #f5c240;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#Showtimes button:hover {
+    background-color: #e4b238;
+}
+
+#Showtimes button:focus {
+    outline: 2px solid #f5c240;
+}
+
+#Showtimes select:hover,
+#Showtimes input[type="date"]:hover {
+    border-color: #f5c240;
+    box-shadow: 0 4px 10px rgba(245, 194, 64, 0.4);
+}
+
+#Showtimes select:focus,
+#Showtimes input[type="date"]:focus,
+#Showtimes button:focus {
+    border-color: #f5c240;
+    outline: none;
+    box-shadow: 0 0 8px rgba(245, 194, 64, 0.6);
+}
+
+@media (max-width: 768px) {
+    #Showtimes {
+        font-size: 1.2em;
+        padding: 20px;
+    }
+
+    #Showtimes select,
+    #Showtimes input[type="date"] {
+        width: 90%;
+    }
+
+    #Showtimes h1 {
+        font-size: 2em;
+    }
+}
+
+.showtimes-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.showtime-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.showtime-item:hover {
+    transform: scale(1.05);
+}
+
+.showtime-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.showtime-item h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+}
+
+.showtime-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.showtime-item a {
+    font-size: 16px;
+    color: #f5c240;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.showtime-item a:hover {
+    text-decoration: underline;
+}

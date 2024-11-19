@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import MovieList from "../components/MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
@@ -20,13 +20,7 @@ function SearchUI() {
 	const [selectYear, setSelectYear] = useState("");
 	const [customYear, setCustomYear] = useState("");
 
-	useEffect(() => {
-		if (searchValue.length !== 0 ){
-			searchSpecificMovie();
-		}
-	}, [page, sortFilter, language, customYear]);
-
-	const searchSpecificMovie = () => {
+	const searchSpecificMovie = useCallback(() => {
 		axios
 			.post(url + "/search", {
 				tmdbQuery: searchValue,
@@ -52,7 +46,14 @@ function SearchUI() {
 				else setPagecount(response.data.total_pages);
 			})
 			.catch((error) => console.log(error));
-	};
+	},[page, sortFilter, language, customYear, searchValue]);
+	
+	useEffect(() => {
+		if (searchValue.length !== 0 ){
+			searchSpecificMovie();
+		}
+	}, [searchValue.length, searchSpecificMovie]);
+
 
 	// Updating the selected year
 	const handleYear = (e) => {
