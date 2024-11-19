@@ -1,1 +1,8 @@
-
+body {
+    background-image: url('./showtimes/img/space-1164579.png');
+    color: white;
+    margin: 0;
+    background-size: contain;
+    background-position: center center;
+    padding: 0;
+}

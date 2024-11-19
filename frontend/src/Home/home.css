@@ -1,36 +1,49 @@
-/* Style the navigation bar */
-.nav {
-    background-color: #333; /* Dark background color for the nav */
-    padding: 10px;          /* Add some padding to the nav */
-  }
-  
-  /* Style the individual nav items */
-  .nav-item {
-    display: inline-block; /* Make the items inline */
-    margin-right: 15px;    /* Add space between nav items */
-  }
-  
-  /* Style the links inside the nav items */
-  .nav-link {
-    color: white;          /* White text color */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold;     /* Make the text bold */
-    font-size: 16px;       /* Set a custom font size */
-  }
-  
-  /* Active link styling */
-  .nav-link.active {
-    color: #ff5733;        /* Change color of the active link (orange-red) */
-    font-weight: bold;     /* Make the active link bold */
-  }
-  
-  /* Hover effect for the links */
-  .nav-link:hover {
-    color: #ffcc00;        /* Change color when hovered (yellow) */
-  }
-  
-  /* Optional: Add a border or shadow to the navigation bar */
-  .nav {
-    border-bottom: 2px solid #444; /* Add a border at the bottom of the nav */
-  }
-  
+/* Home.css */
+.home-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.home-header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.home-content {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.home-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.home-content li {
+  margin: 10px 0;
+}
+
+.home-action {
+  margin-top: 20px;
+}
+
+.home-action button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.home-action button:hover {
+  background-color: #0056b3;
+}
