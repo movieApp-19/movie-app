@@ -1,0 +1,49 @@
+/* Home.css */
+.home-container {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.home-header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.home-content {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.home-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.home-content li {
+  margin: 10px 0;
+}
+
+.home-action {
+  margin-top: 20px;
+}
+
+.home-action button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.home-action button:hover {
+  background-color: #0056b3;
+}
