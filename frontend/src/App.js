@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Showtimes from './showtimes/showtimes.js';
+import Showtimes from './showtimes/Showtimes.js';
 import SearchUI from "./screens/searchUI.js";
 import Home from './Home/home.js';
 import DeleteAccount from './Home/deleteAccount.js';
