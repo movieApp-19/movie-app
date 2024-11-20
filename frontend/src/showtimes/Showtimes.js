@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Showtimes.css';
+import { getShowtimes } from './api';
 
 export default class Showtimes extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ export default class Showtimes extends Component {
     this.state = {
       theatreAreas: [],
       availableDates: [],
+      showtimes: []
     };
   }
 
@@ -42,13 +44,26 @@ export default class Showtimes extends Component {
       });
   }
 
+  handleSearch = async () => {
+    const area = document.querySelector("#area").value;
+    const date = document.querySelector("#date").value;
+    if (area && date) {
+      try {
+        const showtimes = await getShowtimes(area, new Date(date));
+        this.setState({ showtimes });
+      } catch (error) {
+        console.error("Error fetching showtimes:", error);
+      }
+    }
+  };
+
   render() {
     return (
       <>
         <div id="Showtimes">
           <h1>Finnkino Showtimes</h1>
 
-          <select className="form-select form-select-lg mb-3" aria-label="Select Area/Theater">
+          <select id="area" className="form-select form-select-lg mb-3" aria-label="Select Area/Theater">
             <option value="">Valitse alue/teatteri</option>
             {this.state.theatreAreas.map(area => (
               <option key={area.id} value={area.id}>
@@ -57,7 +72,7 @@ export default class Showtimes extends Component {
             ))}
           </select>
 
-          <select className="form-select form-select-sm mb-3" aria-label="Select Date">
+          <select id="date" className="form-select form-select-sm mb-3" aria-label="Select Date">
             <option value="">Valitse päivämäärä</option>
             {this.state.availableDates.map((date, index) => (
               <option key={index} value={date}>
@@ -66,10 +81,29 @@ export default class Showtimes extends Component {
             ))}
           </select>
 
-          <button type="button" className="btn btn-outline-warning">
+          <button type="button" className="btn btn-outline-warning" onClick={this.handleSearch}>
             Search {'>>'}
           </button>
         </div>
+
+        <div className="showtimes-list">
+            {this.state.showtimes.length > 0 ? (
+              this.state.showtimes.map(show => (
+                <div key={show.eventID} className="showtime-item">
+                  <h4>{show.title}</h4>
+                  <p><strong>Rating:</strong> {show.rating}</p>
+                  <p><strong>Genres:</strong> {show.genres.join(', ')}</p>
+                  <p><strong>Auditorium:</strong> {show.auditorium}</p>
+                  <p><strong>Language:</strong> {show.language}</p>
+                  <a href={show.eventURL} target="_blank" rel="noopener noreferrer">More Info</a>
+                  <br />
+                  <img src={show.portraitURL} alt={show.title} width="200" />
+                </div>
+              ))
+            ) : (
+              <p>No showtimes available.</p>
+            )}
+          </div>
       </>
     );
   }
