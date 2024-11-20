@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import MovieList from "../components/MovieList.js";
+import MovieList from "./MovieList.js";
 import ReactPaginate from "react-paginate";
 import "./search.css";
-import "../components/movieDetails.css"
+import "./movieDetails.css"
 import "../components/backdrop.css"
 import "./page.css"
 

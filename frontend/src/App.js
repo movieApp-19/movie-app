@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Showtimes from './showtimes/Showtimes.js';
-import SearchUI from "./screens/searchUI.js";
+import SearchUI from "./movieSearch/searchUI.js";
 import Home from './Home/home.js';
-import DeleteAccount from './Home/deleteAccount.js';
-import Navbar from './Home/Navbar.js';
+import DeleteAccount from './deleteAccount/deleteAccount.js';
+import Navbar from './components/Navbar.js';
 
 function App() {
   return (
