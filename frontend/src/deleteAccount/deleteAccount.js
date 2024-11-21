@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./deleteAccount.css";
+import Backdrop from "../components/Backdrop";
+import { DeleteWarning } from "./DeleteWarning.js";
+import "./deleteWarning.css"
 
 export default function DeleteAccount() {
   const [confirmationText, setConfirmationText] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [warningsIsOpen, setWarningIsOpen] = useState(false)
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -13,9 +17,18 @@ export default function DeleteAccount() {
 
   const handleDelete = () => {
     if (confirmationText === "DELETE") {
-      alert("Account deleted successfully!");
+      setWarningIsOpen(true)
     }
   };
+
+  const closeWarning = () => {
+    setWarningIsOpen(false)
+  }
+
+  const deletionConfirmed = () => {
+    alert("account deleted!")
+    setWarningIsOpen(false)
+  }
 
   return (
     <div className="delete-account-page">
@@ -44,6 +57,8 @@ export default function DeleteAccount() {
             Delete Account
           </button>
         </div>
+          { warningsIsOpen ? <Backdrop/> : null}
+          { warningsIsOpen ? <DeleteWarning deletionConfirmed={deletionConfirmed} closeWarning={closeWarning}/> : null}
       </div>
     </div>
   );

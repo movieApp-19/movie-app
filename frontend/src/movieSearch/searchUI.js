@@ -31,29 +31,44 @@ function SearchUI() {
 			})
 			.then((response) => {
 				console.log(response.data);
-				//console.log(response.data.total_pages);
-				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
-				const moviesDataShort = response.data.results.map((element) => {
-					return { id: element.id, title: element.title };
-				});
-
-				//console.log(moviesData);
-				setMovies(moviesDataShort);
+				if (response.data.results.length === 0){
+					handlePages()
+					throw new Error("Unable to load page");
+				}
+				console.log(response.data.total_pages)
 				// 500 is the maximum amount of pages allowed by the tmdb API
 				if (response.data.total_pages > 500){
 					setPagecount(500)
 				} 
 				else setPagecount(response.data.total_pages);
+				//console.log(response.data.total_pages);
+				// NOTE, ids from tmdb are ALWAYS unique, thats why we can use them as the unique key for list elements
+				const moviesDataShort = response.data.results.map((element) => {
+					return { id: element.id, title: element.title };
+				});
+				//console.log(moviesData);
+				setMovies(moviesDataShort);
 			})
 			.catch((error) => console.log(error));
 	},[page, sortFilter, language, customYear, searchValue]);
 	
-	useEffect(() => {
-		if (searchValue.length !== 0 ){
-			searchSpecificMovie();
-		}
-	}, [searchValue.length, searchSpecificMovie]);
+	const handlePages = () => {
+		setMovies([])
+		setPagecount(0)
+	}
 
+	// we use timer here because if the user deletes his search fast, the movies will still be seen in the list. timer prevents this
+	useEffect(() => {
+		const timer = setTimeout(()=>{
+			if (searchValue.trim().length === 0){
+				handlePages()
+			}
+			else {
+				searchSpecificMovie();
+			}
+		}, 100)
+		return () => clearTimeout(timer)
+	}, [searchValue, searchSpecificMovie]);
 
 	// Updating the selected year
 	const handleYear = (e) => {
@@ -72,14 +87,17 @@ function SearchUI() {
 					type="text"
 					value={searchValue}
 					// e means event
-					onChange={(e) => setSearchValue(e.target.value)}
+					onChange={(e) => {
+						setSearchValue(e.target.value)
+						if (searchValue.length !== 0) {
+							// we set the page to be the first page so errors don't accure when changing pages
+							setPage(1);
+						}
+					}
+					}
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							e.preventDefault();
-							if (searchValue.length !== 0) {
-								setPage(1);
-								searchSpecificMovie();
-							}
 						}
 					}}
 				></input>
@@ -92,9 +110,6 @@ function SearchUI() {
 						onChange={handleYear}
 					>
 						<option value="blank"></option>
-						<option value="1990s">1990s</option>
-						<option value="2000">2000s</option>
-						<option value="2010s">2010s</option>
 						<option value="custom">Type exact year</option>
 					</select>
 				</label>
@@ -135,7 +150,6 @@ function SearchUI() {
 						name="sortBy"
 						onChange={(e) => setSortFilter(e.target.value)}
 					>
-						{/*NOTE: default value is always descending*/}
 						<option value="popularity.desc">Popularity High</option>
 						<option value="popularity.asc">Popularity Low</option>
 						<option value="vote_average.desc">Rating High</option>
@@ -145,16 +159,17 @@ function SearchUI() {
 			</form>
 			<MovieList movies={movies}/>
 			<ReactPaginate
-				containerClassName="page"
-				breakLabel="..."
-				nextLabel=">"
-				onPageChange={(e) => setPage(e.selected + 1)}
-				pageRangeDisplayed={3}
-				pageCount={pageCount}
-				previousLabel="<"
-				renderOnZeroPageCount={null}
-				forcePage={page - 1}
+			containerClassName="page"
+			breakLabel="..."
+			nextLabel=">"
+			onPageChange={(e) => setPage(e.selected + 1)}
+			pageRangeDisplayed={3}
+			pageCount={pageCount}
+			previousLabel="<"
+			renderOnZeroPageCount={null}
+			forcePage={page - 1}
 			/>
+
 		</div>
 	);
 }

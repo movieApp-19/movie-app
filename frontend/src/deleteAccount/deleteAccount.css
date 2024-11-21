@@ -40,7 +40,6 @@
     border: 2px solid #ccc;
     border-radius: 5px;
     width: 100%;
-    text-transform: uppercase;
   }
   
   .confirmation-input:focus {

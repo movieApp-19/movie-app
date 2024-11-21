@@ -35,7 +35,6 @@ export default function Navbar() {
         <li className="nav-item">
           <NavLink
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-            exact
             to="/"
           >
             Home
@@ -60,7 +59,7 @@ export default function Navbar() {
         <li className="nav-item">
           <NavLink
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-            to="#"
+            to="/*"
           >
             Favorites list
           </NavLink>
@@ -68,7 +67,7 @@ export default function Navbar() {
         <li className="nav-item">
           <NavLink
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-            to="#"
+            to="/*"
           >
             Add here
           </NavLink>
@@ -76,7 +75,7 @@ export default function Navbar() {
         <li className="nav-item">
           <NavLink
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-            to="#"
+            to="/*"
           >
             Add here
           </NavLink>
@@ -92,9 +91,9 @@ export default function Navbar() {
       {isSidebarOpen && (
         <div className="sidebar" ref={sidebarRef}>
           <nav className="nav flex-column">
-            <a className="nav-link" href="#">Login</a>
-            <a className="nav-link" href="#">Register</a>
-            <a className="nav-link" href="#">Logout</a>
+            <a className="nav-link" href="/*">Login</a>
+            <a className="nav-link" href="/*">Register</a>
+            <a className="nav-link" href="/*">Logout</a>
             <a className="nav-link" href="/delete-account">Delete Account</a>
           </nav>
         </div>
