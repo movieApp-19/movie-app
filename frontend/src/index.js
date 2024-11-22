@@ -9,6 +9,8 @@ import UserProvider from './context/userProvider';
 import NotFound from './screens/notFound';
 import RegisterUI, { AuthenticationMode } from './screens/registerUI';
 import DeleteAccount from './Home/deleteAccount';
+import Navbar from './Home/Navbar';
+import Home from './Home/home';
 
 const router = createBrowserRouter([
 
@@ -18,27 +20,52 @@ const router = createBrowserRouter([
 
   {
     path: "/",
-    element: <App />
+    element: (
+      <>
+        <Navbar />
+        <Home />
+      </>
+    )
   },
 
   {
     path: "/search",
-    element: <SearchUI />
+    element: (
+      <>
+        <Navbar />
+        <SearchUI />
+      </>
+    )
   },
 
   {
     path: "/showtimes",
-    element: <Showtimes />
+    element: (
+      <>
+        <Navbar />
+        <Showtimes />
+      </>
+    )
   },
 
   {
     path: "/signup",
-    element: <RegisterUI authenticationMode={AuthenticationMode.Register} />,
+    element: (
+      <>
+        <Navbar />
+        <RegisterUI />
+      </>
+    )
   },
 
   {
     path: "/delete-account",
-    element: <DeleteAccount />
+    element: (
+      <>
+        <Navbar />
+        <DeleteAccount />
+      </>
+    )
   }
 ])
 

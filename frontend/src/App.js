@@ -9,18 +9,11 @@ import RegisterUI, { AuthenticationMode } from './screens/registerUI.js';
 
 function App() {
   return (
+
     <>
-      <div>
-        <Navbar />
-      </div>
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/signup" element={<RegisterUI authenticationMode={AuthenticationMode.Register} />} />
-        <Route path="/showtimes" element={<Showtimes />} />
-        <Route path="/search" element={<SearchUI />} />
-        <Route path="/delete-account" element={<DeleteAccount />} />
-      </Routes>
+    
     </>
+    
   );
 }
 

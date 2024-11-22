@@ -4,10 +4,8 @@ import express from "express";
 import { router as searchRouter } from "./routers/searchRouter.js";
 import { router as movieRouter } from "./routers/movieRouter.js";
 import { router as userRouter } from "./routers/userRouter.js";
-import { pool } from "./helpers/db.js";
 
 dotenv.config();
-
 
 const port = process.env.PORT || 8000;
 
