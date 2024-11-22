@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import './Showtimes.css';
 import { getShowtimes } from './api';
 
+const formatStartTime = (s) => {
+  const t = new Date(s);
+  const m = t.getMinutes();
+  return `${t.getHours()}:${m === "0" ? "00" : m}`;
+}
+
+const formatRuntime = (s) => {
+  const i = Number(s);
+  return `${Math.floor(i/60)} h ${i%60} min`
+}
+
 export default class Showtimes extends Component {
   constructor(props) {
     super(props);
@@ -89,8 +100,10 @@ export default class Showtimes extends Component {
         <div className="showtimes-list">
             {this.state.showtimes.length > 0 ? (
               this.state.showtimes.map(show => (
-                <div key={show.eventID} className="showtime-item">
+                <div key={show.id} className="showtime-item">
                   <h4>{show.title}</h4>
+                  <p><strong>Starts:</strong> {formatStartTime(show.start)}</p>
+                  <p><strong>Runtime:</strong> {formatRuntime(show.runtime)}</p>
                   <p><strong>Rating:</strong> {show.rating}</p>
                   <p><strong>Genres:</strong> {show.genres.join(', ')}</p>
                   <p><strong>Auditorium:</strong> {show.auditorium}</p>
