@@ -19,7 +19,7 @@ app.use("/user", userRouter);
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
-	console.log("Middleware StatusCode:", statusCode); // Log for debugging
+	console.log("Middleware StatusCode:", statusCode, "Error:", err.message); // Log for debugging
 	res.status(statusCode).json({ error: err.message });
 });
 

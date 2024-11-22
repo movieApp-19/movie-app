@@ -1,3 +1,5 @@
+import { pool } from "../helpers/db.js";
+
 const deleteAccount = async(email, hashedPassword) => {
 	return await pool.query(
 		"delete from account where email=$1 and password=$2", [email, hashedPassword]

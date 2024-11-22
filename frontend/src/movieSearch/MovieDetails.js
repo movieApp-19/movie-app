@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const url = "http://localhost:8000";
+const url = process.env.REACT_APP_API_URL;
 
 function MovieDetails({movieid, closeInfo}){
   const [dataa, setDataa] = useState(null)

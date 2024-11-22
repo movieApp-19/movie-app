@@ -3,7 +3,6 @@ import React from "react";
 import { useUser } from "../context/useUser";
 import "./register.css";
 
-
 export const AuthenticationMode = Object.freeze({
     Login: "Login",
     Register: "Register"

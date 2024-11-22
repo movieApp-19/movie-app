@@ -7,7 +7,7 @@ import "./movieDetails.css"
 import "../components/backdrop.css"
 import "./page.css"
 
-const url = "http://localhost:8000";
+const url = process.env.REACT_APP_API_URL;
 
 function SearchUI() {
 	const [movies, setMovies] = useState([]);

@@ -3,6 +3,9 @@ import "./deleteAccount.css";
 import Backdrop from "../components/Backdrop";
 import { DeleteWarning } from "./DeleteWarning.js";
 import "./deleteWarning.css"
+import axios from "axios";
+
+const url = process.env.REACT_APP_API_URL;
 
 export default function DeleteAccount() {
   const [confirmationText, setConfirmationText] = useState("");
@@ -26,7 +29,21 @@ export default function DeleteAccount() {
   }
 
   const deletionConfirmed = () => {
-    alert("account deleted!")
+    //alert("account deleted!")
+    axios
+      .delete(url + "/user/delete-account", {
+        data:{
+          email: "f@f", // FOR TESTING AT THE MOMENT
+          password: "$2b$10$U2qlNNYyMKwiQ1YfUkSmkeaQCjY68Ih2MxG53qWdFN5p8q48umZHK"
+        }
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+        //alert(error.response.data.error ? error.response.data.error : error);
+      })
     setWarningIsOpen(false)
   }
 
