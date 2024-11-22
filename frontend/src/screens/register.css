@@ -1,0 +1,12 @@
+input{
+    margin: 20px;
+}
+
+button{
+    font-size: 20px;
+}
+
+button:hover{
+    background-color: rgb(30, 114, 170);
+    transform: scale(1.05);
+}

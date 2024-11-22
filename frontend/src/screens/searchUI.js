@@ -71,6 +71,7 @@ function SearchUI() {
 				<input
 					type="text"
 					value={searchValue}
+					placeholder="Type movie name"
 					// e means event
 					onChange={(e) => setSearchValue(e.target.value)}
 					onKeyDown={(e) => {
