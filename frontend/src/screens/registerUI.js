@@ -10,7 +10,7 @@ export const AuthenticationMode = Object.freeze({
 })
 
 export default function RegisterUI({authenticationMode}){
-    const { user, setUser, signUp, signIn } = useUser();
+    const { user, setUser, signUp, /*signIn*/ } = useUser();
     const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
@@ -20,7 +20,7 @@ export default function RegisterUI({authenticationMode}){
               await signUp();
               navigate('/signin');
             } else {
-              await signIn();
+              //await signIn();
               navigate('/');
             }
           } catch (error) {
