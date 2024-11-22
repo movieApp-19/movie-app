@@ -3,9 +3,10 @@ import dotenv from "dotenv";
 import express from "express";
 import { router as searchRouter } from "./routers/searchRouter.js";
 import { router as movieRouter } from "./routers/movieRouter.js";
-
+import { router as userRouter } from "./routers/userRouter.js";
 
 dotenv.config();
+
 const port = process.env.PORT || 8000;
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/search", searchRouter);
 app.use("/movie", movieRouter);
+app.use("/user", userRouter);
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
