@@ -2,14 +2,79 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import Showtimes from './showtimes/Showtimes';
+import SearchUI from './screens/searchUI';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import UserProvider from './context/userProvider';
+import NotFound from './screens/notFound';
+import RegisterUI, { AuthenticationMode } from './screens/registerUI';
+import DeleteAccount from './Home/deleteAccount';
+import Navbar from './Home/Navbar';
+import Home from './Home/home';
+
+const router = createBrowserRouter([
+
+  {
+    errorElement: <NotFound />
+  },
+
+  {
+    path: "/",
+    element: (
+      <>
+        <Navbar />
+        <Home />
+      </>
+    )
+  },
+
+  {
+    path: "/search",
+    element: (
+      <>
+        <Navbar />
+        <SearchUI />
+      </>
+    )
+  },
+
+  {
+    path: "/showtimes",
+    element: (
+      <>
+        <Navbar />
+        <Showtimes />
+      </>
+    )
+  },
+
+  {
+    path: "/signup",
+    element: (
+      <>
+        <Navbar />
+        <RegisterUI authenticationMode={AuthenticationMode.Register} />
+      </>
+    )
+  },
+
+  {
+    path: "/delete-account",
+    element: (
+      <>
+        <Navbar />
+        <DeleteAccount />
+      </>
+    )
+  }
+])
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   </React.StrictMode>
 );
-

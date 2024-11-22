@@ -3,23 +3,14 @@ import './App.css';
 import Showtimes from './showtimes/Showtimes.js';
 import SearchUI from "./movieSearch/searchUI.js";
 import Home from './Home/home.js';
-import DeleteAccount from './deleteAccount/deleteAccount.js';
-import Navbar from './components/Navbar.js';
-import NotFound from './notFound/notFound.js';
+import DeleteAccount from './Home/deleteAccount.js';
+import Navbar from './Home/Navbar.js';
+import RegisterUI, { AuthenticationMode } from './screens/registerUI.js';
 
 function App() {
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/showtimes" element={<Showtimes />} />
-        <Route path="/search" element={<SearchUI />} />
-        <Route path="/delete-account" element={<DeleteAccount />} />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
+
     </>
   );
 }
