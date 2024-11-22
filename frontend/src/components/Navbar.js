@@ -92,7 +92,7 @@ export default function Navbar() {
         <div className="sidebar" ref={sidebarRef}>
           <nav className="nav flex-column">
             <a className="nav-link" href="/*">Login</a>
-            <a className="nav-link" href="/*">Register</a>
+            <a className="nav-link" href="/signup">Register</a>
             <a className="nav-link" href="/*">Logout</a>
             <a className="nav-link" href="/delete-account">Delete Account</a>
           </nav>

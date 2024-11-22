@@ -1,3 +1,4 @@
+/*
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Showtimes from './showtimes/Showtimes.js';
@@ -16,3 +17,4 @@ function App() {
 }
 
 export default App;
+*/
