@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <RegisterUI />
+        <RegisterUI authenticationMode={AuthenticationMode.Register} />
       </>
     )
   },
@@ -78,4 +78,3 @@ root.render(
     </UserProvider>
   </React.StrictMode>
 );
-

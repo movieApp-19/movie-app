@@ -9,11 +9,9 @@ import RegisterUI, { AuthenticationMode } from './screens/registerUI.js';
 
 function App() {
   return (
-
     <>
-    
+
     </>
-    
   );
 }
 
