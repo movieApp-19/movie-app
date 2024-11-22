@@ -35,7 +35,6 @@ export default function Navbar() {
         <li className="nav-item">
           <NavLink
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-            exact
             to="/"
           >
             Home
