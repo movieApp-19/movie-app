@@ -100,7 +100,7 @@ export default class Showtimes extends Component {
         <div className="showtimes-list">
             {this.state.showtimes.length > 0 ? (
               this.state.showtimes.map(show => (
-                <div key={show.eventID} className="showtime-item">
+                <div key={show.id} className="showtime-item">
                   <h4>{show.title}</h4>
                   <p><strong>Starts:</strong> {formatStartTime(show.start)}</p>
                   <p><strong>Runtime:</strong> {formatRuntime(show.runtime)}</p>

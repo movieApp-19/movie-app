@@ -9,6 +9,7 @@ import xml2js from "xml2js";
 //      eventID: string
 //      eventURL: string
 //      genres: string[]
+//      id: string
 //      language: string
 //      portraitURL: string
 //      presentation: string
@@ -41,6 +42,7 @@ async function getShowtimes(area, date) {
             eventID: e.EventID[0],
             eventURL: e.EventURL[0],
             genres: e.Genres[0].split(", "),
+            id: e.ID[0],
             language: e.SpokenLanguage[0].Name[0],
             portraitURL: e.Images[0].EventMediumImagePortrait[0],
             presentation: e.PresentationMethod[0],
