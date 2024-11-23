@@ -7,7 +7,7 @@ import SearchUI from './screens/searchUI';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import UserProvider from './context/userProvider';
 import NotFound from './screens/notFound';
-import RegisterUI, { AuthenticationMode } from './screens/registerUI';
+import RegisterUI, { AuthMode } from './screens/registerUI';
 import DeleteAccount from './Home/deleteAccount';
 import Navbar from './Home/Navbar';
 import Home from './Home/home';
@@ -53,7 +53,17 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <RegisterUI authenticationMode={AuthenticationMode.Register} />
+        <RegisterUI mode={AuthMode.Register} />
+      </>
+    )
+  },
+
+  {
+    path: "/signin",
+    element: (
+      <>
+        <Navbar />
+        <RegisterUI mode={AuthMode.Login} />
       </>
     )
   },
