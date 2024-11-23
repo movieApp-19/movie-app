@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BiUser } from 'react-icons/bi';
+import { useUser } from "../context/useUser.js";
 import './Navbar.css';
 
 export default function Navbar() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const sidebarRef = useRef(null);
     const avatarRef = useRef(null);
+    const { signOut, isSignedIn } = useUser();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -91,10 +93,13 @@ export default function Navbar() {
             {isSidebarOpen && (
                 <div className="sidebar" ref={sidebarRef}>
                     <nav className="nav flex-column">
-                        <a className="nav-link" href="signin">Login</a>
-                        <a className="nav-link" href="signup">Register</a>
-                        <a className="nav-link" href="/">Logout</a>
-                        <a className="nav-link" href="/delete-account">Delete Account</a>
+                        {!isSignedIn() ? <>
+                            <a className="nav-link" href="signin">Login</a>
+                            <a className="nav-link" href="signup">Register</a>
+                        </> : <>
+                            <a className="nav-link" href="/" onClick={signOut}>Logout</a>
+                            <a className="nav-link" href="/delete-account">Delete Account</a>
+                        </>}
                     </nav>
                 </div>
             )}

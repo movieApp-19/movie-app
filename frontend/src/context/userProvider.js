@@ -43,8 +43,17 @@ export default function UserProvider({children}) {
         }
     }
 
+    const signOut = () => {
+        setUser(EMPTY_USER);
+        sessionStorage.setItem("user", JSON.stringify(EMPTY_USER));
+    }
+
+    const isSignedIn = () => {
+        return user.token && user.token.length > 0;
+    }
+
     return (
-        <userContext.Provider value={{user, setUser, signUp, signIn }}>
+        <userContext.Provider value={{user, setUser, signUp, signIn, signOut, isSignedIn }}>
             { children }
         </userContext.Provider>
     )
