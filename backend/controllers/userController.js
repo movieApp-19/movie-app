@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { insertUser } from "../models/userModel.js";
+import { insertUser, selectUserByUsername } from "../models/userModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -33,4 +33,17 @@ const postRegistration = async(req, res, next) => {
     }
 }
 
-export { postRegistration };
+const postLogin = async (req, res, next) => {
+    try {
+        const user = (await selectUserByUsername(req.body.username)).rows[0];
+        if (!await compare(req.body.password, user.password))
+            return next(new APIError(errors.INVALID_CREDENTIALS, 401));
+
+        const token = sign(req.body.username, process.env.JWT_SECRET_KEY);
+        return res.status(200).json(createUserObject(user.account_id, user.username, user.email, token));
+    } catch (err) {
+        return next(err);
+    }
+}
+
+export { postRegistration, postLogin };
