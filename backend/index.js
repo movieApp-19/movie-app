@@ -24,3 +24,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port);
+
+export default app
