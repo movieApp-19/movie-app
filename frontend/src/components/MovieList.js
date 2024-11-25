@@ -3,6 +3,8 @@ import MovieDetails from "./MovieDetails";
 import MovieRow from "./MovieRow";
 import Backdrop from "./Backdrop";
 
+
+
 function MovieList({movies}) {
   const [detailsIsOpen, setDetailsIsOpen] = useState(false)
   const [movieid, setMovieid] = useState()
@@ -18,7 +20,7 @@ function MovieList({movies}) {
 
   return (
     <div>
-      <ul>
+      <ul className="movie">
         {movies.map((item) => {
 					return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
 				})}

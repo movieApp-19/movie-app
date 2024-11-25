@@ -6,6 +6,7 @@ import "./search.css";
 import "../components/movieDetails.css"
 import "../components/backdrop.css"
 import "./page.css"
+import "../components/movieRow.css";
 
 const url = "http://localhost:8000";
 
@@ -68,7 +69,7 @@ function SearchUI() {
 	return (
 		<div>
 			<form>
-				<input
+				<input className="search"
 					type="text"
 					value={searchValue}
 					placeholder="Type movie name"
@@ -84,7 +85,7 @@ function SearchUI() {
 						}
 					}}
 				></input>
-				<label htmlFor="year">
+				<label className="filter" htmlFor="year">
 					Release year
 					<select
 						id="year"
@@ -93,9 +94,6 @@ function SearchUI() {
 						onChange={handleYear}
 					>
 						<option value="blank"></option>
-						<option value="1990s">1990s</option>
-						<option value="2000">2000s</option>
-						<option value="2010s">2010s</option>
 						<option value="custom">Type exact year</option>
 					</select>
 				</label>
@@ -111,7 +109,7 @@ function SearchUI() {
 					/>
 				)}
 
-				<label htmlFor="language">
+				<label className="filter" htmlFor="language">
 					Original language
 					<select
 						id="country"
@@ -129,7 +127,7 @@ function SearchUI() {
 					</select>
 				</label>
 
-				<label htmlFor="Sort by">
+				<label className="filter" htmlFor="Sort by">
 					Sort by
 					<select
 						id="sortBy"
@@ -146,6 +144,7 @@ function SearchUI() {
 			</form>
 			<MovieList movies={movies}/>
 			<ReactPaginate
+			className="page"
 				containerClassName="page"
 				breakLabel="..."
 				nextLabel=">"
