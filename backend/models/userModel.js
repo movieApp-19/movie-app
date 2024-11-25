@@ -5,6 +5,12 @@ const insertUser = async(username, email, hashedPassword) => {
          [username, email, hashedPassword]);
 }
 
+const deleteUser = async(email) => {
+	return await pool.query(
+		"delete from account where email=$1", [email]
+	)
+}
+
 const selectUserByEmail = async(email) => {
     return await pool.query('select * from account where email=$1', [email]);
 }
@@ -15,4 +21,4 @@ const selectUserByUsername = async (username) => {
         [username]);
 }
 
-export { insertUser, selectUserByEmail, selectUserByUsername };
+export { insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
