@@ -8,7 +8,7 @@ import Showtimes from './showtimes/Showtimes';
 import SearchUI from './movieSearch/searchUI';
 import UserProvider from './context/userProvider';
 import NotFound from './notFound/notFound.js';
-import RegisterUI, { AuthenticationMode } from './register/registerUI.js';
+import RegisterUI, { AuthMode } from './register/registerUI.js';
 import DeleteAccount from './deleteAccount/deleteAccount.js';
 import Navbar from './components/Navbar.js';
 import Home from './Home/home.js';
@@ -54,7 +54,17 @@ const router = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <RegisterUI authenticationMode={AuthenticationMode.Register} />
+        <RegisterUI mode={AuthMode.Register} />
+      </>
+    )
+  },
+
+  {
+    path: "/signin",
+    element: (
+      <>
+        <Navbar />
+        <RegisterUI mode={AuthMode.Login} />
       </>
     )
   },
