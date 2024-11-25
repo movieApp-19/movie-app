@@ -61,7 +61,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Favorites list
                     </NavLink>
@@ -69,7 +69,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Add here
                     </NavLink>
@@ -77,7 +77,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Add here
                     </NavLink>

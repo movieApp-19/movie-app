@@ -30,7 +30,7 @@ function SearchUI() {
 				language: language,
 			})
 			.then((response) => {
-				console.log(response.data);
+				//console.log(response.data);
 				if (response.data.results.length === 0){
 					handlePages()
 					throw new Error("Unable to load page");
@@ -91,7 +91,6 @@ function SearchUI() {
 					onChange={(e) => {
 						setSearchValue(e.target.value)
 						if (searchValue.length !== 0) {
-							// we set the page to be the first page so errors don't accure when changing pages
 							setPage(1);
 						}
 					}
@@ -108,7 +107,10 @@ function SearchUI() {
 						id="year"
 						name="year"
 						value={selectYear}
-						onChange={handleYear}
+						onChange={(e)=>{
+							setPage(1)
+							handleYear(e)
+						}}
 					>
 						<option value="blank"></option>
 						<option value="custom">Type exact year</option>
@@ -122,7 +124,10 @@ function SearchUI() {
 						id="customYear"
 						placeholder="Enter year"
 						value={customYear}
-						onChange={handleCustomYear}
+						onChange={(e) => {
+							setPage(1)
+							handleCustomYear(e)
+						}}
 					/>
 				)}
 
@@ -131,7 +136,10 @@ function SearchUI() {
 					<select
 						id="country"
 						name="country"
-						onChange={(e) => setLanguage(e.target.value)}
+						onChange={(e) => {
+								setPage(1)
+								setLanguage(e.target.value)
+						}}
 					>
 						<option value=""></option>
 						<option value="en">English</option>
@@ -149,7 +157,10 @@ function SearchUI() {
 					<select
 						id="sortBy"
 						name="sortBy"
-						onChange={(e) => setSortFilter(e.target.value)}
+						onChange={(e) => {
+							setPage(1)
+							setSortFilter(e.target.value)
+						}}
 					>
 						<option value="popularity.desc">Popularity High</option>
 						<option value="popularity.asc">Popularity Low</option>
@@ -170,7 +181,6 @@ function SearchUI() {
 			renderOnZeroPageCount={null}
 			forcePage={page - 1}
 			/>
-
 		</div>
 	);
 }
