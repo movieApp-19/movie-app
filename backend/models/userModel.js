@@ -21,4 +21,15 @@ const selectUserByUsername = async (username) => {
         [username]);
 }
 
-export { insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
+const selectUserFavourites = async (email) => {
+    return await pool.query(
+        `
+        select Favourite.Favourite_id, Favourite.Movie_id 
+        from Favourite
+        inner join Account on Account.Account_id=Favourite.Account_id
+        where Account.email=$1 
+        `, [email]
+    )
+}
+
+export { selectUserFavourites, insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
