@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { insertUser, selectUserByUsername } from "../models/userModel.js";
+import { insertUser, selectUserByUsername, deleteUser, selectUserByEmail } from "../models/userModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -46,4 +46,23 @@ const postLogin = async (req, res, next) => {
     }
 }
 
-export { postRegistration, postLogin };
+const deleteUserAccount = async (req, res, next) => {
+	try {
+		// check if email exists in request
+		if (!req.body.email || req.body.email.length === 0)
+			return next(new APIError("Invalid credentials for user", 400));
+		// check if email is in database
+		const userFromDb = await selectUserByEmail(req.body.email)
+		if (userFromDb.rowCount === 0)
+			return next(new APIError("Email doesn't exist in database", 400));
+		// deletes the user
+		const result = await deleteUser(req.body.email)
+		if (result.rowCount === 0)
+			return next(new APIError("User could not be deleted, database error", 400));
+		return res.status(201).json({ message: "User successfully deleted"});
+	} catch (error) {
+		return next(error)
+	}
+} 
+
+export { postRegistration, postLogin, deleteUserAccount };

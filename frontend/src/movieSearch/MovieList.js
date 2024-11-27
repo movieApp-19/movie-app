@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MovieDetails from "./MovieDetails";
 import MovieRow from "./MovieRow";
-import Backdrop from "./Backdrop";
+import Backdrop from "../components/Backdrop";
 
 
 

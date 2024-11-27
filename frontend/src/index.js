@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import Showtimes from './showtimes/Showtimes';
-import SearchUI from './screens/searchUI';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
+//import App from './App';
+import './App.css';
+import Showtimes from './showtimes/Showtimes';
+import SearchUI from './movieSearch/searchUI';
 import UserProvider from './context/userProvider';
-import NotFound from './screens/notFound';
-import RegisterUI, { AuthMode } from './screens/registerUI';
-import DeleteAccount from './Home/deleteAccount';
-import Navbar from './Home/Navbar';
-import Home from './Home/home';
+import NotFound from './notFound/notFound.js';
+import RegisterUI, { AuthMode } from './register/registerUI.js';
+import DeleteAccount from './deleteAccount/deleteAccount.js';
+import Navbar from './components/Navbar.js';
+import Home from './Home/home.js';
 
 const router = createBrowserRouter([
 

@@ -5,14 +5,21 @@ import { useUser } from "../context/useUser.js";
 import './Navbar.css';
 
 export default function Navbar() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);      // Sidebar
+    const [isOpen, setIsOpen] = useState(false);            // Hamburger menu
     const sidebarRef = useRef(null);
     const avatarRef = useRef(null);
     const { signOut, isSignedIn } = useUser();
 
     const toggleSidebar = () => {
+        console.log("avatar clicked! ")
+        console.log("isSidebar: ", isSidebarOpen)
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const toggleHamburgerMenu = () => {
+        setIsOpen(!isOpen);
+    }
 
     const handleClickOutside = (event) => {
         if (
@@ -33,7 +40,11 @@ export default function Navbar() {
 
     return (
         <div className="navbar-container">
-            <ul className="nav nav-tabs">
+            <div className="hamburgerMenu" onClick={toggleHamburgerMenu}>
+                ☰
+            </div>
+
+            <ul className={`nav nav-tabs ${isOpen ? 'nav-open' : ''}`}>
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -61,7 +72,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Favorites list
                     </NavLink>
@@ -69,7 +80,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Add here
                     </NavLink>
@@ -77,7 +88,7 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="#"
+                        to="/*"
                     >
                         Add here
                     </NavLink>

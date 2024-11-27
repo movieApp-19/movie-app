@@ -1,4 +1,5 @@
 import React from "react";
+import "./movieRow.css"
 
 
 function MovieRow({ item, moreInfo }) {
