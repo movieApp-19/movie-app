@@ -104,6 +104,8 @@ insert into Favourite (Movie_id, Account_id) values
 
 /*
 select * from account;
+select * from favourite;
+select * from favourite where account_id = 1;
 select * from fangroupmember;
 select * from fangroupmember where fangroup_id = 1 and approved = true;
 select * from fangroupmember where fangroup_id = 1;

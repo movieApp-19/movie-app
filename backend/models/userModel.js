@@ -2,7 +2,7 @@ import { pool } from "../helpers/db.js";
 
 const insertUser = async(username, email, hashedPassword) => {
     return await pool.query('insert into account (username, email, password) values ($1, $2, $3) returning *',
-         [username, email, hashedPassword]);
+        [username, email, hashedPassword]);
 }
 
 const deleteUser = async(email) => {
@@ -21,15 +21,56 @@ const selectUserByUsername = async (username) => {
         [username]);
 }
 
-const selectUserFavourites = async (email) => {
+// favourites
+const selectUserFavourites = async (username) => {
     return await pool.query(
         `
         select Favourite.Favourite_id, Favourite.Movie_id 
         from Favourite
         inner join Account on Account.Account_id=Favourite.Account_id
-        where Account.email=$1 
-        `, [email]
+        where Account.Username=$1 
+        `, [username]
     )
 }
 
-export { selectUserFavourites, insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
+const removeFromFavourite = async (email, movieid) => {
+    const accountID = await pool.query(
+        `
+        select Account_id
+        from Account
+        where Email=$1
+        `, [email]
+    )
+
+    const trimmedAccountID = accountID.rows[0].account_id;
+
+    return await pool.query(
+        `
+        delete from Favourite
+        where Account_id=$1 and Movie_id=$2
+        returning *
+        `, [trimmedAccountID, movieid]
+    )
+}
+
+const insertFavourite = async (email, movieid) => {
+    const accountID = await pool.query(
+        `
+        select Account_id
+        from Account
+        where Email=$1
+        `, [email]
+    )
+
+    const trimmedAccountID = accountID.rows[0].account_id;
+
+    return await pool.query(
+        `
+        insert into Favourite (Movie_id, Account_id)
+        values ($1, $2)
+        returning *;
+        `, [movieid, trimmedAccountID]
+    )
+}
+
+export { removeFromFavourite, insertFavourite, selectUserFavourites, insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
