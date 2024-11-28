@@ -5,7 +5,7 @@ import { getShowtimes } from './api';
 const formatStartTime = (s) => {
   const t = new Date(s);
   const m = t.getMinutes();
-  return `${t.getHours()}:${m == "0" ? "00" : m}`;
+  return `${t.getHours()}:${m === 0 ? "00" : m}`;
 }
 
 const formatRuntime = (s) => {
