@@ -34,8 +34,6 @@
   background-color: #555;
 }
 
-
-
 .nav-right {
   margin-left: auto;
   cursor: pointer;
@@ -66,7 +64,6 @@
   color: #ffcc00;
 }
 
-/* Hampurilaismenu-ikoni */
 .hamburgerMenu {
 display: none; /* Oletuksena piilotetaan */
 font-size: 24px;
@@ -78,7 +75,7 @@ margin-right: 600px !important;
 /* Hampurilaismenu pienille näytöille */
 @media (max-width: 700px) {
 .hamburgerMenu {
-    display: inline-block; /* Näytetään hampurilaismenu-ikoni */
+    display: inline-block;
 }
 
 .nav-item nav-right{

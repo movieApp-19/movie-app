@@ -6,8 +6,10 @@
 	text-align: center;
 	width: 30rem;
 	z-index: 10;
-	background-color: rgb(238, 10, 10);
+	background-color: rgb(37, 36, 36);
 	max-width: 50%;
+	height: 75vh;
+
 }
 
 #movie-container {
