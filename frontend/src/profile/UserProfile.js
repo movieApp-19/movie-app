@@ -15,7 +15,7 @@ function UserProfile(){
 
 	const getFavourites = () => {
     axios
-			.get(url + `/user/${user.username}/user-favourites`)
+			.get(url + `/favourite/${user.username}`)
 			.then((response) => {
 				//console.log(response.data);
         const moviesDataShort = response.data.map((element) => {

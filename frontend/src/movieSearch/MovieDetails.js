@@ -28,7 +28,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
   // we first try to remove the movie from our database
   const handleFavourite = () => {
     axios
-      .post(url + "/user/remove-from-user-favourites", {
+      .post(url + "/favourite/remove-from-user-favourites", {
         movieid: movieid,
         email: user.email
       })
@@ -36,7 +36,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
         // if we try to remove a movie that isn't in our favourites (result will be '[]') we will add the movie to our database
         if (response.data.length === 0){
           axios
-            .post(url + "/user/add-to-user-favourites", {
+            .post(url + "/favourite/add-to-user-favourites", {
               movieid: movieid,
               email: user.email,
               movieTitle: dataa.title
@@ -49,6 +49,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
             })
         } else {
           alert("Removed from favourites")
+          // callback function to UserProfile. Updates the list.
           if (getFavourites){
             getFavourites()
           }
