@@ -52,6 +52,7 @@ create table Favourite(
   Favourite_id serial primary key,
   Movie_id INT not null,
   Account_id INT not null,
+  MovieTitle VARCHAR(300) not null,
 
   constraint fk_Account
     foreign key(Account_id)

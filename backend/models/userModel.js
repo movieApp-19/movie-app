@@ -25,7 +25,7 @@ const selectUserByUsername = async (username) => {
 const selectUserFavourites = async (username) => {
     return await pool.query(
         `
-        select Favourite.Favourite_id, Favourite.Movie_id 
+        select Favourite.Favourite_id, Favourite.Movie_id , Favourite.MovieTitle
         from Favourite
         inner join Account on Account.Account_id=Favourite.Account_id
         where Account.Username=$1 
@@ -53,7 +53,7 @@ const removeFromFavourite = async (email, movieid) => {
     )
 }
 
-const insertFavourite = async (email, movieid) => {
+const insertFavourite = async (email, movieid, movieTitle) => {
     const accountID = await pool.query(
         `
         select Account_id
@@ -66,10 +66,10 @@ const insertFavourite = async (email, movieid) => {
 
     return await pool.query(
         `
-        insert into Favourite (Movie_id, Account_id)
-        values ($1, $2)
+        insert into Favourite (Movie_id, Account_id, MovieTitle)
+        values ($1, $2, $3)
         returning *;
-        `, [movieid, trimmedAccountID]
+        `, [movieid, trimmedAccountID, movieTitle]
     )
 }
 

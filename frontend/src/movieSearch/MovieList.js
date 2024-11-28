@@ -3,7 +3,7 @@ import MovieDetails from "./MovieDetails";
 import MovieRow from "./MovieRow";
 import Backdrop from "../components/Backdrop";
 
-function MovieList({movies}) {
+function MovieList({movies, getFavourites}) {
   const [detailsIsOpen, setDetailsIsOpen] = useState(false)
   const [movieid, setMovieid] = useState()
 
@@ -23,7 +23,7 @@ function MovieList({movies}) {
 					return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
 				})}
       </ul>
-      { detailsIsOpen ? <MovieDetails movieid={movieid} closeInfo={closeInfo}/> : null}
+      { detailsIsOpen ? <MovieDetails movieid={movieid} closeInfo={closeInfo} getFavourites={getFavourites}/> : null}
       { detailsIsOpen ? <Backdrop closeInfo={closeInfo}/> : null}
     </div>
   )

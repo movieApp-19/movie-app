@@ -54,7 +54,7 @@ const deleteUserAccount = async (req, res, next) => {
 		// check if email is in database
 		const userFromDb = await selectUserByEmail(req.body.email)
 		if (userFromDb.rowCount === 0)
-			return next(new APIError("This email is not in database", 400));
+			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 400));
 		// deletes the user
 		await deleteUser(req.body.email)
 		return res.status(201).json({ message: "User successfully deleted"});
@@ -78,13 +78,12 @@ const addUserFavourite = async(req,res,next) => {
     try {
         if (!req.body.email || req.body.email.length === 0)
             return next(new APIError(errors.INVALID_EMAIL, 400))
-        if (!req.body.movieid || req.body.email.movieid === 0)
-            return next(new APIError("Invalid movie id", 400))
+        if (!req.body.movieid || req.body.movieid.length === 0)
+            return next(new APIError(errors.INVALID_MOVIEID, 400))
         const userFromDb = await selectUserByEmail(req.body.email)
 		if (userFromDb.rowCount === 0)
-			return next(new APIError("This email is not in database", 400));
-        const result = await insertFavourite(req.body.email, req.body.movieid)
-        console.log(result.rows)
+			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 400));
+        const result = await insertFavourite(req.body.email, req.body.movieid, req.body.movieTitle)
         return res.status(200).json(result.rows);
     } catch (error) {
         return next(error)
@@ -95,13 +94,12 @@ const removeFromUserFavourite = async(req,res,next) => {
     try {
         if (!req.body.email || req.body.email.length === 0)
             return next(new APIError(errors.INVALID_EMAIL, 400))
-        if (!req.body.movieid || req.body.email.movieid === 0)
-            return next(new APIError("Invalid movie id", 400))
+        if (!req.body.movieid || req.body.movieid.length === 0)
+            return next(new APIError(errors.INVALID_MOVIEID, 400))
         const userFromDb = await selectUserByEmail(req.body.email)
 		if (userFromDb.rowCount === 0)
-			return next(new APIError("This email is not in database", 400));
+			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 400));
         const result = await removeFromFavourite(req.body.email, req.body.movieid)
-        console.log(result.rows)
         return res.status(200).json(result.rows);
     } catch (error) {
         return next(error)

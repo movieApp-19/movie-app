@@ -4,7 +4,7 @@ import { useUser } from "../context/useUser";
 
 const url = process.env.REACT_APP_API_URL;
 
-function MovieDetails({movieid, closeInfo}){
+function MovieDetails({movieid, closeInfo, getFavourites}){
   const { user, isSignedIn } = useUser();
   const [dataa, setDataa] = useState(null)
 
@@ -25,6 +25,7 @@ function MovieDetails({movieid, closeInfo}){
       .catch((error) => console.log(error));
   }
 
+  // we first try to remove the movie from our database
   const handleFavourite = () => {
     axios
       .post(url + "/user/remove-from-user-favourites", {
@@ -32,13 +33,13 @@ function MovieDetails({movieid, closeInfo}){
         email: user.email
       })
       .then((response) => {
-        // if we try to remove a movie that isn't in our favourites result will be '[]'
+        // if we try to remove a movie that isn't in our favourites (result will be '[]') we will add the movie to our database
         if (response.data.length === 0){
-          //console.log("Not in favourites")
           axios
             .post(url + "/user/add-to-user-favourites", {
               movieid: movieid,
-              email: user.email
+              email: user.email,
+              movieTitle: dataa.title
             })
             .then((addresponse) => {
               //console.log(addresponse)
@@ -48,6 +49,9 @@ function MovieDetails({movieid, closeInfo}){
             })
         } else {
           alert("Removed from favourites")
+          if (getFavourites){
+            getFavourites()
+          }
         }
       })
       .catch((error) => console.log(error))
@@ -65,7 +69,7 @@ function MovieDetails({movieid, closeInfo}){
         ?
         <button onClick={handleFavourite}>Add to favourites</button>
         : 
-        <none/>
+        null
         }
         <section>
           <h2>{dataa.title}</h2> 
