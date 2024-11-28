@@ -15,11 +15,18 @@ const createUserObject = (id, username, email, token=undefined) => {
     }
 }
 
+const validatePassword = (password) => {
+    if (password.length < 8 || !/[A-Z]+/.test(password) || !/[0-9]+/.test(password))
+        return false;
+
+    return true;
+}
+
 const postRegistration = async(req, res, next) => {
     try{
         if (!req.body.email || req.body.email.length < 6)
             return next(new APIError(errors.INVALID_EMAIL, 400));
-        if (!req.body.password || req.body.password.length < 8)
+        if (!req.body.password || !validatePassword(req.body.password))
             return next(new APIError(errors.INVALID_PASSWORD, 400));
         if (!req.body.username || req.body.username.length === 0)
             return next(new APIError(errors.INVALID_USERNAME, 400));
