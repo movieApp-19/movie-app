@@ -1,7 +1,3 @@
-
-import { expect } from "chai";
-import { initializeTestDb } from "../helper/test.js";
-
 describe("DELETE user", () => {
 	// initializes db.sql
 	before(() => {
