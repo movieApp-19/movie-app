@@ -27,4 +27,8 @@ app.use((err, req, res, next) => {
 	res.status(statusCode).json({ error: err.message });
 });
 
-app.listen(port);
+if (process.env.NODE_ENV === "development"){
+	app.listen(port);
+}
+
+export default app
