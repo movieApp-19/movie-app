@@ -1,8 +1,4 @@
 describe("DELETE user", () => {
-	// initializes db.sql
-	before(() => {
-		initializeTestDb();
-	});
 
 	const email = `user6@mail.com`;
 	const password = "Password6";

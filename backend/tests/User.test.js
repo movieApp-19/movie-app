@@ -4,7 +4,7 @@ import request from "supertest"
 import app from "../index.js"
 import { pool }  from "../helpers/db.js"
 
-// We run the db.sql file everytime we use test. This resets the test database.
+// We run the db.sql file everytime we use test. This clears the test database.
 const initializeTestDb = () => {
 	const sql = fs.readFileSync(path.resolve(__dirname, "../db.sql"), "utf8");
 	pool.query(sql);
@@ -20,9 +20,6 @@ describe('Auth API', () => {
         initializeTestDb()
     });
 
-    // Siivoa tietokanta ennen testejä
-    await pool.query('DELETE FROM account WHERE email LIKE $1', ['testuser%']);
-
     // Rekisteröi käyttäjä kirjautumistestiä varten
     await request(server)
         .post('/user/register')
@@ -31,7 +28,6 @@ describe('Auth API', () => {
 
   // Sulje palvelin ja tietokantayhteys testien jälkeen
   afterAll(async () => {
-      await pool.query('DELETE FROM account WHERE email LIKE $1', ['testuser%']);
       await pool.end();
       server.close();
   });
@@ -43,7 +39,7 @@ describe('Auth API', () => {
             .send({ username: "testuser", password: "Password123" });
 
         expect(response.statusCode).toBe(200);
-        //user.account_id, user.username, user.email, token
+        //console.log(response.body)
         expect(response.body.id).toBe(1);
         expect(response.body.username).toBe("testuser");
         expect(response.body.email).toBe("testuser@mail.com");
@@ -51,14 +47,13 @@ describe('Auth API', () => {
         token = response.body.token;
     });
 
-    it("Should be fail. Error should be INVALID_CREDENTIALS", async () => {
+    it("Should fail. Error should be INVALID_CREDENTIALS", async () => {
         const response = await request(server)
             .post("/user/login")
             .send({ username: "testuser", password: "WRONGPASSWORD!" });
 
         expect(response.statusCode).toBe(401);
         expect(response.body.error).toBe("Invalid credentials");
-
     });
   })
 })
