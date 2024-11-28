@@ -5,7 +5,7 @@ import Backdrop from "../components/Backdrop";
 import MovieReview from "./MovieReview.js";
 import { useUser } from "../context/useUser.js";
 
-function MovieList({movies}) {
+function MovieList({movies, getFavourites}) {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false)
     const [movieid, setMovieid] = useState()
     const { isSignedIn } = useUser();
@@ -27,7 +27,7 @@ function MovieList({movies}) {
 				})}
             </ul>
             { detailsIsOpen ? <div id="movie-container">
-                <MovieDetails movieid={movieid} closeInfo={closeInfo}/>
+                <MovieDetails movieid={movieid} closeInfo={closeInfo} getFavourites={getFavourites}/>
                 { isSignedIn() ? <MovieReview movieId={movieid}/> : null }
             </div>: null}
             { detailsIsOpen ? <Backdrop closeInfo={closeInfo}/> : null}

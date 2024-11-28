@@ -53,6 +53,7 @@ create table Favourite(
   Favourite_id serial primary key,
   Movie_id INT not null,
   Account_id INT not null,
+  MovieTitle VARCHAR(300) not null,
 
   constraint fk_Account
     foreign key(Account_id)
@@ -105,6 +106,8 @@ insert into Favourite (Movie_id, Account_id) values
 
 /*
 select * from account;
+select * from favourite;
+select * from favourite where account_id = 1;
 select * from fangroupmember;
 select * from fangroupmember where fangroup_id = 1 and approved = true;
 select * from fangroupmember where fangroup_id = 1;

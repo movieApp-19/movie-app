@@ -61,17 +61,9 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="/*"
+                        to="/profile"
                     >
-                        Favorites list
-                    </NavLink>
-                </li>
-                <li className="nav-item">
-                    <NavLink
-                        className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="/*"
-                    >
-                        Add here
+                        Profile
                     </NavLink>
                 </li>
                 <li className="nav-item">
