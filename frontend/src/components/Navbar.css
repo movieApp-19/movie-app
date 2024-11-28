@@ -1,10 +1,15 @@
 .nav {
   display: flex;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  max-height: 10vh;
   justify-content: space-between;
   align-items: center;
   background-color: #333;
-  padding: 10px;
+  padding: 5px;
+  border-radius: 1vh;
   border-bottom: 2px solid #444;
+  margin-top: 5vh;
 }
 
 .nav-item {

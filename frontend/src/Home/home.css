@@ -2,7 +2,11 @@
 .home-container {
   text-align: center;
   padding: 20px;
+  margin-top: 2vh;
+  margin-right: 2vh;
+  margin-left: 2vh;
   background-color: #f4f4f4;
+  border-radius: 1vh;
 }
 
 .home-header {
