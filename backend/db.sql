@@ -38,10 +38,11 @@ create table FangroupMember(
 
 create table Review(
   Review_id serial primary key,
-  ReviewText VARCHAR(500) not null,
-  ReviewDate DATE not null default current_date,
+  Text VARCHAR(500) not null,
+  Date TIMESTAMP not null default current_timestamp,
   Movie_id INT not null,
   Account_id INT not null,
+  Stars INT not null,
 
   constraint fk_Account
     foreign key(Account_id)
