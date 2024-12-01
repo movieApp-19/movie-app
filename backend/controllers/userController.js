@@ -61,7 +61,7 @@ const deleteUserAccount = async (req, res, next) => {
 		// check if email is in database
 		const userFromDb = await selectUserByEmail(req.body.email)
 		if (userFromDb.rowCount === 0)
-			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 400));
+			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 404));
 		// deletes the user
 		await deleteUser(req.body.email)
 		return res.status(201).json({ message: "User successfully deleted"});
