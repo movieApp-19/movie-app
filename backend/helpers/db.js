@@ -17,11 +17,5 @@ const pool = (() => {
     });
 })();
 
-pool.query("select now()", (err, res) => {
-    if (err)
-        console.error("Database connection failed:", err);
-    else
-        console.log("Database connection succeeded:", res.rows);
-});
 
 export { pool };

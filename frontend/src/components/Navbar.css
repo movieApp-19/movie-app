@@ -23,6 +23,7 @@
   font-weight: bold;
   background-color: transparent;
   padding: 8px 15px;
+  
 }
 
 .nav-link.active {
@@ -83,7 +84,7 @@ margin-right: 600px !important;
 }
 
 .nav {
-    display: none; /* Piilotetaan navigaatio oletuksena */
+    display: none; 
     flex-direction: column;
     align-items: flex-start;
     background-color: #333;

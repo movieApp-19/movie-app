@@ -1,6 +1,6 @@
-/* Elokuvien listaus (alustava ul/li-muotoilu) */
+
 ul {
-    list-style: none; /* Poistaa listapisteet */
+    list-style: none; 
     margin: 0;
     padding: 0;
   }
