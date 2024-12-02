@@ -1,4 +1,4 @@
-import { insertReview } from "../models/reviewModel.js"
+import { insertReview, browseReview } from "../models/reviewModel.js"
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -22,4 +22,22 @@ const postReview = async (req, res, next) => {
     }
 }
 
-export { postReview }
+const browseReviewController = async(req, res, next) => {
+    const {id} = req.query;
+
+    try{
+        if (!id)
+            return next(new APIError(errors.INVALID_PARAMETERS, 400));
+
+        const result = await browseReview(id);
+        if (result.rows.length === 0)
+            return res.status(404).json({message: "No reviews yet."});
+
+        return res.status(200).json({reviews: result.rows })
+
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export { postReview, browseReviewController }

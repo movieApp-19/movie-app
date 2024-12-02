@@ -28,7 +28,7 @@ function MovieList({movies, getFavourites}) {
             </ul>
             { detailsIsOpen ? <div id="movie-container">
                 <MovieDetails movieid={movieid} closeInfo={closeInfo} getFavourites={getFavourites}/>
-                { isSignedIn() ? <MovieReview movieId={movieid}/> : null }
+                <MovieReview movieId={movieid}/> 
             </div>: null}
             { detailsIsOpen ? <Backdrop closeInfo={closeInfo}/> : null}
         </div>

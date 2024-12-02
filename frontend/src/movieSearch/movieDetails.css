@@ -1,14 +1,20 @@
 .details {
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	border-radius: 6px;
-	background-color: rgb(238, 10, 10);
+	background-color: rgb(49, 49, 49);
+	padding: 1rem;
+	text-align: center;
+	width: 30rem;
+	z-index: 10;
 	max-width: 50%;
+	height: 32rem;
+
 }
 
 #movie-container {
 	position: fixed;
 	border-radius: 12px;
-	top: 20vh;
+	top: 10vh;
 	z-index: 10;
 	background-color: rebeccapurple;
 	display: flex;

@@ -74,7 +74,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
         }
         <section>
           <h2>{dataa.title}</h2> 
-          <div>
+          <div className="moreInfo">
             <h6>Release date: {dataa.release_date.length !== 0 ? dataa.release_date : "Not available"}</h6>
             <h6>Rating: {dataa.vote_count !== 0 ? dataa.vote_average : "Not available"}</h6>
             <h6>Runtime: {dataa.runtime} minutes</h6>
