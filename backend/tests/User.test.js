@@ -55,6 +55,24 @@ describe('Auth API', () => {
         expect(response.statusCode).toBe(401);
         expect(response.body.error).toBe("Invalid credentials");
     });
+
+    it("Should fail. Missing username", async () => {
+        const response = await request(server)
+            .post("/user/login")
+            .send({ username: null, password: "Password123!" });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Invalid username");
+    });
+
+    it("Should fail. Missing password", async () => {
+        const response = await request(server)
+            .post("/user/login")
+            .send({ username: "testuser", password: null });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Invalid password");
+    });
   })
 
   describe("DELETE /user/delete-account", () => {
