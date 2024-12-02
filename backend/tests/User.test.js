@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import request from "supertest"
 import app from "../index.js"
-import { pool }  from "../helpers/db.js"
+import { pool } from "../helpers/db.js"
 
 // We run the db.sql file everytime we use test. This clears the test database.
 const initializeTestDb = () => {
@@ -11,13 +11,19 @@ const initializeTestDb = () => {
 };
 
 describe('Auth API', () => {
-  let server;
-  let token;
+    let server;
+    let token;
 
-  beforeAll(async () => {
-    server = app.listen(4000, () => {
-        console.log('Test server is running on http://localhost:4000');
-        initializeTestDb()
+    beforeAll(async () => {
+        server = app.listen(4000, () => {
+            // console.log('Test server is running on http://localhost:4000');
+            initializeTestDb()
+        });
+
+        // Rekisteröi käyttäjä kirjautumistestiä varten
+        await request(server)
+            .post('/user/register')
+            .send({ username: "testuser", email: 'testuser@mail.com', password: 'Password123' });
     });
 
     // Rekisteröi käyttäjä kirjautumistestiä varten
@@ -46,10 +52,11 @@ describe('Auth API', () => {
         token = response.body.token;
     });
 
-    it("Should fail. Error should be INVALID_CREDENTIALS", async () => {
-        const response = await request(server)
-            .post("/user/login")
-            .send({ username: "testuser", password: "WRONGPASSWORD!" });
+    describe("POST /user/login", () => {
+        it("Should be succesful. Returns token", async () => {
+            const response = await request(server)
+                .post("/user/login")
+                .send({ username: "testuser", password: "Password123" });
 
         expect(response.statusCode).toBe(401);
         expect(response.body.error).toBe("Invalid credentials");

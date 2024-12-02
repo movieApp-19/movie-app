@@ -26,7 +26,10 @@ app.use("/fangroups", fanPageRouter);
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
-	console.log("Middleware StatusCode:", statusCode, "Error:", err.message); // Log for debugging
+
+	if (process.env.NODE_ENV === "development")
+		console.log("Middleware StatusCode:", statusCode, "Error:", err.message);
+	
 	res.status(statusCode).json({ error: err.message });
 });
 
