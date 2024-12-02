@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import request from "supertest"
+import jwt from "jsonwebtoken";
 import app from "../index.js"
 import { pool } from "../helpers/db.js"
 

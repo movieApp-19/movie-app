@@ -50,7 +50,7 @@ const postLogin = async (req, res, next) => {
         if (!await compare(req.body.password, user.password))
             return next(new APIError(errors.INVALID_CREDENTIALS, 401));
 
-        const token = sign(username, process.env.JWT_SECRET_KEY);
+        const token = sign({ username: username }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
         await insertSession(username, token);
 
         return res.status(200).json(createUserObject(user.account_id, user.username, user.email, token));
