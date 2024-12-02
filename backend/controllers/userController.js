@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { insertUser, selectUserByUsername, deleteUser, selectUserByEmail } from "../models/userModel.js";
+import { insertUser, selectUserByUsername, deleteUser, selectUserByEmail, insertSession, deleteSession } from "../models/userModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -50,7 +50,9 @@ const postLogin = async (req, res, next) => {
         if (!await compare(req.body.password, user.password))
             return next(new APIError(errors.INVALID_CREDENTIALS, 401));
 
-        const token = sign(req.body.username, process.env.JWT_SECRET_KEY);
+        const token = sign(username, process.env.JWT_SECRET_KEY);
+        await insertSession(username, token);
+
         return res.status(200).json(createUserObject(user.account_id, user.username, user.email, token));
     } catch (err) {
         return next(err);
@@ -72,6 +74,15 @@ const deleteUserAccount = async (req, res, next) => {
 	} catch (error) {
 		return next(error)
 	}
-} 
+}
 
-export { postRegistration, postLogin, deleteUserAccount };
+const postLogout = async (req, res, next) => {
+    try {
+        await deleteSession(req.headers.authorization)
+        return res.status(200).json({ message: "User successfully logged out" });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export { postRegistration, postLogin, deleteUserAccount, postLogout };

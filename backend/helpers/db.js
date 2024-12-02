@@ -20,5 +20,4 @@ const pool = (() => {
     });
 })();
 
-
 export { pool };
