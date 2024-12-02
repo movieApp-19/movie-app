@@ -58,6 +58,8 @@ create table Favourite(
   constraint fk_Account
     foreign key(Account_id)
     references Account(Account_id)
+    on delete cascade
+
 );
 
 /* ----- Data to the tables ----- */
