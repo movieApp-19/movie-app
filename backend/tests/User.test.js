@@ -44,7 +44,6 @@ describe('Auth API', () => {
         expect(response.body.email).toBe("testuser@mail.com");
         expect(response.body.token).toBeDefined(); // Tallenna token suojattuja reittejä varten
         token = response.body.token;
-        console.log(token)
     });
 
     it("Should fail. Error should be INVALID_CREDENTIALS", async () => {
