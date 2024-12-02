@@ -21,4 +21,31 @@ const selectUserByUsername = async (username) => {
         [username]);
 }
 
-export { insertUser, selectUserByEmail, selectUserByUsername, deleteUser };
+const selectSession = async (token) => {
+    return await pool.query(
+        "select * from session where token=$1",
+        [token]);
+}
+
+const insertSession = async (username, token) => {
+    return await pool.query(
+        `insert into session(account_id, token)
+         select account_id, $1 from account where username=$2`,
+        [token, username]);
+}
+
+const deleteSession = async (token) => {
+    return await pool.query(
+        "delete from session where token=$1",
+        [token]);
+}
+
+export {
+    insertUser,
+    selectUserByEmail,
+    selectUserByUsername,
+    deleteUser,
+    selectSession,
+    insertSession,
+    deleteSession,
+};
