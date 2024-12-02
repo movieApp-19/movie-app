@@ -4,6 +4,10 @@ import request from "supertest"
 import app from "../index.js"
 import { pool } from "../helpers/db.js"
 
+const USERNAME = "testuser";
+const EMAIL = "testuser@mail.com";
+const PASSWORD = "Password123";
+
 // We run the db.sql file everytime we use test. This clears the test database.
 const initializeTestDb = () => {
 	const sql = fs.readFileSync(path.resolve(__dirname, "../db.sql"), "utf8");
@@ -23,7 +27,7 @@ describe('Auth API', () => {
         // Rekisteröi käyttäjä kirjautumistestiä varten
         await request(server)
             .post('/user/register')
-            .send({ username: "testuser", email: 'testuser@mail.com', password: 'Password123' });
+            .send({ username: USERNAME, email: EMAIL, password: PASSWORD });
     });
 
     // Rekisteröi käyttäjä kirjautumistestiä varten
@@ -56,7 +60,7 @@ describe('Auth API', () => {
         it("Should be succesful. Returns token", async () => {
             const response = await request(server)
                 .post("/user/login")
-                .send({ username: "testuser", password: "Password123" });
+                .send({ username: USERNAME, password: PASSWORD });
 
         expect(response.statusCode).toBe(401);
         expect(response.body.error).toBe("Invalid credentials");
