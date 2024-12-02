@@ -32,7 +32,7 @@ export default function RegisterUI({ mode }){
     return (
         <div>
             <h3>{mode === AuthMode.Login ? 'Sign in' : 'Sign up'}</h3>
-            <form onSubmit= {handleSubmit}>
+            <form className="userForm" onSubmit= {handleSubmit}>
                 <div>
                     <label>Username</label>
                     <input

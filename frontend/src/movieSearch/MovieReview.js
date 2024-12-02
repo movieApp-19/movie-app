@@ -15,7 +15,7 @@ const formatDate = (dateString) => {
 };
 
 export default function MovieReview({ movieId }) {
-    const { user } = useUser();
+    const { user, isSignedIn } = useUser();
     const [stars, setStars] = useState(0);
     const [text, setText] = useState("");
 
@@ -44,16 +44,16 @@ export default function MovieReview({ movieId }) {
             console.error("Error fetching reviews:", error.response?.data || error.message);
         });
     }, [movieId]);
+    
 
     useEffect(() => {
-        browseReviews(); 
+        browseReviews();
+          console.log("User context:", user);
+         console.log("movieId:", movieId);
+        console.log("MovieReview component rendered");
     }, [movieId, browseReviews]);
 
     const submitReview = () => {
-        if (!movieId || !user?.token || stars === 0) {
-            console.error("Cannot submit review: movieId, user token, or stars are missing.");
-            return;
-        }
 
         axios.post(URL + "/review/create", {
             id: movieId,
@@ -85,7 +85,8 @@ export default function MovieReview({ movieId }) {
     }
 
     return (
-        <div id="review-container">
+        <>
+        { isSignedIn() ?  <div id="review-container">
             <p>Leave a review:</p>
             <div id="stars-container">
                 {[...Array(5)].map((_, i) => (
@@ -105,7 +106,9 @@ export default function MovieReview({ movieId }) {
             />
             <input type="button" value="Submit" onClick={submitReview} />
 
-            <div id="other-reviews">
+        </div> : null }
+
+        <div id="other-reviews">
                 <h3>See other reviews:</h3>
                 {reviews.length > 0 ? (
                     reviews.map((review, index) => (
@@ -117,10 +120,10 @@ export default function MovieReview({ movieId }) {
                         </div>
                     ))
                 ) : (
-                    <p>No reviews yet.</p>
+                    <p className="no-reviews">No reviews yet.</p>
                 )}
             </div>
-        </div>
+        </>
     );
 }
 
