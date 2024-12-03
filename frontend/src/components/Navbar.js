@@ -97,8 +97,8 @@ export default function Navbar() {
                 <div className="sidebar" ref={sidebarRef}>
                     <nav className="nav flex-column">
                         {!isSignedIn() ? <>
-                            <a className="nav-link" href="signin">Login</a>
-                            <a className="nav-link" href="signup">Register</a>
+                            <a className="nav-link" href="/signin">Login</a>
+                            <a className="nav-link" href="/signup">Register</a>
                         </> : <>
                             <a className="nav-link" href="/" onClick={signOut}>Logout</a>
                             <a className="nav-link" href="/delete-account">Delete Account</a>

@@ -3,7 +3,8 @@ import axios from "axios";
 import { useUser } from "../context/useUser";
 import MovieList from "../movieSearch/MovieList.js";
 
-const url = process.env.REACT_APP_API_URL;
+const urlbackend = process.env.REACT_APP_API_URL;
+const url = process.env.REACT_APP_URL;
 
 function UserProfile(){
   const [movies, setMovies] = useState([]);
@@ -15,7 +16,7 @@ function UserProfile(){
 
 	const getFavourites = () => {
     axios
-			.get(url + `/favourite/${user.username}`)
+			.get(urlbackend + `/favourite/${user.username}`)
 			.then((response) => {
 				//console.log(response.data);
         const moviesDataShort = response.data.map((element) => {
@@ -26,10 +27,15 @@ function UserProfile(){
 			.catch((error) => console.log(error));
 	};
 
+ const shareLink = async () => {
+    await navigator.clipboard.writeText(url + `/favourites/${user.username}`)
+  }
+
   return(
     <div>
       <h1>Your Profile</h1>
-      <h2>Your favourites</h2>
+      <h2>Favourites</h2>
+      <button onClick={shareLink}>Copy Link</button>
 			<MovieList movies={movies} getFavourites={getFavourites}/>
     </div>
   )
