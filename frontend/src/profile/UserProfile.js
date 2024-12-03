@@ -12,7 +12,7 @@ function UserProfile(){
 
   useEffect(()=>{
     getFavourites()
-  })
+  }, [])
 
 	const getFavourites = () => {
     axios
