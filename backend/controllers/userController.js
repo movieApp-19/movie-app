@@ -42,6 +42,10 @@ const postRegistration = async(req, res, next) => {
 
 const postLogin = async (req, res, next) => {
     try {
+        if (!req.body.username || req.body.username.length === 0)
+            return next(new APIError(errors.INVALID_USERNAME, 400))
+        if (!req.body.password || req.body.password.length === 0)
+            return next(new APIError(errors.INVALID_PASSWORD, 400))
         const user = (await selectUserByUsername(req.body.username)).rows[0];
         if (!await compare(req.body.password, user.password))
             return next(new APIError(errors.INVALID_CREDENTIALS, 401));
@@ -61,7 +65,7 @@ const deleteUserAccount = async (req, res, next) => {
 		// check if email is in database
 		const userFromDb = await selectUserByEmail(req.body.email)
 		if (userFromDb.rowCount === 0)
-			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 400));
+			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 404));
 		// deletes the user
 		await deleteUser(req.body.email)
 		return res.status(201).json({ message: "User successfully deleted"});

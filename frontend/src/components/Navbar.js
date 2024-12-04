@@ -69,6 +69,8 @@ export default function Navbar() {
                         Search Movies
                     </NavLink>
                 </li>
+                {isSignedIn() 
+                ?
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -77,6 +79,9 @@ export default function Navbar() {
                         Profile
                     </NavLink>
                 </li>
+                : 
+                null
+                }
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
