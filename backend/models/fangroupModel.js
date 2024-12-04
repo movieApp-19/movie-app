@@ -47,17 +47,23 @@ const acceptJoinRequest = async(accountId, fangroupId) => {
   )
 }
 
+const rejectJoinRequest = async(accountId, fangroupId) => {
+  return await pool.query(
+  `
+  delete from FangroupMember
+  where Account_id = $1 and Fangroup_id = $2 and Approved = false
+  `, [accountId, fangroupId]
+  )
+}
 
-
-
-
+/*
 const addFangroupMember = async(approved, isOwner, accountId, fangroupId) => {
-  /*
+  
   Approved boolean default false,
   IsOwner boolean default false,
   Account_id INT not null,
   Fangroup_id int not null,
-  */
+  
   return await pool.query(
     `
     insert into FangroupMember (Approved, IsOwner, Account_id, Fangroup_id) 
@@ -65,5 +71,6 @@ const addFangroupMember = async(approved, isOwner, accountId, fangroupId) => {
     `, [approved, isOwner, accountId, fangroupId]
   )
 }
+*/
 
-export { listOfNotAcceptedMembers, askToJoin, acceptJoinRequest }
+export { listOfNotAcceptedMembers, askToJoin, acceptJoinRequest, rejectJoinRequest }
