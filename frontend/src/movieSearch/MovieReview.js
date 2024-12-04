@@ -113,7 +113,7 @@ export default function MovieReview({ movieId }) {
                 {reviews.length > 0 ? (
                     reviews.map((review, index) => (
                         <div key={index} className="review">
-                            <p className="username">{review.username}</p>
+                            <p className="username">{review.email}</p>
                             <StarRating stars={review.stars} />
                             <div className="date"><p>{review.date}</p></div>
                             <div className="comment"><p>{review.text}</p></div>

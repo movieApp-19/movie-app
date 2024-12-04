@@ -8,7 +8,7 @@ const insertReview = async (id, stars, text, user) => {
 
 const browseReview = async (id) => {
     return await pool.query(
-        `select review.stars, review.text, review.movie_id, review.date, account.username
+        `select review.stars, review.text, review.movie_id, review.date, account.email
          from review join account on review.account_id = account.account_id 
          where movie_id = $1 `,
          [id]

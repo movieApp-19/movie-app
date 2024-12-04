@@ -32,8 +32,10 @@ const browseReviewController = async(req, res, next) => {
         const result = await browseReview(id);
         if (result.rows.length === 0)
             return res.status(404).json({message: "No reviews yet."});
-
-        return res.status(200).json({reviews: result.rows })
+        
+        console.log("!!!!" + result.rows);
+        return res.status(200).json({reviews: result.rows})
+        
 
     } catch (error) {
         return next(error);
