@@ -37,17 +37,16 @@ const askToJoin = async(accountId, fangroupName) => {
   )
 }
 
-/*
-const acceptJoinRequest = async() => {
-  const fangroupId = await pool.query(
+const acceptJoinRequest = async(accountId, fangroupId) => {
+  return await pool.query(
   `
   update FangroupMember
   set Approved = true
-  where Account_id = , Fangroup_id
-  `
+  where Account_id = $1 and Fangroup_id = $2
+  `, [accountId, fangroupId]
   )
 }
-  */
+
 
 
 
@@ -67,4 +66,4 @@ const addFangroupMember = async(approved, isOwner, accountId, fangroupId) => {
   )
 }
 
-export { listOfNotAcceptedMembers, askToJoin }
+export { listOfNotAcceptedMembers, askToJoin, acceptJoinRequest }
