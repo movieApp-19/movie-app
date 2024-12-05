@@ -6,6 +6,7 @@ import { router as movieRouter } from "./routers/movieRouter.js";
 import { router as userRouter } from "./routers/userRouter.js";
 import { router as reviewRouter } from "./routers/reviewRouter.js";
 import { router as favouriteRouter } from "./routers/favouriteRouter.js"
+import { router as fanPageRouter } from "./routers/fanPageRouter.js"
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ app.use("/movie", movieRouter);
 app.use("/user", userRouter);
 app.use("/review", reviewRouter);
 app.use("/favourite", favouriteRouter)
+app.use("/fangroups", fanPageRouter);
+
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;

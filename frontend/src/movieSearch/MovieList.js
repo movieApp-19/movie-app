@@ -3,12 +3,10 @@ import MovieDetails from "./MovieDetails";
 import MovieRow from "./MovieRow";
 import Backdrop from "../components/Backdrop";
 import MovieReview from "./MovieReview.js";
-import { useUser } from "../context/useUser.js";
 
 function MovieList({movies, getFavourites}) {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false)
     const [movieid, setMovieid] = useState()
-    const { isSignedIn } = useUser();
 
     function moreInfo(id){
         setMovieid(id)
@@ -22,9 +20,15 @@ function MovieList({movies, getFavourites}) {
     return (
         <div>
             <ul>
-                {movies.map((item) => {
+                {
+                getFavourites && movies.length === 0 
+                ?
+                <h3>No favourites</h3>
+                :
+                movies.map((item) => {
 					return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
-				})}
+				})
+                }
             </ul>
             { detailsIsOpen ? <div id="movie-container">
                 <MovieDetails movieid={movieid} closeInfo={closeInfo} getFavourites={getFavourites}/>
