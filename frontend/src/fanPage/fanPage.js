@@ -62,7 +62,7 @@ const FanPage = () => {
   };
 
   return (
-    <div className="card">
+    <div id='fanPage' className="card">
       <div className="card-body">
       <h5 className="title">Fanpage</h5>
         <input 
@@ -72,11 +72,11 @@ const FanPage = () => {
           placeholder="New group name" 
           className="form-control mt-3" 
         />
-        <button className="btn btn-success mt-2" onClick={addGroup}>
+        <button id="btn"className="btn btn-success mt-2" onClick={addGroup}>
           Add Group
         </button>
       </div>
-        <button className="btn btn-primary" onClick={fetchGroups}>
+        <button id="btn2" className="btn btn-primary" onClick={fetchGroups}>
           Browse Public Groups
         </button>
         <div className="public-groups" style={{ marginTop: '20px' }}>
@@ -88,7 +88,7 @@ const FanPage = () => {
               {groups.map((group) => (
                 <li key={group.fangroup_id}>
                   {group.fangroupname} 
-                  <button onClick={() => deleteGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
+                  <button id='btn3' onClick={() => deleteGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
                     Delete
                   </button>
                 </li>

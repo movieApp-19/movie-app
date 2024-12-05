@@ -1,129 +1,40 @@
-#fanPage.card {
-  margin: 30px;
-  padding: 10px;
+#fanPage {
   max-width: 80%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  text-align: left;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
+  margin: 50px auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  align-items: center center;
 }
 
-.title {
-  text-align: center;
-  font-size: 3em;
-  padding-bottom: 20px;
-}
-
-.card-body {
+#fanPage .title {
+  font-size: 1.5em;
+  font-weight: bold;
   margin-bottom: 20px;
+  text-align: center;
+  color: #333;
 }
 
-input[type="text"] {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-button {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  max-width: 200px;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-.btn-primary {
+#btn, #btn2 {
   background-color: #007bff;
   color: white;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.public-groups {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.public-groups h6 {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.public-groups ul {
-  padding-left: 20px;
-  list-style-type: none;
-  width: 80%;
+  padding: 10px 20px;
+  max-width: 200px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
   margin: 0 auto;
 }
 
-.public-groups li {
-  margin: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
+#btn:hover, #btn2:hover {
+  background-color: #0056b3;
 }
 
-.public-groups li button {
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+#btn3 {
+  margin-left: 20px;
 }
 
-.public-groups li button:hover {
-  background-color: #c82333;
-}
 
-.error {
-  color: red;
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .card {
-      max-width: 100%;
-      margin: 10px;
-  }
-
-  .card-body {
-      padding: 15px;
-  }
-
-  button {
-      width: 100%;
-  }
-}
-
-.btn.btn-primary {
-  margin-left: 15px;
-}
