@@ -16,15 +16,7 @@ const listOfNotAcceptedMembers = async(fangroupName) => {
   )
 }
 
-const askToJoin = async(accountId, fangroupName) => {
-  const fangroupId = await pool.query(
-  `
-  select Fangroup_id from Fangroup where FangroupName = $1
-  `, [fangroupName]
-  )
-
-  const trimmedFangroupId = fangroupId.rows[0].fangroup_id;
-
+const askToJoin = async(accountId, fangroupId) => {
   return await pool.query(
     `
     insert into FangroupMember (Approved, IsOwner, Account_id, Fangroup_id) 
@@ -33,7 +25,7 @@ const askToJoin = async(accountId, fangroupName) => {
       (
         select Account_id, Fangroup_id from FangroupMember where Account_id=$3 and Fangroup_id=$4
       )
-    `, [false, false, accountId, trimmedFangroupId]
+    `, [false, false, accountId, fangroupId]
   )
 }
 

@@ -3,7 +3,7 @@ import { joinGroup, viewRequestList, acceptJoin, rejectJoin } from "../controlle
 
 const router = Router();
 
-router.post("/paskaa/:fangroupName", joinGroup)
+router.post("/requestJoin", joinGroup)
 router.get("/list/:fangroupName", viewRequestList)
 router.put("/acceptJoin", acceptJoin)
 router.delete("/recejectJoin", rejectJoin)
