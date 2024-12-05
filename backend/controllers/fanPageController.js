@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, removeFangroup } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, removeFangroup, listOfNotAcceptedMembers, askToJoin, acceptJoinRequest, rejectJoinRequest } from "../models/fanPageModel.js";
 
 const getAllFangroups = async (req, res, next) => {
   try {
@@ -35,4 +35,56 @@ const deleteFangroup = async (req, res, next) => {
   }
 };
 
-export { getAllFangroups, addFangroup, deleteFangroup };
+//antti 
+
+const joinGroup = async(req,res,next) => {
+  // accountId, fangroupName
+  try {
+      //if (!req.params.username || req.params.username === 0)
+      //    return next(new Error)
+      const result = await askToJoin(req.body.accountId, req.body.fangroupId)
+      return res.status(200).json(result.rows);
+  } catch (error) {
+      return next(error)
+  }
+}
+
+const viewRequestList = async(req,res,next) => {
+  // accountId, fangroupName
+  try {
+      //if (!req.params.username || req.params.username === 0)
+      //    return next(new Error)
+      const result = await listOfNotAcceptedMembers(req.params.fangroupName)
+      return res.status(200).json(result.rows);
+  } catch (error) {
+      return next(error)
+  }
+}
+
+const acceptJoin = async(req,res,next) => {
+  // accountId, fangroupName
+  try {
+      //if (!req.params.username || req.params.username === 0)
+      //    return next(new Error)
+      const result = await acceptJoinRequest(req.body.accountId, req.body.fangroupId)
+      return res.status(200).json(result.rows);
+  } catch (error) {
+      return next(error)
+  }
+}
+
+const rejectJoin = async(req,res,next) => {
+  // accountId, fangroupName
+  try {
+      //if (!req.params.username || req.params.username === 0)
+      //    return next(new Error)
+      const result = await rejectJoinRequest(req.body.accountId, req.body.fangroupId)
+      if (result.rowCount === 0)
+        return next(new Error("nope", 400))
+      return res.status(200).json({message: "removed"});
+  } catch (error) {
+      return next(error)
+  }
+}
+
+export { getAllFangroups, addFangroup, deleteFangroup, joinGroup, viewRequestList, acceptJoin, rejectJoin };

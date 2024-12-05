@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import "./fanPage.css";
+import { useUser } from "../context/useUser.js";
+
 
 const FanPage = () => {
+  const { user, isSignedIn } = useUser();
   const [groups, setGroups] = useState([]);
   const [error, setError] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
@@ -14,6 +17,7 @@ const FanPage = () => {
         throw new Error(`Error fetching groups: ${response.statusText}`);
       }
       const data = await response.json();
+      console.log(data)
       setGroups(data);
     } catch (err) {
       setError(err.message);
@@ -45,16 +49,21 @@ const FanPage = () => {
     }
   };
 
-  const deleteGroup = async (id) => {
+  const joinGroup = async (fangid) => {
     try {
-      const response = await fetch(`http://localhost:8000/fangroups/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`http://localhost:8000/fangroups/requestJoin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accountId: user.id,
+          fangroupId: fangid,
+        }),
       });
 
-      if (response.ok) {
-        setGroups(groups.filter((group) => group.fangroup_id !== id));
-      } else {
-        throw new Error("Failed to delete group");
+      if (!response.ok){
+        throw new Error("Failed to join the group")
       }
     } catch (err) {
       setError(err.message);
@@ -64,7 +73,7 @@ const FanPage = () => {
   return (
     <div id='fanPage' className="card">
       <div className="card-body">
-      <h5 className="title">Fanpage</h5>
+      <h5 className="title">Fanpage {user.id}</h5>
         <input 
           type="text" 
           value={newGroupName} 
@@ -88,9 +97,16 @@ const FanPage = () => {
               {groups.map((group) => (
                 <li key={group.fangroup_id}>
                   {group.fangroupname} 
-                  <button id='btn3' onClick={() => deleteGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
-                    Delete
+                  {
+                  isSignedIn() ? (
+                  <button id='btn3' 
+                  onClick={() => joinGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
+                    Join group
                   </button>
+                  )
+                  :
+                  null
+                  }
                 </li>
               ))}
             </ul>
