@@ -80,9 +80,9 @@ export default function Navbar() {
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="/*"
+                        to="/fanpage"
                     >
-                        Add here
+                        Fanpage
                     </NavLink>
                 </li>
 
