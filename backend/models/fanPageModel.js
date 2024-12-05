@@ -16,8 +16,6 @@ const removeFangroup = async (id) => {
   return result; 
 };
 
-//antti
-
 const listOfNotAcceptedMembers = async(fangroupName) => {
   const fangroupId = await pool.query(
   `

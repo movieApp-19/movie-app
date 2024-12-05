@@ -34,14 +34,13 @@ const deleteFangroup = async (req, res, next) => {
     next(error);
   }
 };
-
-//antti 
-
+//
 const joinGroup = async(req,res,next) => {
-  // accountId, fangroupName
   try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
+      if (!req.body.accountId || req.body.accountId === 0)
+        return next(new APIError("Invalid account id", 400))
+      if (!req.body.fangroupId || req.body.fangroupId === 0)
+        return next(new APIError("Invalid fangroup id", 400))
       const result = await askToJoin(req.body.accountId, req.body.fangroupId)
       return res.status(200).json(result.rows);
   } catch (error) {
@@ -78,7 +77,7 @@ const rejectJoin = async(req,res,next) => {
   try {
       //if (!req.params.username || req.params.username === 0)
       //    return next(new Error)
-      const result = await rejectJoinRequest(req.body.accountId, req.body.fangroupId)
+      const result = await rejectJoinRequest(req.body.accountId, req.params.fangroupid)
       if (result.rowCount === 0)
         return next(new Error("nope", 400))
       return res.status(200).json({message: "removed"});

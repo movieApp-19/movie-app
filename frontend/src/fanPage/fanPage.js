@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./fanPage.css";
 import { useUser } from "../context/useUser.js";
 
+const url = process.env.REACT_APP_API_URL;
 
 const FanPage = () => {
   const { user, isSignedIn } = useUser();
@@ -12,7 +13,7 @@ const FanPage = () => {
   const fetchGroups = async () => {
     try {
       setError(null);
-      const response = await fetch('http://localhost:8000/fangroups');
+      const response = await fetch(url + '/fangroups');
       if (!response.ok) {
         throw new Error(`Error fetching groups: ${response.statusText}`);
       }
@@ -29,7 +30,7 @@ const FanPage = () => {
       return alert("Please provide a group name.");
     }
     try {
-      const response = await fetch("http://localhost:8000/fangroups", {
+      const response = await fetch(url + "/fangroups", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +52,7 @@ const FanPage = () => {
 
   const joinGroup = async (fangid) => {
     try {
-      const response = await fetch(`http://localhost:8000/fangroups/requestJoin`, {
+      const response = await fetch(url + `/fangroups/requestJoin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +74,7 @@ const FanPage = () => {
   return (
     <div id='fanPage' className="card">
       <div className="card-body">
-      <h5 className="title">Fanpage {user.id}</h5>
+      <h5 className="title">Fanpage</h5>
         <input 
           type="text" 
           value={newGroupName} 

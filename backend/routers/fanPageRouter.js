@@ -9,10 +9,9 @@ router.post("/", addFangroup);
 
 router.delete("/:id", deleteFangroup);
 
-// antti
 router.post("/requestJoin", joinGroup)
 router.get("/listRequests/:fangroupName", viewRequestList)
 router.put("/acceptJoin", acceptJoin)
-router.delete("/rejectJoin", rejectJoin) //fangroups/recejectJoin
+router.delete("/rejectJoin/:fangroupid", rejectJoin) 
 
 export { router };
