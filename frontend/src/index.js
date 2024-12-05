@@ -13,6 +13,7 @@ import DeleteAccount from './deleteAccount/deleteAccount.js';
 import Navbar from './components/Navbar.js';
 import Home from './Home/home.js';
 import UserProfile from "./profile/UserProfile.js"
+import Favourites from "./favourites/Favourites.js"
 
 const router = createBrowserRouter([
 
@@ -36,6 +37,16 @@ const router = createBrowserRouter([
       <>
         <Navbar />
         <UserProfile />
+      </>
+    )
+  },
+
+  {
+    path: "/favourites/:userid",
+    element: (
+      <>
+        <Navbar />
+        <Favourites />
       </>
     )
   },
