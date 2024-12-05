@@ -55,10 +55,10 @@ const postLogin = async (req, res, next) => {
         if (!await compare(password, user.password))
             return next(new APIError(errors.INVALID_CREDENTIALS, 401));
 
-        const token = sign({ username:username }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
+        const token = sign({ username }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
         await insertSession(username, token);
 
-        return res.status(200).json(createUserObject(user.account_id, user.username, user.email, token));
+        return res.status(200).json(createUserObject(user.account_id, username, user.email, token));
     } catch (err) {
         return next(err);
     }
@@ -71,11 +71,13 @@ const deleteUserAccount = async (req, res, next) => {
 		// check if email exists in request
 		if (!email || email.length === 0)
 			return next(new APIError(errors.INVALID_EMAIL, 400));
+
 		// check if email is in database
 		const userFromDb = await selectUserByEmail(email)
 		if (userFromDb.rowCount === 0)
 			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 404));
-		// deletes the user
+		
+        // deletes the user
 		await deleteUser(email)
 		return res.status(201).json({ message: "User successfully deleted"});
 	} catch (error) {

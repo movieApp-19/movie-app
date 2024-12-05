@@ -16,8 +16,7 @@ const initializeTestDb = () => {
 };
 
 describe('Auth API', () => {
-    let server;
-    let token;
+    let server, token;
 
     beforeAll(async () => {
         server = app.listen(4000, () => {
@@ -48,7 +47,6 @@ describe('Auth API', () => {
             expect(response.body.username).toBe(USERNAME);
             expect(response.body.email).toBe(EMAIL);
             expect(response.body.token).toBeDefined(); // Tallenna token suojattuja reittejä varten
-            token = response.body.token;
         });
 
         it("Should fail. Error should be INVALID_CREDENTIALS", async () => {
@@ -142,12 +140,6 @@ describe('Auth API', () => {
         });
 
         it("Should fail with expired token", async () => {
-            const preRes = await request(server)
-                .post("/user/login")
-                .send({ username: USERNAME, password: PASSWORD });
-
-            expect(preRes.statusCode).toBe(200);
-
             const token = jwt.sign({ username: USERNAME, iat: 1 }, process.env.JWT_SECRET_KEY, { expiresIn: 900 });
             const res = await request(server)
                 .post("/user/logout")
@@ -158,31 +150,49 @@ describe('Auth API', () => {
     });
 
     describe("DELETE /user/delete-account", () => {
-        it("Should delete the account", async () => {
-            const response = await request(server)
-                .delete("/user/delete-account")
-                .send({ email: EMAIL })
-          
-            expect(response.statusCode).toBe(201)
-            expect(response.body.message).toBe("User successfully deleted")
-        });
-
-        it("Should fail. Email not in database", async() =>{
-            const response = await request(server)
-                .delete("/user/delete-account")
-                .send({ email: EMAIL })
-
-            expect(response.statusCode).toBe(404)
-            expect(response.body.error).toBe("Invalid Email. Email not in database")
-        });
-
         it("Should not delete account. Empty email", async () => {
+            const preRes = await request(server)
+                .post("/user/login")
+                .send({ username: USERNAME, password: PASSWORD });
+
+            expect(preRes.statusCode).toBe(200);
+            token = preRes.body.token;
+
             const response = await request(server)
                 .delete("/user/delete-account")
+                .set({ authorization: token })
                 .send({ email: null })
 
             expect(response.statusCode).toBe(400)
             expect(response.body.error).toBe("Invalid email")
+        });
+
+        it ("Should fail without token", async () => {
+            const response = await request(server)
+                .delete("/user/delete-account")
+                .send({ email: EMAIL })
+
+            expect(response.statusCode).toBe(401)
+        });
+
+        it("Should delete the account", async () => {
+            const response = await request(server)
+                .delete("/user/delete-account")
+                .set({ authorization: token })
+                .send({ email: EMAIL })
+
+            expect(response.statusCode).toBe(201)
+            expect(response.body.message).toBe("User successfully deleted")
+        });
+
+        it("Should fail. Email not in database", async() => {
+            const response = await request(server)
+                .delete("/user/delete-account")
+                .set({ authorization: token })
+                .send({ email: EMAIL })
+
+            expect(response.statusCode).toBe(404)
+            expect(response.body.error).toBe("Invalid Email. Email not in database")
         });
     });
 });
