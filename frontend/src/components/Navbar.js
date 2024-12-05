@@ -69,6 +69,8 @@ export default function Navbar() {
                         Search Movies
                     </NavLink>
                 </li>
+                {isSignedIn() 
+                ?
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -77,6 +79,9 @@ export default function Navbar() {
                         Profile
                     </NavLink>
                 </li>
+                : 
+                null
+                }
                 <li className="nav-item">
                     <NavLink
                         className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -97,8 +102,8 @@ export default function Navbar() {
                 <div className="sidebar" ref={sidebarRef}>
                     <nav className="nav flex-column">
                         {!isSignedIn() ? <>
-                            <a className="nav-link" href="signin">Login</a>
-                            <a className="nav-link" href="signup">Register</a>
+                            <a className="nav-link" href="/signin">Login</a>
+                            <a className="nav-link" href="/signup">Register</a>
                         </> : <>
                             <a className="nav-link" href="/" onClick={signOut}>Logout</a>
                             <a className="nav-link" href="/delete-account">Delete Account</a>

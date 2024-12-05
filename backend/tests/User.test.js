@@ -39,7 +39,6 @@ describe('Auth API', () => {
             .send({ username: "testuser", password: "Password123" });
 
         expect(response.statusCode).toBe(200);
-        //console.log(response.body)
         expect(response.body.id).toBe(1);
         expect(response.body.username).toBe("testuser");
         expect(response.body.email).toBe("testuser@mail.com");
@@ -55,5 +54,52 @@ describe('Auth API', () => {
         expect(response.statusCode).toBe(401);
         expect(response.body.error).toBe("Invalid credentials");
     });
+
+    it("Should fail. Missing username", async () => {
+        const response = await request(server)
+            .post("/user/login")
+            .send({ username: null, password: "Password123!" });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Invalid username");
+    });
+
+    it("Should fail. Missing password", async () => {
+        const response = await request(server)
+            .post("/user/login")
+            .send({ username: "testuser", password: null });
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe("Invalid password");
+    });
+  })
+
+  describe("DELETE /user/delete-account", () => {
+    it("Should delete the account", async () => {
+        const response = await request(server)
+            .delete("/user/delete-account")
+            .send({ email: "testuser@mail.com"})
+        
+        expect(response.statusCode).toBe(201)
+        expect(response.body.message).toBe("User successfully deleted")
+    })
+
+    it("Should fail. Email not in database", async() =>{
+        const response = await request(server)
+            .delete("/user/delete-account")
+            .send({ email: "testuser@mail.com"})
+
+        expect(response.statusCode).toBe(404)
+        expect(response.body.error).toBe("Invalid Email. Email not in database")
+    })
+
+    it("Should not delete account. Empty email", async () => {
+        const response = await request(server)
+            .delete("/user/delete-account")
+            .send({ email: null})
+        
+        expect(response.statusCode).toBe(400)
+        expect(response.body.error).toBe("Invalid email")
+    })
   })
 })

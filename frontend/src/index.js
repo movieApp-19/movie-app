@@ -14,7 +14,7 @@ import Navbar from './components/Navbar.js';
 import Home from './Home/home.js';
 import UserProfile from "./profile/UserProfile.js"
 import FanPage from './fanPage/fanPage.js';
-
+import Favourites from "./favourites/Favourites.js"
 
 const router = createBrowserRouter([
 
@@ -38,6 +38,16 @@ const router = createBrowserRouter([
       <>
         <Navbar />
         <UserProfile />
+      </>
+    )
+  },
+
+  {
+    path: "/favourites/:userid",
+    element: (
+      <>
+        <Navbar />
+        <Favourites />
       </>
     )
   },
