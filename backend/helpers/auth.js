@@ -12,6 +12,9 @@ const auth = async (req, res, next) => {
             if (!p.username || !p.exp)
                 throw Error;
 
+            // Pass username and id to next
+            res.locals.username = p.username;
+            res.locals.id = p.id;
             next();
         } catch (error) {
             res.status(403).json({ message: errors.INVALID_CREDENTIALS });
