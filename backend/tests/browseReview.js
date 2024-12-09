@@ -30,16 +30,6 @@ describe("Review Browsing API tests", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty("reviews");
     })
-/*
-    it("should return an empty list when there are no reviews", async () => {
-        const response = await request(server).get("/review/browse?id=2");
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty("reviews");
-        expect(response.body.reviews).toHaveLength(0);
-    });
-
-    */
-    
 
     it ("should handle missing id", async() => {
         const response = await request(server).get("/review/browse");
