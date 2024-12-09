@@ -59,7 +59,7 @@ create table Review(
   constraint fk_Account
     foreign key(Account_id)
     references Account(Account_id)
-    ON DELETE CASCADE
+    on delete cascade
 );
 
 create table Favourite(
