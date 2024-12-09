@@ -16,10 +16,12 @@ const removeFangroup = async (id) => {
   return result; 
 };
 
-const selectFangroupbyID = async (id) => {
-  const query = 'SELECT * FROM Fangroup WHERE Fangroup_id = $1';
-  const result = await pool.query(query, [id]);
-  return result;
+const selectFangroupbyIDBackend = async (id) => {
+  return await pool.query(
+    `
+    SELECT * FROM Fangroup WHERE fangroup_id = $1;
+    `, [id]
+)
 };
 
-export { selectAllFangroups, insertFangroup, removeFangroup, selectFangroupbyID };
+export { selectAllFangroups, insertFangroup, removeFangroup, selectFangroupbyIDBackend };

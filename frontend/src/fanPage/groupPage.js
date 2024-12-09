@@ -15,6 +15,7 @@ const GroupPage = () => {
           throw new Error("Failed to fetch group");
         }
         const data = await response.json();
+        //console.log(data + "!!!!))))")
         setGroup(data);
         setError(null);
       } catch (err) {
