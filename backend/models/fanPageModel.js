@@ -16,4 +16,10 @@ const removeFangroup = async (id) => {
   return result; 
 };
 
-export { selectAllFangroups, insertFangroup, removeFangroup };
+const selectFangroupbyID = async (id) => {
+  const query = 'SELECT * FROM Fangroup WHERE Fangroup_id = $1';
+  const result = await pool.query(query, [id]);
+  return result;
+};
+
+export { selectAllFangroups, insertFangroup, removeFangroup, selectFangroupbyID };

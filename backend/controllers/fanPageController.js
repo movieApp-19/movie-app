@@ -35,4 +35,19 @@ const deleteFangroup = async (req, res, next) => {
   }
 };
 
-export { getAllFangroups, addFangroup, deleteFangroup };
+const selectFangroupbyID = async (req, res, next) => {
+  console.log("Received params:", req.params);
+  const { id } = req.params; 
+  try {
+    const result = await selectFangroupbyID(id);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Fangroup not found" });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error fetching fangroup by ID:", error);
+    next(error);
+  }
+};
+
+export { getAllFangroups, addFangroup, deleteFangroup, selectFangroupbyID };
