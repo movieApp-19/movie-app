@@ -2,6 +2,7 @@ drop table if exists FangroupMember;
 drop table if exists Fangroup;
 drop table if exists Favourite;
 drop table if exists Review;
+drop table if exists Session;
 drop table if exists Account;
 
 create table Account( 
@@ -9,6 +10,17 @@ create table Account(
   Email VARCHAR(255) unique not null,
   Username VARCHAR(50) unique not null,
   Password VARCHAR(255) not null -- hashed password
+);
+
+create table Session(
+  Session_id serial primary key,
+  Account_id INT not null,
+  Token VARCHAR(255) not null,
+
+  constraint fk_Account
+    foreign key(Account_id)
+    references Account(Account_id)
+    on delete cascade
 );
 
 create table Fangroup(
