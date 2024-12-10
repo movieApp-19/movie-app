@@ -52,8 +52,24 @@ export default function UserProvider({children}) {
         return user.token && user.token.length > 0;
     }
 
+    const refreshToken = async () => {
+        try {
+            const response = await fetch(URL + "/user/refresh", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
+            setUser({ ...user, token: json.token })
+        } catch (error) {
+            setUser(EMPTY_USER);
+            throw error;
+        }
+    }
+
     return (
-        <userContext.Provider value={{user, setUser, signUp, signIn, signOut, isSignedIn }}>
+        <userContext.Provider value={{user, setUser, signUp, signIn, signOut, isSignedIn, refreshToken }}>
             { children }
         </userContext.Provider>
     )

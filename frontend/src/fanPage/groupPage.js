@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useUser } from "../context/useUser.js";
 
 const GroupPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
   const [error, setError] = useState(null);
+  const { user, refreshToken } = useUser();
 
   const deleteGroup = async () => {
     try {
       const response = await fetch(`http://localhost:8000/fangroup/${id}`, {
         method: 'DELETE',
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
       });
 
       if (!response.ok) {
@@ -23,6 +28,7 @@ const GroupPage = () => {
         throw new Error(errorData.message || 'Failed to delete group');
       }
 
+      refreshToken();
       alert('Group deleted successfully!');
       navigate(-1);
     } catch (err) {
@@ -34,7 +40,11 @@ const GroupPage = () => {
   useEffect(() => {
     const fetchGroup = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/fangroups/${id}`);
+        const response = await fetch(`http://localhost:8000/fangroups/${id}`, {
+          headers: {
+            "Authorization": `Bearer ${user.token}`
+          }
+        });
         if (!response.ok) {
           let errorData;
           try {

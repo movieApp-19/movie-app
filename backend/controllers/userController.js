@@ -55,7 +55,7 @@ const postLogin = async (req, res, next) => {
         if (!await compare(password, user.password))
             return next(new APIError(errors.INVALID_CREDENTIALS, 401));
 
-        const token = sign({ username }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
+        const token = sign({ username, id: user.account_id }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
         await insertSession(username, token);
 
         return res.status(200).json(createUserObject(user.account_id, username, user.email, token));
@@ -67,31 +67,46 @@ const postLogin = async (req, res, next) => {
 const deleteUserAccount = async (req, res, next) => {
     const { email } = req.body;
 
-	try {
-		// check if email exists in request
-		if (!email || email.length === 0)
-			return next(new APIError(errors.INVALID_EMAIL, 400));
+    try {
+        // check if email exists in request
+        if (!email || email.length === 0)
+            return next(new APIError(errors.INVALID_EMAIL, 400));
 
-		// check if email is in database
-		const userFromDb = await selectUserByEmail(email)
-		if (userFromDb.rowCount === 0)
-			return next(new APIError(errors.INVALID_EMAIL_DATABASE, 404));
-		
+        // check if email is in database
+        const userFromDb = await selectUserByEmail(email)
+        if (userFromDb.rowCount === 0)
+            return next(new APIError(errors.INVALID_EMAIL_DATABASE, 404));
+
         // deletes the user
-		await deleteUser(email)
-		return res.status(201).json({ message: "User successfully deleted"});
-	} catch (error) {
-		return next(error)
-	}
+        await deleteUser(email)
+        return res.status(201).json({ message: "User successfully deleted"});
+    } catch (error) {
+        return next(error)
+    }
 }
 
 const postLogout = async (req, res, next) => {
+    const { token } = res.locals;
+
     try {
-        await deleteSession(req.headers.authorization)
+        await deleteSession(token);
         return res.status(200).json({ message: "User successfully logged out" });
     } catch (error) {
         return next(error);
     }
 }
 
-export { postRegistration, postLogin, deleteUserAccount, postLogout };
+const postRefresh = async (req, res, next) => {
+    const { username, id, token } = res.locals;
+
+    try {
+        await deleteSession(token);
+        const newToken = sign({ username, id }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
+        await insertSession(username, newToken);
+        return res.status(201).json({ token: newToken });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export { postRegistration, postLogin, deleteUserAccount, postLogout, postRefresh };
