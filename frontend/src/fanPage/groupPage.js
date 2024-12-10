@@ -1,15 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const url = process.env.REACT_APP_API_URL;
 
 const GroupPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
   const [error, setError] = useState(null);
+  const [requestList, setRequestList] = useState(null);
+  
+  useEffect(() => {
+    fetchGroup();
+    getRequestList()
+  }, [id]);
+  
+  const fetchGroup = async () => {
+    try {
+      const response = await fetch(url + `/fangroups/${id}`);
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (parseError) {
+          errorData = { message: 'Failed to parse error response' };
+        }
+        throw new Error(errorData.message || 'Failed to fetch group');
+      }
+      const data = await response.json();
+      setGroup(data); 
+      setError(null); 
+    } catch (err) {
+      setError(err.message);
+      setGroup(null);
+    }
+  };
 
   const deleteGroup = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/fangroup/${id}`, {
+      const response = await fetch(url +`/fangroup/${id}`, {
         method: 'DELETE',
       });
 
@@ -31,30 +61,39 @@ const GroupPage = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchGroup = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/fangroups/${id}`);
-        if (!response.ok) {
-          let errorData;
-          try {
-            errorData = await response.json();
-          } catch (parseError) {
-            errorData = { message: 'Failed to parse error response' };
-          }
-          throw new Error(errorData.message || 'Failed to fetch group');
-        }
-        const data = await response.json();
-        setGroup(data); 
-        setError(null); 
-      } catch (err) {
-        setError(err.message);
-        setGroup(null);
-      }
-    };
-
-    fetchGroup();
-  }, [id]);
+  /*
+  	const getFavourites = () => {
+    axios
+			.get(urlbackend + `/favourite/${user.username}`)
+			.then((response) => {
+				//console.log(response.data);
+        const moviesDataShort = response.data.map((element) => {
+          return { id: element.movie_id, title: element.movietitle };
+        })
+        setMovies(moviesDataShort)
+			})
+			.catch((error) => console.log(error));
+	};
+  */
+  //router.get("/listRequests/:fangroupName", viewRequestList) //`/fangroup/${id}`
+  const getRequestList = async () => {
+    try {
+      axios
+        .get(url + `/fangroup/listRequests/${id}`)
+        .then((response) => {
+          const mapresult = response.data.map((i) => i)
+          console.log(mapresult)
+          setRequestList(mapresult)
+          //console.log(response.data)
+        })
+      /*
+      const response = await fetch(url + `/fangroup/listRequests/${id}`)
+      console.log(response.account_id)
+      */
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
@@ -72,6 +111,20 @@ const GroupPage = () => {
       ) : (
         <p>Loading group details...</p>
       )}
+      {
+        requestList ? (
+          <div>
+            <h4>Group Requests</h4>
+            {requestList.map((i) =>  (
+            <p key={i.account_id}> {i.username}</p>)
+            )}
+          </div>
+        )
+        :
+        (
+        <p>Loading requestlist</p>
+        )
+      }
     </div>
   );
 };

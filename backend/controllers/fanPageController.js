@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, removeFangroup, listOfNotAcceptedMembers, askToJoin, acceptJoinRequest, rejectJoinRequest } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin } from "../models/fanPageModel.js";
 
 const getAllFangroups = async (req, res, next) => {
   try {
@@ -49,42 +49,4 @@ const joinGroup = async(req,res,next) => {
   }
 }
 
-const viewRequestList = async(req,res,next) => {
-  // accountId, fangroupName
-  try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await listOfNotAcceptedMembers(req.params.fangroupName)
-      return res.status(200).json(result.rows);
-  } catch (error) {
-      return next(error)
-  }
-}
-
-const acceptJoin = async(req,res,next) => {
-  // accountId, fangroupName
-  try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await acceptJoinRequest(req.body.accountId, req.body.fangroupId)
-      return res.status(200).json(result.rows);
-  } catch (error) {
-      return next(error)
-  }
-}
-
-const rejectJoin = async(req,res,next) => {
-  // accountId, fangroupName
-  try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await rejectJoinRequest(req.body.accountId, req.params.fangroupid)
-      if (result.rowCount === 0)
-        return next(new Error("nope", 400))
-      return res.status(200).json({message: "removed"});
-  } catch (error) {
-      return next(error)
-  }
-}
-
-export { getAllFangroups, addFangroup, selectFangroupbyID, deleteFangroup, joinGroup, viewRequestList, acceptJoin, rejectJoin };
+export { getAllFangroups, addFangroup, selectFangroupbyID, joinGroup };
