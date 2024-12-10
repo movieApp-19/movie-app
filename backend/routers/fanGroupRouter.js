@@ -6,7 +6,7 @@ const router = Router();
 router.delete("/:id", deleteFangroup);
 //
 router.get("/listRequests/:id", viewRequestList)
-router.put("/acceptJoin", acceptJoin)
-router.delete("/rejectJoin/:fangroupid", rejectJoin) 
+router.post("/acceptJoin", acceptJoin)
+router.delete("/rejectJoin/:id", rejectJoin) 
 
 export { router };

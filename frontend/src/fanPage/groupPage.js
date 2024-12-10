@@ -75,7 +75,6 @@ const GroupPage = () => {
 			.catch((error) => console.log(error));
 	};
   */
-  //router.get("/listRequests/:fangroupName", viewRequestList) //`/fangroup/${id}`
   const getRequestList = async () => {
     try {
       axios
@@ -90,6 +89,36 @@ const GroupPage = () => {
       const response = await fetch(url + `/fangroup/listRequests/${id}`)
       console.log(response.account_id)
       */
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const acceptJoinRequest = (accID) => {
+    try {
+      axios
+        .post(url + `/fangroup/acceptJoin`, {
+          //req.body.accountId, req.body.fangroupId'
+          accountId: accID, fangroupId: id
+        })
+        .then((response) => {
+          console.log(response)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const rejectJoinRequest = (accID) => {
+    try {
+      axios
+        .delete(url + `/fangroup/rejectJoin/${id}`, {
+          //req.body.accountId, req.body.fangroupId'
+          data: {accountId: accID},
+        })
+        .then((response) => {
+          console.log(response)
+        })
     } catch (error) {
       console.log(error)
     }
@@ -115,9 +144,18 @@ const GroupPage = () => {
         requestList ? (
           <div>
             <h4>Group Requests</h4>
-            {requestList.map((i) =>  (
-            <p key={i.account_id}> {i.username}</p>)
-            )}
+            <ul>
+              {requestList.map((i) =>  (
+                <li key={i.account_id}> 
+                  {i.username}
+                  {<div>
+                    <button onClick={()=>acceptJoinRequest(i.account_id)}>Accept</button>
+                    <button onClick={()=>rejectJoinRequest(i.account_id)}>Reject</button>
+                  </div>}
+                </li>
+              )
+              )}
+            </ul>
           </div>
         )
         :

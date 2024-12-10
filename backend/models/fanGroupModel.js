@@ -27,12 +27,12 @@ const acceptJoinRequest = async(accountId, fangroupId) => {
   )
 }
 
-const rejectJoinRequest = async(accountId, fangroupId) => {
+const rejectJoinRequest = async(accountId, id) => {
   return await pool.query(
   `
   delete from FangroupMember
   where Account_id = $1 and Fangroup_id = $2 and Approved = false
-  `, [accountId, fangroupId]
+  `, [accountId, id]
   )
 }
 

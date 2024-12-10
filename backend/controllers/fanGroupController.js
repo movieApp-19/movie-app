@@ -43,7 +43,7 @@ const rejectJoin = async(req,res,next) => {
   try {
       //if (!req.params.username || req.params.username === 0)
       //    return next(new Error)
-      const result = await rejectJoinRequest(req.body.accountId, req.params.fangroupid)
+      const result = await rejectJoinRequest(req.body.accountId, req.params.id)
       if (result.rowCount === 0)
         return next(new Error("nope", 400))
       return res.status(200).json({message: "removed"});
