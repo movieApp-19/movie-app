@@ -94,4 +94,17 @@ const postLogout = async (req, res, next) => {
     }
 }
 
-export { postRegistration, postLogin, deleteUserAccount, postLogout };
+const postRefresh = async (req, res, next) => {
+    const { username, id, token } = res.locals;
+
+    try {
+        await deleteSession(token);
+        const newToken = sign({ username, id }, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 15 });
+        await insertSession(username, newToken);
+        return res.status(201).json({ token: newToken });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export { postRegistration, postLogin, deleteUserAccount, postLogout, postRefresh };
