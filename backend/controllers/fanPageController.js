@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, removeFangroup } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, removeFromGroup } from "../models/fanPageModel.js";
 
 const getAllFangroups = async (req, res, next) => {
   try {
@@ -35,4 +35,16 @@ const deleteFangroup = async (req, res, next) => {
   }
 };
 
-export { getAllFangroups, addFangroup, deleteFangroup };
+const deleteFromFangroup = async (req, res, next) => {
+  const { id } = req.params;
+  try{
+    const result = await removeFromGroup(id);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Account not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { getAllFangroups, addFangroup, deleteFangroup, deleteFromFangroup };
