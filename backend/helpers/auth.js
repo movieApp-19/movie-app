@@ -19,9 +19,9 @@ const auth = async (req, res, next) => {
         if (sessions.length === 0)
             return next(new APIError(errors.AUTH_REQUIRED, 401));
 
-        // Pass username and id to next
         res.locals.username = p.username;
         res.locals.id = p.id;
+        res.locals.token = req.headers.authorization;
         return next();
     } catch (error) {
         return next(error);
