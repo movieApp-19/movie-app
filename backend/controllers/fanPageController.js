@@ -43,7 +43,10 @@ const joinGroup = async(req,res,next) => {
       if (!req.body.fangroupId || req.body.fangroupId === 0)
         return next(new APIError("Invalid fangroup id", 400))
       const result = await askToJoin(req.body.accountId, req.body.fangroupId)
-      return res.status(200).json(result.rows);
+      if (result.rowCount === 0){
+        res.status(200).json({message: "alreadyasked"})
+      }
+      else res.status(200).json({message: "notasked"})
   } catch (error) {
       return next(error)
   }

@@ -75,6 +75,13 @@ const FanPage = () => {
       }
       else{
         console.log("join group request ok!")
+        console.log(response)
+        const message = await response.json();
+        if (message.message === "alreadyasked"){
+          alert("You have ALREADY sent a request to join this group!")
+        }
+        else alert("You send a request to join a group!")
+        console.log(message)
       }
     } catch (err) {
       setError(err.message);
