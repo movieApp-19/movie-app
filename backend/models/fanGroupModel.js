@@ -1,9 +1,8 @@
-import { pool } from "../helpers/db";
+import { pool } from "../helpers/db.js";
 
-const removeUserFromGroup = async(accountId) => {
-    return await pool.query("delete from fangroupmember where account_id = $1", [accountId]);
-
-}
-
-export  {removeUserFromGroup };
-
+const removeFangroup = async (id) => {
+  const query = 'DELETE FROM Fangroup WHERE Fangroup_id = $1 RETURNING *';
+  const result = await pool.query(query, [id]);
+  return result; 
+};
+export { removeFangroup };
