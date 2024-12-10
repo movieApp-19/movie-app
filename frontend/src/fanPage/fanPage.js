@@ -8,7 +8,7 @@ const FanPage = () => {
   const [error, setError] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
   const navigate = useNavigate();
-  const { user, refreshToken } = useUser();
+  const { user, isSignedIn, refreshToken } = useUser();
 
   const fetchGroups = async () => {
     try {
@@ -63,19 +63,20 @@ const FanPage = () => {
   
   return (
     <div id="fanPage" className="card">
-      <div className="card-body">
-        <h5 className="title">Fanpage</h5>
-        <input
-          type="text"
-          value={newGroupName}
-          onChange={(e) => setNewGroupName(e.target.value)}
-          placeholder="New group name"
-          className="form-control mt-3"
-        />
-        <button id="btn" className="btn btn-success mt-2" onClick={addGroup}>
-          Add Group
-        </button>
-      </div>
+      { isSignedIn() ?
+        <div className="card-body">
+          <h5 className="title">Fanpage</h5>
+          <input
+            type="text"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+            placeholder="New group name"
+            className="form-control mt-3"
+          />
+          <button id="btn" className="btn btn-success mt-2" onClick={addGroup}>
+            Add Group
+          </button>
+        </div> : "" }
       <button id="btn2" className="btn btn-primary" onClick={fetchGroups}>
         Browse Public Groups
       </button>
