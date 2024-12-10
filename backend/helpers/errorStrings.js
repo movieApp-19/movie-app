@@ -6,6 +6,7 @@ const errors = {
     INVALID_PARAMETERS: "Invalid parameter(s).",
     INVALID_MOVIEID: "Invalid movieid",
     INVALID_EMAIL_DATABASE: "Invalid Email. Email not in database",
+    AUTH_REQUIRED: "Authorization required"
 };
 
 export default errors;

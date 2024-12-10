@@ -85,45 +85,51 @@ export default function MovieReview({ movieId }) {
     }
 
     return (
-        <>
-        { isSignedIn() ?  <div id="review-container">
-            <p>Leave a review:</p>
-            <div id="stars-container">
-                {[...Array(5)].map((_, i) => (
-                    <input
-                        key={i}
-                        type="radio"
-                        name="stars"
-                        value={i + 1}
-                        onChange={e => setStars(Number(e.target.value))}
-                    />
-                ))}
+        <div id="reviews-container">
+        
+        {isSignedIn() && (
+            <div id="review-container">
+                <p>Leave a review:</p>
+                <div id="stars-container">
+                    {[...Array(5)].map((_, i) => (
+                        <input
+                            key={i}
+                            type="radio"
+                            name="stars"
+                            value={i + 1}
+                            onChange={e => setStars(Number(e.target.value))}
+                        />
+                    ))}
+                </div>
+                <textarea
+                    id="review-text"
+                    placeholder="Review text (optional)"
+                    onChange={e => setText(e.target.value)}
+                />
+                <input type="button" value="Submit" onClick={submitReview} />
             </div>
-            <textarea
-                id="review-text"
-                placeholder="Review text (optional)"
-                onChange={e => setText(e.target.value)}
-            />
-            <input type="button" value="Submit" onClick={submitReview} />
-
-        </div> : null }
-
+        )}
+    
+    <h3>See other reviews:</h3>
         <div id="other-reviews">
-                <h3>See other reviews:</h3>
-                {reviews.length > 0 ? (
-                    reviews.map((review, index) => (
-                        <div key={index} className="review">
-                            <p className="username">{review.username}</p>
+            {reviews.length > 0 ? (
+                reviews.map((review, index) => (
+                    <div className="review-details" key={index}>
+                        <div className="review">
+                            <p className="username">{review.email}</p>
                             <StarRating stars={review.stars} />
-                            <div className="date"><p>{review.date}</p></div>
-                            <div className="comment"><p>{review.text}</p></div>
+                            
+                                <p className="date">{review.date}</p>
+
+                            <p className="review-text">{review.text}</p>
                         </div>
-                    ))
-                ) : (
-                    <p className="no-reviews">No reviews yet.</p>
-                )}
-            </div>
-        </>
+                    </div>
+                ))
+            ) : (
+                <p className="no-reviews">No reviews yet.</p>
+            )}
+        </div>
+    </div>
     );
 }
 

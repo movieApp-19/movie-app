@@ -7,7 +7,7 @@ import { router as userRouter } from "./routers/userRouter.js";
 import { router as reviewRouter } from "./routers/reviewRouter.js";
 import { router as favouriteRouter } from "./routers/favouriteRouter.js"
 import { router as fanPageRouter } from "./routers/fanPageRouter.js"
-
+import { router as fanGroupRouter } from "./routers/fanGroupRouter.js"
 dotenv.config();
 
 const port = process.env.PORT || 8000;
@@ -22,11 +22,15 @@ app.use("/user", userRouter);
 app.use("/review", reviewRouter);
 app.use("/favourite", favouriteRouter)
 app.use("/fangroups", fanPageRouter);
+app.use("/fangroup", fanGroupRouter);
 
 
 app.use((err, req, res, next) => {
 	const statusCode = err.statusCode || 500;
-	console.log("Middleware StatusCode:", statusCode, "Error:", err.message); // Log for debugging
+
+	if (process.env.NODE_ENV === "development")
+		console.log("Middleware StatusCode:", statusCode, "Error:", err.message);
+	
 	res.status(statusCode).json({ error: err.message });
 });
 
