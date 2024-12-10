@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, removeFangroup, selectFangroupbyIDBackend } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend } from "../models/fanPageModel.js";
 
 const getAllFangroups = async (req, res, next) => {
   try {
@@ -22,19 +22,6 @@ const addFangroup = async (req, res, next) => {
   }
 };
 
-const deleteFangroup = async (req, res, next) => {
-  const { id } = req.params; 
-  try {
-    const result = await removeFangroup(id);
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Fangroup not found" }); 
-    }
-    res.status(200).json({ message: "Fangroup deleted successfully" });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const selectFangroupbyID = async (req, res, next) => {
   const id = req.params.id; 
   try {
@@ -49,4 +36,4 @@ const selectFangroupbyID = async (req, res, next) => {
   }
 };
 
-export { getAllFangroups, addFangroup, deleteFangroup, selectFangroupbyID };
+export { getAllFangroups, addFangroup, selectFangroupbyID };

@@ -47,22 +47,6 @@ const FanPage = () => {
     }
   };
 
-  const deleteGroup = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:8000/fangroups/${id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        setGroups(groups.filter((group) => group.fangroup_id !== id));
-      } else {
-        throw new Error("Failed to delete group");
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
   const viewGroup = (id) => {
     console.log(`Navigating to: /groupPage/${id}`);
     navigate(`/groupPage/${id}`);
@@ -95,13 +79,6 @@ const FanPage = () => {
             {groups.map((group) => (
               <li key={group.fangroup_id}>
                 {group.fangroupname}
-                <button
-                  id="btn3"
-                  onClick={() => deleteGroup(group.fangroup_id)}
-                  className="btn btn-danger btn-sm ml-2"
-                >
-                  Delete
-                </button>
                 <button
                   id="groupPage"
                   onClick={() => viewGroup(group.fangroup_id)}
