@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-//import App from './App';
 import './App.css';
 import Showtimes from './showtimes/Showtimes';
 import SearchUI from './movieSearch/searchUI';
@@ -15,6 +14,7 @@ import Home from './Home/home.js';
 import UserProfile from "./profile/UserProfile.js"
 import FanPage from './fanPage/fanPage.js';
 import Favourites from "./favourites/Favourites.js"
+import GroupPage from './fanPage/groupPage.js';
 
 const router = createBrowserRouter([
 
@@ -109,7 +109,17 @@ const router = createBrowserRouter([
       <FanPage />
       </>
     )
-  }
+  },
+
+  {
+    path: "/groupPage/:id",
+    element: (
+      <>
+        <Navbar />
+        <GroupPage />
+      </>
+    )
+  }  
 ])
 
 
