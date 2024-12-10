@@ -10,7 +10,7 @@ const insertFangroup = async (fangroupName) => {
   return result; 
 };
 
-const removeFangroup = async (id) => {
+const removeFromGroup = async (id) => {
   const query = 'DELETE FROM Fangroup WHERE Fangroup_id = $1 RETURNING *';
   const result = await pool.query(query, [id]);
   return result; 

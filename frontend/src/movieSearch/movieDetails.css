@@ -6,8 +6,8 @@
 	text-align: center;
 	width: 30rem;
 	z-index: 10;
-	max-width: 50%;
-	height: 32rem;
+	max-width: 70%;
+	height: 40rem;
 
 }
 
@@ -20,4 +20,5 @@
 	display: flex;
 	left: 50%;
 	transform: translate(-50%, 0);
+	height: 35rem;
 }
