@@ -45,7 +45,7 @@ export default function UserProvider({children}) {
 
     const signOut = () => {
         setUser(EMPTY_USER);
-        sessionStorage.setItem("user", JSON.stringify(EMPTY_USER));
+        sessionStorage.removeItem("user");
     }
 
     const isSignedIn = () => {
@@ -60,10 +60,13 @@ export default function UserProvider({children}) {
                     "Authorization": `Bearer ${user.token}`
                 }
             });
-            const json = await response.json();
-            setUser({ ...user, token: json.token })
+            const token = (await response.json()).token;
+            const data = { ...user, token };
+            setUser(data)
+            sessionStorage.setItem("user", JSON.stringify(data));
         } catch (error) {
             setUser(EMPTY_USER);
+            sessionStorage.removeItem("user");
             throw error;
         }
     }
