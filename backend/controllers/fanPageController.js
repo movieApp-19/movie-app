@@ -1,4 +1,6 @@
 import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend } from "../models/fanPageModel.js";
+import { APIError } from "../helpers/APIError.js"
+import errors from "../helpers/errorStrings.js"
 
 const getAllFangroups = async (req, res, next) => {
   try {
@@ -10,12 +12,18 @@ const getAllFangroups = async (req, res, next) => {
 };
 
 const addFangroup = async (req, res, next) => {
-  const { fangroupName } = req.body; 
-  if (!fangroupName) {
-    return res.status(400).json({ error: "FangroupName is required" });
-  }
+  const { fangroupName: name } = req.body;
+  // const ownerId = res.locals.id;
+
   try {
-    const result = await insertFangroup(fangroupName);
+    // Group name must be at least one character
+    // Group must have an owner
+    if (!name || name.length === 0)
+        return next(new APIError(errors.INVALID_PARAMETERS, 400));
+
+    // todo: Add user to group owner
+
+    const result = await insertFangroup(name);
     res.status(201).json(result.rows[0]); 
   } catch (error) {
     next(error); 

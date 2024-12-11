@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./fanPage.css";
+import { useUser } from "../context/useUser.js";
 
 const FanPage = () => {
   const [groups, setGroups] = useState([]);
   const [error, setError] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { user, isSignedIn, refreshToken } = useUser();
 
   const fetchGroups = async () => {
     try {
       setError(null);
-      const response = await fetch('http://localhost:8000/fangroups');
+      const response = await fetch('http://localhost:8000/fangroups', {
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
+      });
       if (!response.ok) {
         throw new Error(`Error fetching groups: ${response.statusText}`);
       }
       const data = await response.json();
       setGroups(data);
+      refreshToken();
     } catch (err) {
       setError(err.message);
     }
@@ -31,6 +38,7 @@ const FanPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
         },
         body: JSON.stringify({ fangroupName: newGroupName }),
       });
@@ -39,6 +47,7 @@ const FanPage = () => {
         const newGroup = await response.json();
         setGroups([...groups, newGroup]);
         setNewGroupName("");
+        refreshToken();
       } else {
         throw new Error("Failed to add group");
       }
@@ -50,23 +59,24 @@ const FanPage = () => {
   const viewGroup = (id) => {
     console.log(`Navigating to: /groupPage/${id}`);
     navigate(`/groupPage/${id}`);
-  };  
+  };
   
   return (
     <div id="fanPage" className="card">
-      <div className="card-body">
-        <h5 className="title">Fanpage</h5>
-        <input
-          type="text"
-          value={newGroupName}
-          onChange={(e) => setNewGroupName(e.target.value)}
-          placeholder="New group name"
-          className="form-control mt-3"
-        />
-        <button id="btn" className="btn btn-success mt-2" onClick={addGroup}>
-          Add Group
-        </button>
-      </div>
+      { isSignedIn() ?
+        <div className="card-body">
+          <h5 className="title">Fanpage</h5>
+          <input
+            type="text"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+            placeholder="New group name"
+            className="form-control mt-3"
+          />
+          <button id="btn" className="btn btn-success mt-2" onClick={addGroup}>
+            Add Group
+          </button>
+        </div> : "" }
       <button id="btn2" className="btn btn-primary" onClick={fetchGroups}>
         Browse Public Groups
       </button>
