@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useUser } from "../context/useUser.js";
 import axios from 'axios';
 
 const url = process.env.REACT_APP_API_URL;
@@ -10,6 +11,7 @@ const GroupPage = () => {
   const [group, setGroup] = useState(null);
   const [error, setError] = useState(null);
   const [requestList, setRequestList] = useState(null);
+  const { user, refreshToken } = useUser();
   
   useEffect(() => {
     fetchGroup();
@@ -18,7 +20,11 @@ const GroupPage = () => {
   
   const fetchGroup = async () => {
     try {
-      const response = await fetch(url + `/fangroups/${id}`);
+      const response = await fetch(`http://localhost:8000/fangroups/${id}`, {
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
+      });
       if (!response.ok) {
         let errorData;
         try {
@@ -41,6 +47,9 @@ const GroupPage = () => {
     try {
       const response = await fetch(url +`/fangroup/${id}`, {
         method: 'DELETE',
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
       });
 
       if (!response.ok) {
@@ -53,6 +62,7 @@ const GroupPage = () => {
         throw new Error(errorData.message || 'Failed to delete group');
       }
 
+      refreshToken();
       alert('Group deleted successfully!');
       navigate(-1);
     } catch (err) {
