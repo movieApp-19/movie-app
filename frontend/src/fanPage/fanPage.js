@@ -185,6 +185,7 @@ const FanPage = () => {
                         id="groupPage"
                         onClick={() => viewGroup(group.fangroup_id)}
                         className="btn btn-info btn-sm ml-2"
+                        style={{ backgroundColor: 'purple' }} 
                         >
                         View Group
                       </button>
