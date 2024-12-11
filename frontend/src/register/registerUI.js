@@ -25,7 +25,6 @@ export default function RegisterUI({ mode }){
         } catch (error) {
             const message = error.response && error.response.data ? error. response.data.error : error;
             alert(message);
-            console.log("TÄÄLLÄ" +message);
         }
     }
     

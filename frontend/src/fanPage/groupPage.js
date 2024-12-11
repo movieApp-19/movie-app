@@ -129,6 +129,31 @@ const GroupPage = () => {
     }
   }
 
+  const exitGroup = async () => {
+    try{
+      const response = await fetch(`http://localhost:8000/fangroup/${user.id}/${id}/leave`,
+        {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json' },
+          body: JSON.stringify({ account_id: user.id }),
+        });
+
+        console.log("USER_id: " + user.id)
+
+        if (!response.ok) {
+         // const errorData = await response.json();
+         const errorData = await response.text();
+          throw new Error(errorData.error || "Failed to leave group");
+        }
+
+        alert("Successfully exited the group");
+      
+    } catch (err){
+      console.error("Error", err.message);
+      setError(err.message);
+    }
+  }
+
   return (
     <div>
       <h3>Group Details</h3>
@@ -141,6 +166,10 @@ const GroupPage = () => {
           <p><strong>ID:</strong> {group.fangroup_id}</p>
           <p><strong>Name:</strong> {group.fangroupname}</p>
           <p><strong>Group owner:</strong> {group.account_id}</p>
+
+          <button onClick={exitGroup} style={{ backgroundColor: 'purple' }} 
+      > Exit group
+      </button>
         </div>
       ) : (
         <p>Loading group details...</p>
