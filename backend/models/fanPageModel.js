@@ -25,4 +25,17 @@ const selectFangroupbyIDBackend = async (id) => {
 )
 };
 
-export { selectAllFangroups, insertFangroup, removeFromGroup, selectFangroupbyIDBackend };
+const askToJoin = async(accountId, fangroupId) => {
+  return await pool.query(
+    `
+    insert into FangroupMember (Approved, IsOwner, Account_id, Fangroup_id) 
+    select $1, $2, $3, $4
+    where not exists
+      (
+        select Account_id, Fangroup_id from FangroupMember where Account_id=$3 and Fangroup_id=$4
+      )
+    `, [false, false, accountId, fangroupId]
+  )
+}
+
+export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin };
