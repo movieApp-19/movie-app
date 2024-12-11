@@ -42,7 +42,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
               movieTitle: dataa.title
             })
             .then((addresponse) => {
-              //console.log(addresponse)
+              alert("Added to favourites")
             })
             .catch((adderror) => {
               console.log(adderror)

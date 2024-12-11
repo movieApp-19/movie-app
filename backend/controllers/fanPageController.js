@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin } from "../models/fanPageModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -43,5 +43,22 @@ const selectFangroupbyID = async (req, res, next) => {
     next(error);
   }
 };
+//
+const joinGroup = async(req,res,next) => {
+  const { accountId, fangroupId } = req.body
+  try {
+      if (!accountId || accountId.length === 0)
+        return next(new APIError(errors.INVALID_PARAMETERS, 400))
+      if (!fangroupId || fangroupId.length === 0)
+        return next(new APIError(errors.INVALID_PARAMETERS, 400))
+      const result = await askToJoin(accountId, fangroupId)
+      if (result.rowCount === 0){
+        res.status(200).json({message: "alreadyasked"})
+      }
+      else res.status(200).json({message: "notasked"})
+  } catch (error) {
+      return next(error)
+  }
+}
 
-export { getAllFangroups, addFangroup, selectFangroupbyID };
+export { getAllFangroups, addFangroup, selectFangroupbyID, joinGroup };

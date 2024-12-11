@@ -3,17 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import "./fanPage.css";
 import { useUser } from "../context/useUser.js";
 
+const url = process.env.REACT_APP_API_URL;
+
 const FanPage = () => {
   const [groups, setGroups] = useState([]);
   const [error, setError] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
-  const navigate = useNavigate();
   const { user, isSignedIn, refreshToken } = useUser();
-
+  const navigate = useNavigate();
+  
   const fetchGroups = async () => {
     try {
       setError(null);
-      const response = await fetch('http://localhost:8000/fangroups', {
+      const response = await fetch(url + '/fangroups', {
         headers: {
           "Authorization": `Bearer ${user.token}`
         }
@@ -22,6 +24,7 @@ const FanPage = () => {
         throw new Error(`Error fetching groups: ${response.statusText}`);
       }
       const data = await response.json();
+      console.log(data)
       setGroups(data);
       refreshToken();
     } catch (err) {
@@ -34,7 +37,7 @@ const FanPage = () => {
       return alert("Please provide a group name.");
     }
     try {
-      const response = await fetch("http://localhost:8000/fangroups", {
+      const response = await fetch(url + "/fangroups", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,6 +64,38 @@ const FanPage = () => {
     navigate(`/groupPage/${id}`);
   };
   
+  const joinGroup = async (fangid) => {
+    try {
+      const response = await fetch(url + `/fangroups/requestJoin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          accountId: user.id,
+          fangroupId: fangid,
+        }),
+      });
+
+      if (!response.ok){
+        throw new Error("Failed to join the group")
+      }
+      else{
+        console.log("join group request ok!")
+        console.log(response)
+        const message = await response.json();
+        if (message.message === "alreadyasked"){
+          alert("You have ALREADY sent a request to join this group!")
+        }
+        else alert("You send a request to join a group!")
+        console.log(message)
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div id="fanPage" className="card">
       { isSignedIn() ?
@@ -89,13 +124,25 @@ const FanPage = () => {
             {groups.map((group) => (
               <li key={group.fangroup_id}>
                 {group.fangroupname}
-                <button
-                  id="groupPage"
-                  onClick={() => viewGroup(group.fangroup_id)}
-                  className="btn btn-info btn-sm ml-2"
-                >
-                  View Group
-                </button>
+                  {
+                    isSignedIn() ? (
+                    <div>
+                      <button id='btn3' 
+                        onClick={() => joinGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
+                          Join group
+                        </button>
+                        <button
+                        id="groupPage"
+                        onClick={() => viewGroup(group.fangroup_id)}
+                        className="btn btn-info btn-sm ml-2"
+                        >
+                        View Group
+                      </button>
+                    </div>
+                  )
+                  :
+                  null
+                  }
               </li>
             ))}
           </ul>
