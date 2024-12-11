@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllFangroups, addFangroup,selectFangroup, deleteFromFangroupbyID } from "../controllers/fanPageController.js";
+import { getAllFangroups, addFangroup, selectFangroupbyID,  } from "../controllers/fanPageController.js";
 
 const router = Router();
 
