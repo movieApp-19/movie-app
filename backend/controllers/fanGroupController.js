@@ -16,8 +16,8 @@ const deleteFangroup = async (req, res, next) => {
 const viewRequestList = async(req,res,next) => {
   const { id } = req.params
   try {
-    if (!id)
-      return next(new APIError("Invalid group id", 400))
+    if (!id || id.length === 0)
+      return next(new APIError(errors.INVALID_PARAMETERS, 400))
     const result = await listOfNotAcceptedMembers(id)
     return res.status(200).json(result.rows);
   } catch (error) {
@@ -28,10 +28,10 @@ const viewRequestList = async(req,res,next) => {
 const acceptJoin = async(req,res,next) => {
   const { accountId, fangroupId } = req.body
   try {
-    if (!accountId)
-      return next(new APIError("Invalid account id", 400))
-    if (!fangroupId)
-      return next(new APIError("Invalid group id", 400))
+    if (!accountId || accountId.length === 0)
+      return next(new APIError(errors.INVALID_PARAMETERS, 400))
+    if (!fangroupId || fangroupId.length === 0)
+      return next(new APIError(errors.INVALID_PARAMETERS, 400))
     const result = await acceptJoinRequest(accountId, fangroupId)
     return res.status(200).json(result.rows);
   } catch (error) {
@@ -43,10 +43,10 @@ const rejectJoin = async(req,res,next) => {
   const { accountId } = req.body
   const { id } = req.params
   try {
-    if (!accountId)
-      return next(new APIError("Invalid account id", 400))
-    if (!id)
-      return next(new APIError("Invalid group id", 400))
+    if (!accountId || accountId.length === 0)
+      return next(new APIError(errors.INVALID_PARAMETERS, 400))
+    if (!id || id.length === 0)
+      return next(new APIError(errors.INVALID_PARAMETERS, 400))
     const result = await rejectJoinRequest(accountId, id)
     if (result.rowCount === 0)
       return next(new Error("nope", 400))

@@ -7,6 +7,6 @@ const router = Router();
 router.get("/", getAllFangroups);
 router.post("/", auth, addFangroup);
 router.get("/:id", auth, selectFangroupbyID);
-router.post("/requestJoin", joinGroup)
+router.post("/requestJoin", auth, joinGroup)
 
 export { router };

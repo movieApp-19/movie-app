@@ -14,34 +14,34 @@ const GroupPage = () => {
   const { user, refreshToken } = useUser();
   
   useEffect(() => {
+    const fetchGroup = async () => {
+      try {
+        const response = await fetch(url + `/fangroups/${id}`, {
+          headers: {
+            "Authorization": `Bearer ${user.token}`
+          }
+        });
+        if (!response.ok) {
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch (parseError) {
+            errorData = { message: 'Failed to parse error response' };
+          }
+          throw new Error(errorData.message || 'Failed to fetch group');
+        }
+        const data = await response.json();
+        setGroup(data); 
+        setError(null); 
+      } catch (err) {
+        setError(err.message);
+        setGroup(null);
+      }
+    };
+
     fetchGroup();
     getRequestList()
   }, [id]);
-  
-  const fetchGroup = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/fangroups/${id}`, {
-        headers: {
-          "Authorization": `Bearer ${user.token}`
-        }
-      });
-      if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (parseError) {
-          errorData = { message: 'Failed to parse error response' };
-        }
-        throw new Error(errorData.message || 'Failed to fetch group');
-      }
-      const data = await response.json();
-      setGroup(data); 
-      setError(null); 
-    } catch (err) {
-      setError(err.message);
-      setGroup(null);
-    }
-  };
 
   const deleteGroup = async () => {
     try {
@@ -71,10 +71,15 @@ const GroupPage = () => {
     }
   };
 
+  // gets the list of users that are not accepted to the group yet
   const getRequestList = async () => {
     try {
       axios
-        .get(url + `/fangroup/listRequests/${id}`)
+        .get(url + `/fangroup/listRequests/${id}`
+          , { headers: {
+          "Authorization": `Bearer ${user.token}`
+        }}
+        )
         .then((response) => {
           const mapresult = response.data.map((i) => i)
           //console.log(mapresult)
@@ -90,6 +95,11 @@ const GroupPage = () => {
       axios
         .post(url + `/fangroup/acceptJoin`, {
           accountId: accID, fangroupId: id
+        },
+        {
+          headers: {
+            "Authorization": `Bearer ${user.token}`
+          }
         })
         .then((response) => {
           console.log(response)
@@ -103,8 +113,12 @@ const GroupPage = () => {
   const rejectJoinRequest = (accID) => {
     try {
       axios
-        .delete(url + `/fangroup/rejectJoin/${id}`, {
+        .delete(url + `/fangroup/rejectJoin/${id}`, 
+          {
           data: {accountId: accID},
+          headers: {
+            "Authorization": `Bearer ${user.token}`
+          },
         })
         .then((response) => {
           console.log(response)

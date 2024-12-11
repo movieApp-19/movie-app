@@ -45,12 +45,13 @@ const selectFangroupbyID = async (req, res, next) => {
 };
 //
 const joinGroup = async(req,res,next) => {
+  const { accountId, fangroupId } = req.body
   try {
-      if (!req.body.accountId || req.body.accountId === 0)
-        return next(new APIError("Invalid account id", 400))
-      if (!req.body.fangroupId || req.body.fangroupId === 0)
-        return next(new APIError("Invalid fangroup id", 400))
-      const result = await askToJoin(req.body.accountId, req.body.fangroupId)
+      if (!accountId || accountId.length === 0)
+        return next(new APIError(errors.INVALID_PARAMETERS, 400))
+      if (!fangroupId || fangroupId.length === 0)
+        return next(new APIError(errors.INVALID_PARAMETERS, 400))
+      const result = await askToJoin(accountId, fangroupId)
       if (result.rowCount === 0){
         res.status(200).json({message: "alreadyasked"})
       }
