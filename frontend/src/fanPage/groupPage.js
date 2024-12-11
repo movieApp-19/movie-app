@@ -61,34 +61,15 @@ const GroupPage = () => {
     }
   };
 
-  /*
-  	const getFavourites = () => {
-    axios
-			.get(urlbackend + `/favourite/${user.username}`)
-			.then((response) => {
-				//console.log(response.data);
-        const moviesDataShort = response.data.map((element) => {
-          return { id: element.movie_id, title: element.movietitle };
-        })
-        setMovies(moviesDataShort)
-			})
-			.catch((error) => console.log(error));
-	};
-  */
   const getRequestList = async () => {
     try {
       axios
         .get(url + `/fangroup/listRequests/${id}`)
         .then((response) => {
           const mapresult = response.data.map((i) => i)
-          console.log(mapresult)
+          //console.log(mapresult)
           setRequestList(mapresult)
-          //console.log(response.data)
         })
-      /*
-      const response = await fetch(url + `/fangroup/listRequests/${id}`)
-      console.log(response.account_id)
-      */
     } catch (error) {
       console.log(error)
     }
@@ -98,11 +79,11 @@ const GroupPage = () => {
     try {
       axios
         .post(url + `/fangroup/acceptJoin`, {
-          //req.body.accountId, req.body.fangroupId'
           accountId: accID, fangroupId: id
         })
         .then((response) => {
           console.log(response)
+          getRequestList()
         })
     } catch (error) {
       console.log(error)
@@ -113,11 +94,11 @@ const GroupPage = () => {
     try {
       axios
         .delete(url + `/fangroup/rejectJoin/${id}`, {
-          //req.body.accountId, req.body.fangroupId'
           data: {accountId: accID},
         })
         .then((response) => {
           console.log(response)
+          getRequestList()
         })
     } catch (error) {
       console.log(error)

@@ -14,39 +14,43 @@ const deleteFangroup = async (req, res, next) => {
 };
 
 const viewRequestList = async(req,res,next) => {
-  // accountId, fangroupName
   const { id } = req.params
   try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await listOfNotAcceptedMembers(id)
-      return res.status(200).json(result.rows);
+    if (!id)
+      return next(new APIError("Invalid group id", 400))
+    const result = await listOfNotAcceptedMembers(id)
+    return res.status(200).json(result.rows);
   } catch (error) {
       return next(error)
   }
 }
 
 const acceptJoin = async(req,res,next) => {
-  // accountId, fangroupName
+  const { accountId, fangroupId } = req.body
   try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await acceptJoinRequest(req.body.accountId, req.body.fangroupId)
-      return res.status(200).json(result.rows);
+    if (!accountId)
+      return next(new APIError("Invalid account id", 400))
+    if (!fangroupId)
+      return next(new APIError("Invalid group id", 400))
+    const result = await acceptJoinRequest(accountId, fangroupId)
+    return res.status(200).json(result.rows);
   } catch (error) {
       return next(error)
   }
 }
 
 const rejectJoin = async(req,res,next) => {
-  // accountId, fangroupName
+  const { accountId } = req.body
+  const { id } = req.params
   try {
-      //if (!req.params.username || req.params.username === 0)
-      //    return next(new Error)
-      const result = await rejectJoinRequest(req.body.accountId, req.params.id)
-      if (result.rowCount === 0)
-        return next(new Error("nope", 400))
-      return res.status(200).json({message: "removed"});
+    if (!accountId)
+      return next(new APIError("Invalid account id", 400))
+    if (!id)
+      return next(new APIError("Invalid group id", 400))
+    const result = await rejectJoinRequest(accountId, id)
+    if (result.rowCount === 0)
+      return next(new Error("nope", 400))
+    return res.status(200).json({message: "removed"});
   } catch (error) {
       return next(error)
   }
