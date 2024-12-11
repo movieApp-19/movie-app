@@ -132,5 +132,3 @@ export default function MovieReview({ movieId }) {
     </div>
     );
 }
-
-console.log("MovieReview component rendered");
