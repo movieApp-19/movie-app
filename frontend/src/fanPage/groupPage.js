@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from "../context/useUser.js";
 import axios from 'axios';
 
+
 const url = process.env.REACT_APP_API_URL;
 
 const GroupPage = () => {
@@ -147,7 +148,7 @@ const GroupPage = () => {
         }
 
         alert("Successfully exited the group");
-      
+        navigate('/fanpage')
     } catch (err){
       console.error("Error", err.message);
       setError(err.message);

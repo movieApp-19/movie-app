@@ -1,4 +1,4 @@
-import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds } from "../models/fanPageModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -10,6 +10,36 @@ const getAllFangroups = async (req, res, next) => {
     next(error); 
   }
 };
+
+const userJoinedFangroups = async (req, res, next) => {
+  const { userId } = req.body
+  try {
+    const result = await selectJoinedFangroups(userId)
+    res.status(200).json(result.rows); 
+  } catch (error) {
+    next(error)
+  }
+}
+
+const userownedFangroups = async (req, res, next) => {
+  const { userId } = req.body
+  try {
+    const result = await selectOwnedGroupds(userId)
+    res.status(200).json(result.rows); 
+  } catch (error) {
+    next(error)
+  }
+}
+
+const userNotJoinedFangroups = async (req, res, next) => {
+  const { userId } = req.body
+  try {
+    const result = await selectNotJoinedFangroups(userId)
+    res.status(200).json(result.rows); 
+  } catch (error) {
+    next(error)
+  }
+}
 
 const addFangroup = async (req, res, next) => {
   const { fangroupName: name } = req.body;
@@ -61,4 +91,4 @@ const joinGroup = async(req,res,next) => {
   }
 }
 
-export { getAllFangroups, addFangroup, selectFangroupbyID, joinGroup };
+export { getAllFangroups, addFangroup, selectFangroupbyID, joinGroup, userJoinedFangroups, userNotJoinedFangroups, userownedFangroups };

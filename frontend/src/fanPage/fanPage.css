@@ -15,6 +15,10 @@
   color: #333;
 }
 
+h6 {
+  text-decoration: underline;
+}
+
 #btn, #btn2 {
   background-color: #007bff;
   color: white;

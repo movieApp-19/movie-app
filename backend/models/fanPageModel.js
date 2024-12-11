@@ -4,6 +4,45 @@ const selectAllFangroups = async () => {
   return await pool.query('SELECT * FROM Fangroup');
 };
 
+const selectJoinedFangroups = async (userId) => {
+  return await pool.query(
+    `
+    select fangroup.fangroup_id, fangroup.fangroupname
+    from fangroup
+    inner join fangroupmember on fangroupmember.fangroup_id = fangroup.fangroup_id
+    where fangroupmember.approved = true and fangroupmember.account_id = $1;
+    `, [userId]
+  )
+}
+
+const selectNotJoinedFangroups = async (userId) => {
+  return await pool.query(
+    `
+    select distinct fangroup.fangroup_id, fangroup.fangroupname 
+    from fangroup 
+    --inner join fangroupmember on fangroupmember.fangroup_id = fangroup.fangroup_id
+
+    except
+
+    select fangroup.fangroup_id, fangroup.fangroupname
+    from fangroup
+    inner join fangroupmember on fangroupmember.fangroup_id = fangroup.fangroup_id
+    where fangroupmember.approved = true and fangroupmember.account_id = $1;
+    `, [userId]
+  )
+}
+
+const selectOwnedGroupds = async (userId) => {
+  return await pool.query(
+    `
+    select fangroup.fangroup_id, fangroup.fangroupname
+    from fangroup
+    inner join fangroupmember on fangroupmember.fangroup_id = fangroup.fangroup_id
+    where fangroupmember.isowner = true and fangroupmember.account_id = $1;
+    `, [userId]
+  )
+}
+
 const insertFangroup = async (fangroupName) => {
   const query = 'INSERT INTO Fangroup (FangroupName) VALUES ($1) RETURNING *';
   const result = await pool.query(query, [fangroupName]);
@@ -38,4 +77,4 @@ const askToJoin = async(accountId, fangroupId) => {
   )
 }
 
-export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin };
+export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds };
