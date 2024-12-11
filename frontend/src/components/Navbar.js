@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BiUser } from 'react-icons/bi';
 import { useUser } from "../context/useUser.js";
+import { useBackground } from "../context/BackgroundContext";
 import './Navbar.css';
 
 export default function Navbar() {
@@ -10,16 +11,15 @@ export default function Navbar() {
     const sidebarRef = useRef(null);
     const avatarRef = useRef(null);
     const { signOut, isSignedIn } = useUser();
+    const { changeBackground } = useBackground();  // Tausta
 
     const toggleSidebar = () => {
-        console.log("avatar clicked! ")
-        console.log("isSidebar: ", isSidebarOpen)
         setIsSidebarOpen(!isSidebarOpen);
     };
 
     const toggleHamburgerMenu = () => {
         setIsOpen(!isOpen);
-    }
+    };
 
     const handleClickOutside = (event) => {
         if (
@@ -69,18 +69,15 @@ export default function Navbar() {
                         Search Movies
                     </NavLink>
                 </li>
-                {isSignedIn() 
-                ?
-                <li className="nav-item">
-                    <NavLink
-                        className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-                        to="/profile"
-                    >
-                        Profile
-                    </NavLink>
-                </li>
-                : 
-                null
+                {isSignedIn() &&
+                    <li className="nav-item">
+                        <NavLink
+                            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+                            to="/profile"
+                        >
+                            Profile
+                        </NavLink>
+                    </li>
                 }
                 <li className="nav-item">
                     <NavLink
@@ -98,8 +95,10 @@ export default function Navbar() {
                 </li>
             </ul>
 
+            {/* Sidebar */}
             {isSidebarOpen && (
                 <div className="sidebar" ref={sidebarRef}>
+                    <button className="close-btn" onClick={toggleSidebar}>X</button> 
                     <nav className="nav flex-column">
                         {!isSignedIn() ? <>
                             <a className="nav-link" href="/signin">Login</a>
@@ -111,6 +110,16 @@ export default function Navbar() {
                     </nav>
                 </div>
             )}
+
+            {/* Taustakuvan vaihtopainike sivun alaosassa */}
+            <div className="background-toggle-container">
+                <button className="background-toggle-btn" onClick={() => changeBackground("space")}>
+                    Space Background
+                </button>
+                <button className="background-toggle-btn" onClick={() => changeBackground("sunset")}>
+                    Sunset Background
+                </button>
+            </div>
         </div>
     );
 }

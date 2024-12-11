@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import './App.css';
+import { BackgroundProvider } from "./context/BackgroundContext"; // Taustanhallinta
 import Showtimes from './showtimes/Showtimes';
 import SearchUI from './movieSearch/searchUI';
 import UserProvider from './context/userProvider';
@@ -127,7 +128,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
+      <BackgroundProvider>
       <RouterProvider router={router} />
+      </BackgroundProvider>
     </UserProvider>
   </React.StrictMode>
 );

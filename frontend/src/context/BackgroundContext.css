@@ -1,0 +1,18 @@
+.background {
+  min-height: 100vh; 
+  width: 100%;
+  background-size: cover; 
+  background-position: center center; 
+  background-attachment: fixed; 
+  transition: background-image, color 0.5s ease-in-out;
+}
+
+.background.space {
+  background-image: url('../showtimes/img/space-1164579.png');
+  color: azure; 
+}
+
+.background.sunset {
+  background-image: url('../showtimes/img/sunset-298850.jpg');
+  color: black;
+}
