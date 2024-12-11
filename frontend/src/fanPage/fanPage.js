@@ -7,6 +7,7 @@ const url = process.env.REACT_APP_API_URL;
 
 const FanPage = () => {
   const [groups, setGroups] = useState([]);
+  const [groupsAlreadyIn, setGroupsAlreadyIn] = useState([]);
   const [error, setError] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
   const { user, isSignedIn, refreshToken } = useUser();
@@ -26,11 +27,49 @@ const FanPage = () => {
       const data = await response.json();
       console.log(data)
       setGroups(data);
-      refreshToken();
     } catch (err) {
       setError(err.message);
     }
   };
+
+  const fetchGroupsAsUser = async () => {
+    try {
+      
+      const response = await fetch(url + '/fangroups/getJoined', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+      if (!response.ok) {
+        throw new Error(`Error fetching groups: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log(data)
+      setGroupsAlreadyIn(data)
+
+      const response2 = await fetch(url + '/fangroups/getNotJoined', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+      if (!response2.ok) {
+        throw new Error(`Error fetching groups: ${response2.statusText}`);
+      }
+      const data2 = await response2.json();
+      console.log(data2)
+      setGroups(data2);
+
+      refreshToken();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   const addGroup = async () => {
     if (!newGroupName) {
@@ -112,10 +151,44 @@ const FanPage = () => {
             Add Group
           </button>
         </div> : "" }
-      <button id="btn2" className="btn btn-primary" onClick={fetchGroups}>
+      <button id="btn2" className="btn btn-primary" onClick={isSignedIn() ? fetchGroupsAsUser : fetchGroups }>
         Browse Public Groups
       </button>
       <div className="public-groups" style={{ marginTop: '20px' }}>
+      {/* GROUPS WHERE USER IS A ACCEPTED MEMBER */}
+      <h6>Groups you are in:</h6>
+        {error ? (
+          <p style={{ color: 'red' }}>Error: {error}</p>
+        ) : groupsAlreadyIn.length > 0 ? (
+          <ul>
+            {groupsAlreadyIn.map((group) => (
+              <li key={group.fangroup_id+"!"}>
+                {group.fangroupname}
+                  {
+                    isSignedIn() ? (
+                    <div>
+                        <button
+                        id="groupPage"
+                        onClick={() => viewGroup(group.fangroup_id)}
+                        className="btn btn-info btn-sm ml-2"
+                        >
+                        View Group
+                      </button>
+                    </div>
+                  )
+                  :
+                  null
+                  }
+              </li>
+              
+            ))}
+          </ul>
+        ) : (isSignedIn() ?
+          <p>No groups available. Try fetching!</p>
+          :
+          <p>Login or make an account to see groups you are in!</p>
+        )}
+        {/* GROUPS USER IS NOT PART A MEMBER */}
         <h6>Public Groups:</h6>
         {error ? (
           <p style={{ color: 'red' }}>Error: {error}</p>
@@ -131,13 +204,6 @@ const FanPage = () => {
                         onClick={() => joinGroup(group.fangroup_id)} className="btn btn-danger btn-sm ml-2">
                           Join group
                         </button>
-                        <button
-                        id="groupPage"
-                        onClick={() => viewGroup(group.fangroup_id)}
-                        className="btn btn-info btn-sm ml-2"
-                        >
-                        View Group
-                      </button>
                     </div>
                   )
                   :
