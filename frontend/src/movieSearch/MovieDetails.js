@@ -7,9 +7,16 @@ const url = process.env.REACT_APP_API_URL;
 function MovieDetails({movieid, closeInfo, getFavourites}){
   const { user, isSignedIn } = useUser();
   const [dataa, setDataa] = useState(null)
+  const [inFavorites, setInFavorites] = useState(Boolean);
 
   useEffect(()=>{
-    movieData(movieid)
+    movieData(movieid);
+
+    (async () => {
+      const result = await fetch(url + `/favourite/${user.username}`);
+      const data = await result.json();
+      setInFavorites(data.some(i => i.movie_id === movieid));
+    })();
   }, [movieid])
 
   // gets specific movies data with the id
@@ -42,13 +49,15 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
               movieTitle: dataa.title
             })
             .then((addresponse) => {
-              alert("Added to favourites")
+              // alert("Added to favourites")
+              setInFavorites(true);
             })
             .catch((adderror) => {
               console.log(adderror)
             })
-        } else {
-          alert("Removed from favourites")
+          } else {
+            // alert("Removed from favourites")
+            setInFavorites(false);
           // callback function to UserProfile. Updates the list.
           if (getFavourites){
             getFavourites()
@@ -68,7 +77,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
         <button onClick={closeInfo}>Close</button>
         {isSignedIn() 
         ?
-        <button onClick={handleFavourite}>Add to favourites</button>
+        <button id="add-favorite" onClick={handleFavourite}>{inFavorites ? "Remove from favourites" : "Add to favourites"}</button>
         : 
         null
         }
