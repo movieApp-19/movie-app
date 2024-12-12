@@ -166,7 +166,7 @@ const GroupPage = () => {
         <div>
           <p><strong>ID:</strong> {group.fangroup_id}</p>
           <p><strong>Name:</strong> {group.fangroupname}</p>
-          <p><strong>Group owner:</strong> {group.account_id}</p>
+          <p><strong>Group owner:</strong> {group.username}</p>
 
           <button onClick={exitGroup} style={{ backgroundColor: 'purple' }} 
       > Exit group

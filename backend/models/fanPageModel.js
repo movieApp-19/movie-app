@@ -57,11 +57,13 @@ const removeFromGroup = async (id) => {
 
 
 const selectFangroupbyIDBackend = async (id) => {
-  return await pool.query(
-    `
-    SELECT * FROM Fangroup WHERE fangroup_id = $1;
-    `, [id]
-)
+  return await pool.query(`
+    select g.*, m.account_id, a.username
+    from fangroup as g
+    inner join fangroupmember as m on g.fangroup_id=m.fangroup_id
+    inner join account as a on m.account_id=a.account_id
+    where g.fangroup_id=$1`,
+    [id]);
 };
 
 const askToJoin = async(accountId, fangroupId) => {
