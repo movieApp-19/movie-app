@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./fanPage.css";
 import { useUser } from "../context/useUser.js";
@@ -13,6 +13,10 @@ const FanPage = () => {
   const [newGroupName, setNewGroupName] = useState("");
   const { user, isSignedIn, refreshToken } = useUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isSignedIn() ? fetchGroupsAsUser() : fetchGroups();
+  }, []);
   
   const fetchGroups = async () => {
     try {
@@ -78,8 +82,6 @@ const FanPage = () => {
       }
       const dataAsNotJoined = await responseAsNotJoined.json();
       setGroups(dataAsNotJoined);
-
-      refreshToken();
     } catch (err) {
       setError(err.message);
     }
@@ -99,10 +101,9 @@ const FanPage = () => {
         body: JSON.stringify({ fangroupName: newGroupName }),
       });
 
+      setNewGroupName("");
       if (response.ok) {
-        const newGroup = await response.json();
-        setGroups([...groups, newGroup]);
-        setNewGroupName("");
+        await fetchGroupsAsUser();
         refreshToken();
       } else {
         throw new Error("Failed to add group");
