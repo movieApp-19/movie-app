@@ -1,4 +1,5 @@
-import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds } from "../models/fanPageModel.js";
+import { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend,
+  askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds, insertOwner } from "../models/fanPageModel.js";
 import { APIError } from "../helpers/APIError.js"
 import errors from "../helpers/errorStrings.js"
 
@@ -43,7 +44,7 @@ const userNotJoinedFangroups = async (req, res, next) => {
 
 const addFangroup = async (req, res, next) => {
   const { fangroupName: name } = req.body;
-  // const ownerId = res.locals.id;
+  const ownerId = res.locals.id;
 
   try {
     // Group name must be at least one character
@@ -51,10 +52,10 @@ const addFangroup = async (req, res, next) => {
     if (!name || name.length === 0)
         return next(new APIError(errors.INVALID_PARAMETERS, 400));
 
-    // todo: Add user to group owner
+    const fangroupId = (await insertFangroup(name))?.rows[0].fangroup_id;
+    await insertOwner(ownerId, fangroupId);
 
-    const result = await insertFangroup(name);
-    res.status(201).json(result.rows[0]); 
+    res.status(201).json(fangroupId);
   } catch (error) {
     next(error); 
   }

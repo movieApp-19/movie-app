@@ -77,4 +77,11 @@ const askToJoin = async(accountId, fangroupId) => {
   )
 }
 
-export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds };
+const insertOwner = async (accountId, fangroupId) => {
+  return await pool.query(
+    "insert into fangroupmember (approved, isowner, account_id, fangroup_id) values (true, true, $1, $2) returning *",
+    [accountId, fangroupId]);
+}
+
+export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend,
+  askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds, insertOwner };
