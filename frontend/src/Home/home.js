@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './home.css';
 
 export default function Home() {
+  
   return (
     <div className="home-container">
       <header className="home-header">
@@ -13,8 +14,8 @@ export default function Home() {
         <h2>Features:</h2>
         <ul>
           <li>View movie showtimes at your local theaters</li>
-          <li>Search for movies by title, genre, and more</li>
-          <li>Manage your account and preferences</li>
+          <li>Search for movies by title, rating, and more</li>
+          <li>more</li>
         </ul>
       </section>
     </div>

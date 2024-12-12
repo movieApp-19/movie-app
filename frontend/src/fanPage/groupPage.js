@@ -6,8 +6,8 @@ import axios from 'axios';
 const url = process.env.REACT_APP_API_URL;
 
 const GroupPage = () => {
-   const { userId, id } = useParams();
-   console.log("ASDASSDA: " + userId, id);
+   const { id } = useParams();
+  
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
   const [error, setError] = useState(null);
@@ -132,22 +132,23 @@ const GroupPage = () => {
 
   const exitGroup = async () => {
     try{
-      const response = await fetch(`http://localhost:8000/fangroup/${userId}/${id}/leave`, 
+      const response = await fetch(`http://localhost:8000/fangroup/${user.id}/${id}/leave`, 
         {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json' },
-          body: JSON.stringify({ account_id: userId}),
+          body: JSON.stringify({ account_id: user.id}),
         });
 
-        console.log("USER_id: " + userId)
+        console.log("USER_id: " + user.id)
 
         if (!response.ok) {
-         // const errorData = await response.json();
-         const errorData = await response.text();
+
+         const errorData = await response.json();
           throw new Error(errorData.error || "Failed to leave group");
         }
 
         alert("Successfully exited the group");
+        navigate(-1);
       
     } catch (err){
       console.error("Error", err.message);
