@@ -68,7 +68,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
   }
 
   return(
-    <div className="details">
+    <div id="movie-details">
       { dataa 
       
       ?
@@ -81,7 +81,7 @@ function MovieDetails({movieid, closeInfo, getFavourites}){
         : 
         null
         }
-        <section>
+        <section id="details-section">
           <h2>{dataa.title}</h2> 
           <div className="moreInfo">
             <h6>Release date: {dataa.release_date.length !== 0 ? dataa.release_date : "Not available"}</h6>
