@@ -52,3 +52,30 @@
 .home-action button:hover {
   background-color: #0056b3;
 }
+
+.trending-movies{
+  color: black;
+}
+
+.trending-movie{
+ 
+  margin: 40px;
+  max-height: 30rem;
+  border: 1px solid black;
+  border-radius: 3px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.trending-movie:hover{
+  transform: scale(1.05);
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center; 
+  align-items: center;
+  min-height: 100vh; 
+}
