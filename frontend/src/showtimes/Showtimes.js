@@ -75,7 +75,7 @@ export default class Showtimes extends Component {
           <h1>Finnkino Showtimes</h1>
 
           <select id="area" className="form-select form-select-lg mb-3" aria-label="Select Area/Theater">
-            <option value="">Valitse alue/teatteri</option>
+            <option value="">Select region/theater</option>
             {this.state.theatreAreas.map(area => (
               <option key={area.id} value={area.id}>
                 {area.name}
@@ -84,7 +84,7 @@ export default class Showtimes extends Component {
           </select>
 
           <select id="date" className="form-select form-select-sm mb-3" aria-label="Select Date">
-            <option value="">Valitse päivämäärä</option>
+            <option value="">Select date</option>
             {this.state.availableDates.map((date, index) => (
               <option key={index} value={date}>
                 {new Date(date).toLocaleDateString('fi-FI')}
