@@ -117,7 +117,7 @@
 .review-text{
     color: blue;
     background-color: aqua;
-    display: block; /* Varmistaa, että alkaa uudelta riviltä */
-    text-align: left; /* Asettaa tekstin vasemmalle */
-    margin: 0; /* Poistaa mahdolliset oletusmarginaalit */
+    display: block; 
+    text-align: left; 
+    margin: 0; 
 }

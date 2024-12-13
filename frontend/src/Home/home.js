@@ -19,15 +19,15 @@ export default function Home() {
       const response = await fetch(url, options);
       const data = await response.json();
       const tenMovies = data.results.slice(0, 10);
-      setMovies(tenMovies); // Asetetaan elokuvat tilaan
-      setIsLoading(false); // Päivitetään lataustila
+      setMovies(tenMovies);
+      setIsLoading(false); 
     } catch (error) {
       console.error('Error fetching movies:', error);
-      setIsLoading(false); // Varmistetaan, että lataustila nollataan myös virhetilanteessa
+      setIsLoading(false); 
     }
   };
 
-  // Hae elokuvat, kun komponentti ladataan
+  // Get movies when the page is loaded
   useEffect(() => {
     fetchTrendingMovies();
   }, []);
