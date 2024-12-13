@@ -23,6 +23,16 @@ const listOfNotAcceptedMembers = async(id) => {
   )
 }
 
+const checkIfOwner = async(accId, fangrId) => {
+  return await pool.query(
+  `
+  select FangroupMember.isowner
+  from FangroupMember
+  where fangroupmember.account_id = $1 and fangroupmember.fangroup_id = $2;
+  `, [accId, fangrId]
+  )
+}
+
 const acceptJoinRequest = async(accountId, fangroupId) => {
   return await pool.query(
   `
@@ -42,4 +52,4 @@ const rejectJoinRequest = async(accountId, id) => {
   )
 }
 
-export { removeFangroup, leaveFangroup, listOfNotAcceptedMembers, acceptJoinRequest, rejectJoinRequest };
+export { removeFangroup, leaveFangroup, listOfNotAcceptedMembers, acceptJoinRequest, rejectJoinRequest, checkIfOwner };

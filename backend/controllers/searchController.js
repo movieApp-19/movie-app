@@ -16,7 +16,7 @@ const searchResults = async (req, res, next) => {
 
 	const options = {
 		method: "GET",
-		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=${page}&sort_by=${orderBy}`,
+		url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&primary_release_year=${year}&with_original_language=${language}&with_text_query=${tmdbQuery}&page=${page}&sort_by=${orderBy}`,
 		headers: {
 			accept: "application/json",
 			Authorization: `Bearer ${authorizationKey}`,

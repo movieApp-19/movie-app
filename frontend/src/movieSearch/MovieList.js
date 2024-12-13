@@ -26,8 +26,8 @@ function MovieList({movies, getFavourites}) {
                 <h3>No favourites</h3>
                 :
                 movies.map((item) => {
-					return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
-				})
+                    return <MovieRow key={item.id} item={item} moreInfo={moreInfo}/>;
+                })
                 }
             </ul>
             { detailsIsOpen ? <div id="movie-container">
