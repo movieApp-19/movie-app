@@ -76,7 +76,7 @@ export default function MovieReview({ movieId }) {
     function StarRating({ stars }) {
         const totalStars = 5;
         return (
-            <div className="star-rating">
+            <div className="reviews-rating">
                 {Array.from({ length: totalStars }, (_, index) => (
                     <span key={index}>{index < stars ? "★" : "☆"}</span>
                 ))}
@@ -85,50 +85,46 @@ export default function MovieReview({ movieId }) {
     }
 
     return (
-        <div id="reviews-container">
-        
-        {isSignedIn() && (
-            <div id="review-container">
-                <p>Leave a review:</p>
-                <div id="stars-container">
-                    {[...Array(5)].map((_, i) => (
-                        <input
-                            key={i}
-                            type="radio"
-                            name="stars"
-                            value={i + 1}
-                            onChange={e => setStars(Number(e.target.value))}
-                        />
-                    ))}
-                </div>
-                <textarea
-                    id="review-text"
-                    placeholder="Review text (optional)"
-                    onChange={e => setText(e.target.value)}
-                />
-                <input type="button" value="Submit" onClick={submitReview} />
-            </div>
-        )}
-    
-    <h3>See other reviews:</h3>
-        <div id="other-reviews">
-            {reviews.length > 0 ? (
-                reviews.map((review, index) => (
-                    <div className="review-details" key={index}>
-                        <div className="review">
-                            <p className="username">{review.email}</p>
-                            <StarRating stars={review.stars} />
-                            
-                                <p className="date">{review.date}</p>
-
-                            <p className="review-text">{review.text}</p>
-                        </div>
+        <div>
+            {isSignedIn() && (
+                <div id="review-container">
+                    <p>Leave a review:</p>
+                    <div id="stars-container">
+                        {[...Array(5)].map((_, i) => (
+                            <input
+                                key={i}
+                                type="radio"
+                                name="stars"
+                                value={i + 1}
+                                onChange={e => setStars(Number(e.target.value))}
+                            />
+                        ))}
                     </div>
-                ))
-            ) : (
-                <p className="no-reviews">No reviews yet.</p>
+                    <textarea
+                        id="review-text"
+                        placeholder="Review text (optional)"
+                        onChange={e => setText(e.target.value)}
+                    />
+                    <input type="button" value="Submit" onClick={submitReview} />
+                </div>
             )}
+            <h3>See other reviews:</h3>
+            <div id="other-reviews">
+                {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                        <div className="reviews-container" key={index}>
+                            <div className="reviews-top">
+                                <p className="reviews-email">{review.email}</p>
+                                <StarRating stars={review.stars} />
+                                <p className="reviews-date">{review.date}</p>
+                            </div>
+                            <p className="reviews-text">{review.text}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-reviews">No reviews yet.</p>
+                )}
+            </div>
         </div>
-    </div>
     );
 }

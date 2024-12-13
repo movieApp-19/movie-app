@@ -57,11 +57,13 @@ const removeFromGroup = async (id) => {
 
 
 const selectFangroupbyIDBackend = async (id) => {
-  return await pool.query(
-    `
-    SELECT * FROM Fangroup WHERE fangroup_id = $1;
-    `, [id]
-)
+  return await pool.query(`
+    select g.*, m.account_id, a.username
+    from fangroup as g
+    inner join fangroupmember as m on g.fangroup_id=m.fangroup_id
+    inner join account as a on m.account_id=a.account_id
+    where g.fangroup_id=$1`,
+    [id]);
 };
 
 const askToJoin = async(accountId, fangroupId) => {
@@ -77,4 +79,11 @@ const askToJoin = async(accountId, fangroupId) => {
   )
 }
 
-export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend, askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds };
+const insertOwner = async (accountId, fangroupId) => {
+  return await pool.query(
+    "insert into fangroupmember (approved, isowner, account_id, fangroup_id) values (true, true, $1, $2) returning *",
+    [accountId, fangroupId]);
+}
+
+export { selectAllFangroups, insertFangroup, selectFangroupbyIDBackend,
+  askToJoin, selectJoinedFangroups, selectNotJoinedFangroups, selectOwnedGroupds, insertOwner };

@@ -62,11 +62,13 @@ export default function UserProvider({children}) {
             });
             const token = (await response.json()).token;
             const data = { ...user, token };
+
             setUser(data)
             sessionStorage.setItem("user", JSON.stringify(data));
         } catch (error) {
             setUser(EMPTY_USER);
             sessionStorage.removeItem("user");
+
             throw error;
         }
     }
