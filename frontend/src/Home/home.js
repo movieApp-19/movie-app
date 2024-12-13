@@ -49,7 +49,7 @@ export default function Home() {
       </section>
 
       <div className="trending-movies">
-        <h1>Trending Movies:</h1>
+        <h3>Trending Movies:</h3>
         {isLoading ? (
           <p>Loading movies...</p>
         ) : (
