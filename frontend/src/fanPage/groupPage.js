@@ -13,8 +13,28 @@ const GroupPage = () => {
   const [error, setError] = useState(null);
   const [requestList, setRequestList] = useState(null);
   const { user, refreshToken } = useUser();
+  const [isOwner, setIsOwner] = useState(false)
   
   useEffect(() => {
+
+    const checkIfIsOwner = async (accId) => {
+      axios
+      .post(url + `/fangroup/checkifowner`, {
+        accID: accId, 
+        fangrId: id     
+      }, {
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        }
+      })
+      .then((response) => {
+        setIsOwner(response.data[0].isowner)
+      })
+      .catch((error) => {
+        console.error(error); 
+      });
+    }
+
     const fetchGroup = async () => {
       try {
         const response = await fetch(url + `/fangroups/${id}`, {
@@ -41,8 +61,13 @@ const GroupPage = () => {
     };
 
     fetchGroup();
-    getRequestList()
-  }, [id]);
+    checkIfIsOwner(user.id);
+
+    if (isOwner){
+      console.log('is owner')
+      getRequestList(user.id)
+    }
+  }, [id, isOwner]);
 
   const deleteGroup = async () => {
     try {
@@ -72,9 +97,29 @@ const GroupPage = () => {
     }
   };
 
+
+const checkIfIsOwner = async (accId) => {
+  axios
+  .post(url + `/fangroup/checkifowner`, {
+    accID: accId, 
+    fangrId: id     
+  }, {
+    headers: {
+      "Authorization": `Bearer ${user.token}`
+    }
+  })
+  .then((response) => {
+    console.log(response.data[0].isowner); 
+    setIsOwner(response.data[0].isowner)
+  })
+  .catch((error) => {
+    console.error(error); 
+  });
+}
+
   // gets the list of users that are not accepted to the group yet
-  const getRequestList = async () => {
-    try {
+  const getRequestList = async (accID1) => {
+    try{
       axios
         .get(url + `/fangroup/listRequests/${id}`
           , { headers: {
@@ -86,9 +131,11 @@ const GroupPage = () => {
           //console.log(mapresult)
           setRequestList(mapresult)
         })
+          
     } catch (error) {
       console.log(error)
     }
+
   }
 
   const acceptJoinRequest = (accID) => {
@@ -104,7 +151,7 @@ const GroupPage = () => {
         })
         .then((response) => {
           console.log(response)
-          getRequestList()
+          getRequestList(user.id)
         })
     } catch (error) {
       console.log(error)
@@ -123,7 +170,7 @@ const GroupPage = () => {
         })
         .then((response) => {
           console.log(response)
-          getRequestList()
+          getRequestList(user.id)
         })
     } catch (error) {
       console.log(error)
@@ -195,7 +242,7 @@ const GroupPage = () => {
         )
         :
         (
-        <p>Loading requestlist</p>
+        <></>
         )
       }
     </div>

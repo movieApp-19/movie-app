@@ -1,4 +1,4 @@
-import { removeFangroup,leaveFangroup, listOfNotAcceptedMembers, acceptJoinRequest, rejectJoinRequest } from '../models/fanGroupModel.js';
+import { removeFangroup,leaveFangroup, listOfNotAcceptedMembers, acceptJoinRequest, rejectJoinRequest, checkIfOwner } from '../models/fanGroupModel.js';
 
 const deleteFangroup = async (req, res, next) => {
   const { id } = req.params; 
@@ -55,6 +55,22 @@ const acceptJoin = async(req,res,next) => {
   }
 }
 
+const checkIfUserIsOwner = async (req, res, next) => {
+  const { accID, fangrId } = req.body;
+  try {
+    if (!accID || accID.length === 0) {
+      return next(new APIError(errors.INVALID_PARAMETERS, 400));
+    }
+    if (!fangrId || fangrId.length === 0) {
+      return next(new APIError(errors.INVALID_PARAMETERS, 400));
+    }
+    const result = await checkIfOwner(accID, fangrId);
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const rejectJoin = async(req,res,next) => {
   const { accountId } = req.body
   const { id } = req.params
@@ -72,4 +88,4 @@ const rejectJoin = async(req,res,next) => {
   }
 }
 
-export { deleteFangroup, viewRequestList, acceptJoin, rejectJoin, leaveFromFangroup };
+export { deleteFangroup, viewRequestList, acceptJoin, rejectJoin, leaveFromFangroup, checkIfUserIsOwner };
