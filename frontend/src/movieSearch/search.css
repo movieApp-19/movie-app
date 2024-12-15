@@ -29,6 +29,7 @@ ul {
     background-color: rgba(128, 128, 128, 0.178);
     margin: 25px;
     font-size: 20px;
+    
   }
 
   .movie{
@@ -44,5 +45,18 @@ ul {
     background-color: rgba(128, 128, 128, 0.233);
     font-size: 10px !important;
     justify-content: center;
+  }
+  
+  select{
+    border-radius: 5px;
+    margin: 10px;
+  }
+
+  label{
+    margin: 40px;
+  }
+
+  input{
+    border-radius: 5px;
   }
   

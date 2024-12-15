@@ -52,3 +52,36 @@
 .home-action button:hover {
   background-color: #0056b3;
 }
+
+.trending-movies{
+  color: black;
+}
+
+.trending-movie{
+ 
+  margin: 40px;
+  max-height: 30rem;
+  max-width: 15rem;
+  border: 1px solid black;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.trending-movie:hover{
+  transform: scale(1.05);
+}
+
+.movie-list {
+  border-top: 2px solid rgb(229, 229, 229);
+  border-left: 2px solid rgb(229, 229, 229);
+  border-right: 2px solid rgb(229, 229, 229);
+  border-bottom: 2px solid rgb(229, 229, 229);
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center; 
+  align-items: center;
+  min-height: 100vh; 
+}
