@@ -44,7 +44,8 @@ export default function Home() {
         <ul>
           <li>View movie showtimes at your local theaters</li>
           <li>Search for movies by title, rating, and more</li>
-          <li>more</li>
+          <li>Create or join a fangroup and manage them</li>
+          <li>And more</li>
         </ul>
       </section>
 
