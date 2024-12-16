@@ -41,6 +41,9 @@ export default function DeleteAccount() {
       .delete(url + "/user/delete-account", {
         data:{
           email: user.email
+        },
+        headers:{
+          "Authorization": `Bearer ${user.token}`
         }
       })
       .then((response) => {
